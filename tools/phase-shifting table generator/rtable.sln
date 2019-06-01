@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rtable", "rtable\rtable.csproj", "{AA633C94-55C6-4656-9BEB-CE74788A1161}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA633C94-55C6-4656-9BEB-CE74788A1161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA633C94-55C6-4656-9BEB-CE74788A1161}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA633C94-55C6-4656-9BEB-CE74788A1161}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA633C94-55C6-4656-9BEB-CE74788A1161}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC8BE969-9894-41EA-B2C7-EA7AD91412B1}
+	EndGlobalSection
+EndGlobal

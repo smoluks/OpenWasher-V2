@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28621.142
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWasherHardwareLibrary", "OpenWasherHardwareLibrary\OpenWasherHardwareLibrary.csproj", "{A3B97F4C-3D1A-4E87-9CAC-91EA773A9AC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsClient", "WindowsFormsClient\WindowsFormsClient.csproj", "{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3B97F4C-3D1A-4E87-9CAC-91EA773A9AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B97F4C-3D1A-4E87-9CAC-91EA773A9AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B97F4C-3D1A-4E87-9CAC-91EA773A9AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B97F4C-3D1A-4E87-9CAC-91EA773A9AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3C1BB13-9BBF-42DD-9A26-9A3A5D920EE2}
+	EndGlobalSection
+EndGlobal
