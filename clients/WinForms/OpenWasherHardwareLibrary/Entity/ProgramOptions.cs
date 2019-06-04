@@ -6,6 +6,8 @@
 
         public byte? duration = null;
 
+        public byte? washingspeed = null;
+
         public byte? spinningspeed = null;
 
         public byte? waterlevel = null;

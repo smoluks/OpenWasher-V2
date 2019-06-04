@@ -22,16 +22,13 @@ inline void engine_setdirectionoff() {
 	delay_ms(100);
 }
 
-inline bool engine_isdirectioncw() {
-	return GPIOA->ODR & 0x1000;
-}
 
-inline bool engine_isdirectionccw() {
-	return GPIOB->ODR & 0x0040;
-}
-
-inline bool engine_isanydirection() {
-	return (GPIOA->ODR & 0x1000) || (GPIOB->ODR & 0x0040);
+inline enum direction_e get_direction() {
+	if ((GPIOA->ODR & 0x1000) && !(GPIOB->ODR & 0x0040))
+		return cw;
+	else if (!(GPIOA->ODR & 0x1000) && (GPIOB->ODR & 0x0040))
+		return ccw;
+	else return off;
 }
 
 inline void engine_triakon() {

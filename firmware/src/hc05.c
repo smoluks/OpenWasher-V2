@@ -5,6 +5,8 @@
  *      Author: Shironeko
  */
 #include <stdbool.h>
+#include <string.h>
+#include "hc05_uart_driver.h"
 
 bool hc05_checkparms();
 

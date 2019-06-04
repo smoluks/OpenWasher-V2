@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdint-gcc.h>
 
-bool empty_go(uint8_t number, uint8_t* args)
+bool empty_go(__attribute__((unused)) uint8_t number, __attribute__((unused)) uint8_t* args)
 {
 	return true;
 }

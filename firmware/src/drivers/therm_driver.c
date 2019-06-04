@@ -1,12 +1,11 @@
-#include <delay.h>
-#include <error.h>
-#include <eeprom.h>
-#include <stdint-gcc.h>
 #include <stdio.h>
-#include <stm32f10x.h>
-#include <systick.h>
-#include <therm_driver.h>
-#include <therm_hardware.h>
+#include <stdbool.h>
+#include "therm_driver.h"
+#include "therm_hardware.h"
+#include "valve_hardware.h"
+#include "systick.h"
+#include "eeprom.h"
+#include "delay.h"
 
 volatile uint16_t rawtemperature;
 volatile uint16_t targettemperature = 0;
@@ -18,15 +17,20 @@ extern volatile bool ct;
 bool therm_test() {
 	printf("Test temperature sensor\n");
 
-	//check values
-	printf("Water t %u\n", get_temperature());
-	if (get_temperature() < 10) {
-		set_error(NTC_NOT_PRESENT);
+	if (thermfeedbackispresent) {
+		printf("Test temperature need off heat\n");
 		return false;
 	}
 
 	if (!is_water()) {
-		set_error(TRY_SET_HEAT_WITHOUT_WATER);
+		printf("Test temperature need water\n");
+		return false;
+	}
+
+	//check values
+	printf("Water t %u\n", get_temperature());
+	if (get_temperature() < 10) {
+		set_error(NTC_NOT_PRESENT);
 		return false;
 	}
 
@@ -37,8 +41,8 @@ bool therm_test() {
 
 	uint16_t tmax = 0;
 	uint16_t tmin = 0xFFFF;
-	uint32_t timestamp = get_systime() + 60000U;
-	while (!check_time_passed_with_ct(timestamp)) {
+	uint32_t timestamp = get_systime();
+	while (checkdelay(timestamp, 60000u)) {
 		if (tmax < rawtemperature)
 			tmax = rawtemperature;
 
@@ -47,62 +51,52 @@ bool therm_test() {
 	}
 	if (ct)
 		return false;
+
 	eeprom_config.temperaturenoise = tmax - tmin;
 	printf("Rmax %u, Rmin %u\n", tmax, tmin);
 
-	if (thermfeedbackispresent) {
-		heater_disable();
-		set_error(HEATER_RELAY_STICKING);
-		return false;
-	}
+	//check relay on
 	therm_manualcontrol = true;
 	heater_enable();
 
-	//check relay on
-	timestamp = get_systime() + 3000U;
-	while (!thermfeedbackispresent && !check_time_passed_with_ct(timestamp));
+	timestamp = get_systime();
+	while (!thermfeedbackispresent && checkdelay(timestamp, 3000u));
 	if (ct) {
 		heater_disable();
+		therm_manualcontrol = false;
 		return false;
 	}
 	if (!thermfeedbackispresent) {
-		heater_disable();
 		set_error(BAD_HEATER_RELAY);
 		return false;
 	}
-	printf("Relay feedback at %u\n", get_systime() - timestamp + 3000U);
+	printf("Relay feedback at %lu\n", delta(timestamp));
 
-	//check temperature rizen
-	timestamp = get_systime() + 150000U;
-	while (rawtemperature < tmax + 42
-			&& !check_time_passed_with_ct(timestamp));
+	//check temperature risen
+	timestamp = get_systime();
+	while (rawtemperature < tmax + 42 && checkdelay(timestamp, 150000u));
 	if (ct) {
 		heater_disable();
+		therm_manualcontrol = false;
 		return false;
 	}
-	if (check_time_passed_with_ct(timestamp)) {
-		heater_disable();
+	if (rawtemperature < tmax + 42) {
 		set_error(NO_HEATER);
 		return false;
 	}
-	printf("Heat at %u\n", get_systime() - timestamp + 150000U);
+	printf("Heat at %lu\n", delta(timestamp));
 
 	//check relay disable
 	heater_disable();
-	timestamp = get_systime() + 3000U;
-	while (thermfeedbackispresent && !check_time_passed_with_ct(timestamp));
+	timestamp = get_systime();
+	while (thermfeedbackispresent && checkdelay(timestamp, 3000u));
 	if (thermfeedbackispresent) {
 		set_error(HEATER_RELAY_STICKING);
 		return false;
 	}
 
 	therm_manualcontrol = false;
-	printf("Relay off feedback at %u\nSinking...\n", get_systime() - timestamp + 3000U);
-
-	if(!sink(15000))
-		return false;
-
-	printf("Test heater OK\n");
+	printf("Relay off feedback at %lu\nTest heater OK\n", delta(timestamp));
 
 	return true;
 }
@@ -121,9 +115,8 @@ bool set_temperature(uint8_t t) {
 	}
 }
 
-inline void therm_emergencydisable() {
-	heater_disable();
-	targettemperature = 0;
+inline uint8_t get_temperature() {
+	return rawtemperature * 4 / 169 + 8;
 }
 
 inline void therm_crosszero() {
@@ -137,26 +130,24 @@ inline void therm_crosszero() {
 
 	if (rawtemperature >= targettemperature)
 		heater_disable();
-	else if (rawtemperature < (targettemperature - (42 * 10) - eeprom_config.temperaturenoise))
+	else if (rawtemperature < (targettemperature - THERM_HYSTERESIS * 42 - eeprom_config.temperaturenoise))
 		heater_enable();
 }
 
 uint32_t thermfeedback_timestamp = 0;
-
 inline void therm_systick() {
-	if (thermfeedbackispresent && !checkdelay(thermfeedback_timestamp, 15))
+	if (thermfeedbackispresent && !checkdelay(thermfeedback_timestamp, 13))
 		thermfeedbackispresent = false;
 }
 
-inline void processRawTemperature(uint16_t temp) {
-	rawtemperature = temp;
-	if (temp > 3600) {
-		heater_disable();
-		targettemperature = 0;
+inline void therm_adc(uint16_t value) {
+	rawtemperature = value;
+	if (value > 3600)
 		set_error(OVERHEAT);
-	}
 }
 
-inline uint8_t get_temperature() {
-	return rawtemperature * 4 / 169 + 8;
+inline void therm_emergencydisable() {
+	therm_manualcontrol = true;
+	heater_disable();
+	targettemperature = 0;
 }

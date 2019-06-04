@@ -4,6 +4,7 @@
 #include <stdint-gcc.h>
 #include <therm_driver.h>
 #include "crosszero_driver.h"
+#include "led_driver.h"
 #include "systick.h"
 
 volatile uint32_t systime = 0;

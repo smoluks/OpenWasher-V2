@@ -15,7 +15,7 @@
 #define PAGESIZE 16
 
 uint8_t I2C_Read(uint8_t reg_addr);
-bool I2C_ReadAll(uint8_t* buffer, int size);
 bool I2C_ReadBuffer(uint8_t* buffer, int size);
+bool I2C_TryReadBuffer(uint8_t* buffer, int size);
 bool I2C_WritePage(uint8_t page, uint8_t* buffer);
-bool I2C_WriteAll(uint8_t* buffer, int size);
+bool I2C_WriteBuffer(uint8_t* buffer, int size);

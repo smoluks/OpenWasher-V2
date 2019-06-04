@@ -11,16 +11,52 @@
 #include "delay.h"
 #include "status.h"
 
-bool spinning_cycle(uint8_t maxrpm, enum direction_e direction);
+bool spinning_cycle(uint8_t maxrpm);
+bool linen_breakdown(uint8_t maxrpm);
 
 extern volatile bool ct;
 
-bool linen_breakdown() {
-	enum direction_e direction = cw;
+uint32_t calc_spinning_time(uint8_t maxrpm)
+{
+	if(!maxrpm)
+		return 180;
+	else
+		return 19.1 * maxrpm + 120;
+}
 
-	for (uint8_t i = 0; i < 6; i++) {
-		engine_settargetrps(5, direction);
-		delay_ms_with_ct(5000);
+bool spinning_go(uint8_t maxrpm) {
+	status_set_stage(STATUS_SPINNING);
+
+	if (!pump_enable())
+		return false;
+
+	if(!maxrpm)
+	{
+		delay_ms(180000u);
+	}
+	else
+	{
+		if (!linen_breakdown(maxrpm)) {
+			pump_disable();
+			return false;
+		}
+
+		if (spinning_cycle(maxrpm)) {
+			pump_disable();
+			return false;
+		}
+	}
+
+	return pump_disable();
+}
+
+//delay: maxrpm * 16s
+bool linen_breakdown(uint8_t maxrpm) {
+	for (uint8_t i = 1; i <= maxrpm; i++) {
+
+		//cw
+		engine_settargetrps(i, cw);
+		delay_ms_with_ct(5000u);
 		if (ct) {
 			engine_settargetrps(0, off);
 			break;
@@ -31,61 +67,53 @@ bool linen_breakdown() {
 		if (ct)
 			break;
 
-		direction = direction == cw ? ccw : cw;
+		//ccw
+		engine_settargetrps(i, ccw);
+		delay_ms_with_ct(5000u);
+		if (ct) {
+			engine_settargetrps(0, off);
+			break;
+		}
+
+		engine_settargetrps(0, off);
+		delay_ms_with_ct(3000u);
+		if (ct)
+			break;
 	}
 	return !ct;
 }
 
-bool spinning_go(uint8_t maxrpm) {
-	status_set_stage(STATUS_SPINNING);
+//delay: 3.1 * maxrpm + 120
+bool spinning_cycle(uint8_t maxrpm) {
 
-	if (!pump_enable())
-		return false;
-
-	if (!linen_breakdown()) {
-		pump_disable();
-		return false;
-	}
-
-	if (!spinning_cycle(maxrpm >> 1, cw) || !spinning_cycle(maxrpm, ccw)) {
-		pump_disable();
-		return false;
-	}
-
-	return pump_disable();
-}
-
-bool spinning_cycle(uint8_t maxrpm, enum direction_e direction) {
+	//start
 	uint8_t i = 0;
 	do {
-		if (!engine_settargetrps(++i, direction))
+		if (!engine_settargetrps(++i, cw))
 			return false;
+		delay_ms_with_ct(3000u);
+	} while (!ct && i < maxrpm);
 
-		delay_ms_with_ct(2000u);
-		if (ct)
-			break;
-	} while (i <= maxrpm);
 	if (ct) {
 		engine_settargetrps(0, off);
 		return false;
 	}
 
-	//
-	delay_ms_with_ct(30000u);
+	//main
+	delay_ms_with_ct(120000u);
 	if (ct) {
 		engine_settargetrps(0, off);
 		return false;
 	}
 
-	//
+	//stop
 	do {
-		if (!engine_settargetrps(--i, direction))
+		if (!engine_settargetrps(--i, cw))
 			return false;
 
 		delay_ms_with_ct(100u);
-		if (ct)
-			break;
-	} while (i > 0);
+
+	} while (!ct && i > 1);
 
 	if (!engine_settargetrps(0, off))
 		return false;

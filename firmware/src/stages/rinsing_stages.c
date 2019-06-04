@@ -11,11 +11,14 @@ extern volatile bool ct;
 
 bool stage_rinsing(uint8_t count)
 {
+	if(!count)
+		return true;
+
 	status_set_stage(STATUS_RINSING);
 
 	while(count--)
 	{
-		engine_settargetrps(1, ccw);
+		engine_settargetrps(2, ccw);
 
 		if(!valve_drawwater(conditioner_valve, 10))
 		{
@@ -32,7 +35,7 @@ bool stage_rinsing(uint8_t count)
 		enum direction_e direction = cw;
 		for(int i = 0; i < 5; i++)
 		{
-			engine_settargetrps(1, direction);
+			engine_settargetrps(2, direction);
 			direction = direction == cw ? ccw : cw;
 
 			delay_ms_with_ct(55000u);

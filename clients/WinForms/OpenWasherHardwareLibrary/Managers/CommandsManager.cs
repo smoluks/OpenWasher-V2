@@ -97,17 +97,19 @@ namespace OpenWasherHardwareLibrary.Managers
             }
             else
             {
-                data = new byte[7] { 1, (byte)program, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+                data = new byte[8] { 1, (byte)program, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
                 if (options.temperature.HasValue)
                     data[2] = options.temperature.Value;
                 if (options.duration.HasValue)
                     data[3] = options.duration.Value;
+                //if (options.spinningspeed.HasValue)
+                //    data[4] = options.spinningspeed.Value;
                 if (options.spinningspeed.HasValue)
-                    data[4] = options.spinningspeed.Value;
+                    data[5] = options.spinningspeed.Value;
                 if (options.waterlevel.HasValue)
-                    data[5] = options.waterlevel.Value;
+                    data[6] = options.waterlevel.Value;
                 if (options.rinsingCycles.HasValue)
-                    data[6] = options.rinsingCycles.Value;
+                    data[7] = options.rinsingCycles.Value;
             }
 
             var result = await io.SendAsync(data, 500);

@@ -2,6 +2,7 @@
 #include "eeprom.h"
 #include "error.h"
 #include "delay.h"
+#include "i2c_hardware.h"
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -10,7 +11,7 @@ void setdefaultconfig();
 
 void readconfig()
 {
-	I2C_ReadAll((uint8_t*)&eeprom_config, sizeof(eeprom_config));
+	I2C_TryReadBuffer((uint8_t*)&eeprom_config, sizeof(eeprom_config));
 	if (eeprom_config.writemarker != 0xAB)
 	{
 		set_warning(EEPROM_EMPTY);
@@ -71,7 +72,7 @@ void writeconfig()
 	}
 	eeprom_config.crc = crc;
 
-	if(!I2C_WriteAll((uint8_t*)&eeprom_config, sizeof(eeprom_config)))
+	if(!I2C_WriteBuffer((uint8_t*)&eeprom_config, sizeof(eeprom_config)))
 	{
 		set_error(EEPROM_WRITEERROR);
 		return;
@@ -79,7 +80,7 @@ void writeconfig()
 
 	uint8_t readdata[sizeof(eeprom_config)];
 
-	I2C_ReadAll((uint8_t*)readdata, sizeof(eeprom_config));
+	I2C_TryReadBuffer((uint8_t*)readdata, sizeof(eeprom_config));
 
 	int cmpresult = memcmp((uint8_t*) &eeprom_config, readdata, sizeof(eeprom_config));
 	if(cmpresult != 0)

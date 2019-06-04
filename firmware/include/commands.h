@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stm32f10x.h"
+#include "options.h"
 
 void processcommand(uint8_t* buffer, uint8_t count);
 
@@ -13,4 +14,4 @@ enum commanderr_e
 };
 
 volatile uint8_t action;
-volatile uint8_t actionargs[6];
+volatile options actionargs;

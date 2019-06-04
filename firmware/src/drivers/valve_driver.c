@@ -1,14 +1,11 @@
-#include <delay.h>
-#include <door_driver.h>
-#include <eeprom.h>
-#include <error.h>
-#include <pump_driver.h>
-#include <stdint-gcc.h>
 #include <stdio.h>
-#include <stm32f10x.h>
-#include <systick.h>
-#include <valve_driver.h>
-#include <valve_hardware.h>
+#include <stdbool.h>
+#include "valve_driver.h"
+#include "pump_driver.h"
+#include "valve_hardware.h"
+#include "systick.h"
+#include "eeprom.h"
+#include "delay.h"
 
 extern volatile bool ct;
 extern volatile enum valve_state valve_prewash_state;
@@ -16,71 +13,66 @@ extern volatile enum valve_state valve_wash_state;
 
 bool valve_test()
 {
-	uint32_t timestamp;
+	if (is_water()) {
+		printf("Valve test need no water\n");
+		return false;
+	}
 
-	printf("Test prewash valve\n");
-
-	//
-	printf("Open prewash valve...\n");
+	//prewash
+	printf("Test prewash valve\nOpen prewash valve...\n");
+	uint32_t timestamp = get_systime();
 	valve_open(prewash_valve);
 
-	//
-	getsystime(&timestamp);
 	while (!is_water() && checkdelay(timestamp, 150000u) && !ct);
 	if (ct)
 	{
 		valve_close(prewash_valve);
 		return false;
 	}
-	if (!is_water())
+	if (!checkdelay(timestamp, 150000u))
 	{
 		valve_close(prewash_valve);
-		set_error(WATERLEVEL_DOWN_OFF);
+		set_error(VALVE1_NOT_OPEN);
 		return false;
 	}
 	eeprom_config.waterleveldowntime = delta(timestamp);
-	printf("Valve 1 take lower level on %u ms\n", eeprom_config.waterleveldowntime);
+	printf("Prewash valve make lower level on %lu ms\n", eeprom_config.waterleveldowntime);
 
-	getsystime(&timestamp);
+	timestamp = get_systime();
 	//NVIC_DisableIRQ(EXTI1_IRQn);
 	while (!is_overflow() && checkdelay(timestamp, eeprom_config.waterleveldowntime * 10) && !ct);
 	valve_close(prewash_valve);
-	if (!is_overflow())
+	if (!checkdelay(timestamp, eeprom_config.waterleveldowntime * 10))
 	{
 		set_error(WATERLEVEL_UP_OFF);
 		return false;
 	}
 	if (ct)
-	{
 		return false;
-	}
 
 	eeprom_config.waterleveluptime = delta(timestamp);
+	printf("Prewash valve make higher level on %lu ms\nTest prewash valve OK\nTest conditioner valve...\nSink...\n", eeprom_config.waterleveluptime);
 
-	printf("Valve 1 take higher level on %u ms\nTest valve 1 OK\nTest wash valve...\nSink...\n", eeprom_config.waterleveluptime);
-
-	if (!sink(30000U))
+	if (!sink(30000u))
 		return false;
+
 	//NVIC_EnableIRQ(EXTI1_IRQn);
 	//
-	printf("Open wash valve...\n");
+	printf("Open conditioner valve...\n");
 	valve_open(conditioner_valve);
 
-	//
-	getsystime(&timestamp);
+	timestamp = get_systime();
 	while (!is_water() && checkdelay(timestamp, 150000u) && !ct);
 	valve_close(conditioner_valve);
-	if (!is_water())
+	if (!checkdelay(timestamp, 150000u))
 	{
-		set_error(WATERLEVEL_DOWN_OFF);
+		set_error(VALVE2_NOT_OPEN);
 		return false;
 	}
 	if (ct)
-	{
 		return false;
-	}
 
-	printf("Valve 2 take lower level on %u\nTest valve 2 OK\n", delta(timestamp));
+	printf("Conditioner valve make take lower level on %lu\nTest conditioner valve OK\n", delta(timestamp));
 
 	return true;
 }
@@ -93,19 +85,16 @@ bool valve_drawwater(enum valve_e valve, uint8_t level) {
 	 return false;
 	 }*/
 
-	if (is_water()) {
-		if (!sink(15000))
-			return false;
-	}
+	//sink
+	if (!sink_if_water(15000))
+		return false;
 
 	valve_open(valve);
 
-	uint32_t timestamp;
-	getsystime(&timestamp);
-	while (!is_water() && checkdelay(timestamp, 120000u) && !ct)
-		;
-	if (!checkdelay(timestamp, 120000u)) {
-		set_error(WATERLEVEL_DOWN_OFF);
+	uint32_t timestamp = get_systime();
+	while (!is_water() && checkdelay(timestamp, eeprom_config.waterleveldowntime + 15000) && !ct);
+	if (!is_water()) {
+		set_error(NO_WATER);
 		valve_close(valve);
 		return false;
 	}
@@ -114,9 +103,15 @@ bool valve_drawwater(enum valve_e valve, uint8_t level) {
 		return false;
 	}
 
-	delay_ms_with_ct(eeprom_config.waterleveluptime * level / 100);
+	uint32_t watersettime = eeprom_config.waterleveluptime * level / 100;
+	while (!is_overflow() && checkdelay(timestamp, watersettime) && !ct);
+	if (checkdelay(timestamp, watersettime)) {
+		set_error(OVERFLOW);
+		return false;
+	}
+
 	valve_close(valve);
-	return true;
+	return !ct;
 }
 
 void valve_open(enum valve_e valve)

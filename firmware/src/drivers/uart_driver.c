@@ -151,7 +151,7 @@ void send_answer_with_data(uint8_t command, uint8_t* data, uint8_t length)
 }
 
 //перекрытие stdio
-int _write(int file, char *ptr, int len)
+int _write(__attribute__((unused)) int file, char *ptr, int len)
 {
 	if(len>253)
 		len = 253;

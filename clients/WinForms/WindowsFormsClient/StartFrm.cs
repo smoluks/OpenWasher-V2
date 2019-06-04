@@ -35,8 +35,8 @@ namespace WindowsFormsClient
         private void CheckBoxAdditional_CheckedChanged_1(object sender, EventArgs e)
         {
             groupBox.Enabled = checkBoxAdditional.Checked;
-            groupBox.Height = checkBoxAdditional.Checked ? 280 : 18;
-            this.Height = checkBoxAdditional.Checked ? 367 : 110;
+            groupBox.Height = checkBoxAdditional.Checked ? 319 : 18;
+            this.Height = checkBoxAdditional.Checked ? 406 : 110;
         }
 
         private async void BtnRunProgram_Click(object sender, EventArgs e)
@@ -54,6 +54,7 @@ namespace WindowsFormsClient
                     {
                         temperature = cbTemperature.Checked ? (byte)nUDTemperature.Value : (byte?)null,
                         duration = cbDuration.Checked ? (byte)nUDDuration.Value : (byte?)null,
+                        washingspeed = cbWashingSpeed.Checked ? (byte)nUDWashingSpeed.Value : (byte?)null,
                         spinningspeed = cbSpinningSpeed. Checked ? (byte)nUDSpinningSpeed.Value : (byte?)null,
                         waterlevel = cbWaterLevel.Checked ? (byte)nUDWaterLevel.Value : (byte?)null,
                         rinsingCycles = cbRinsingCycles.Checked ? (byte)nUDRinsingCycles.Value : (byte?)null,
@@ -85,6 +86,11 @@ namespace WindowsFormsClient
         private void TrackBarWaterLevel_Scroll(object sender, EventArgs e)
         {
             nUDWaterLevel.Value = trackBarWaterLevel.Value;
+        }
+
+        private void TrackBarWashingSpeed_Scroll(object sender, EventArgs e)
+        {
+            nUDWashingSpeed.Value = trackBarWashingSpeed.Value;
         }
     }
 }

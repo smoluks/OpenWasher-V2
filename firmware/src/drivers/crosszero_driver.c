@@ -35,4 +35,5 @@ inline bool is_crosszero_present() {
 
 void crosszero_failed() {
 	crosszeropresent = false;
+	//error handlers
 }

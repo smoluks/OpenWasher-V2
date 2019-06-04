@@ -22,8 +22,8 @@ void processcommand(uint8_t* buffer, uint8_t count)
 			if(count > sizeof(actionargs))
 				count = sizeof(actionargs);
 
-			memset((uint8_t*)actionargs, 0xFF, sizeof(actionargs));
-			memcpy((uint8_t*)actionargs, buffer+1, count);
+			memset((uint8_t*)&actionargs, 0xFF, sizeof(actionargs));
+			memcpy((uint8_t*)&actionargs, buffer+1, count);
 
 			action |= START_PROGRAM;
 			send_answer(0x01, NOEEROR);

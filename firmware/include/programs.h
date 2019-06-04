@@ -12,7 +12,8 @@
 #include <stdbool.h>
 
 #define PROGRAM_COUNT 20
-typedef bool (*fn_program)(uint8_t number, uint8_t* args);
+
+typedef bool (*fn_program)(options args);
 
 const fn_program programs[PROGRAM_COUNT] =
 {

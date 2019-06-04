@@ -10,6 +10,9 @@ namespace WindowsFormsClient.Managers
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
 
+            if (fi == null)
+                return value.ToString();
+
             DescriptionAttribute[] attributes =
                 (DescriptionAttribute[])fi.GetCustomAttributes(
                 typeof(DescriptionAttribute),

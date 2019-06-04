@@ -68,11 +68,12 @@ namespace OpenWasherHardwareLibrary.Enums
         NO_HEATER = 0x32,                   // нет нагрева воды
         [Description("Heater break")]
         BAD_HEATER_RELAY = 0x33,            // нет фидбека тэна
+        [Description("Heater relay sticking")]
+        HEATER_RELAY_STICKING = 0x34,         
         [Description("Heater enabled without water")]
-        TRY_SET_HEAT_WITHOUT_WATER = 0x34,  // включение нагрева без воды
+        TRY_SET_HEAT_WITHOUT_WATER = 0x35,  // включение нагрева без воды
         [Description("Set temperature over 90")]
-        SET_HEAT_OVER90 = 0x35,             // попытка выставить температуру выше 90
-
+        SET_HEAT_OVER90 = 0x36,             // попытка выставить температуру выше 90
         #endregion
 
         #region Engine
@@ -85,7 +86,10 @@ namespace OpenWasherHardwareLibrary.Enums
         ENGINE_RELAYCCW_STICKING = 0x42,    // залипание реле двигателя 2
         [Description("Tachometer error")]
         NO_TACHO = 0x43,                    // нет сигнала с тахометра или двигатель не раскручивается
-
+        [Description("PID error")]
+        PID_ERROR = 0x44,                   //PID дает слишком большие колебания или не выходит на target 
+        [Description("Engine triak error")]
+        ENGINE_TRIAK_STICKING = 0x45,       //Пробой симистора двигателя
         #endregion
 
         #region Door
@@ -105,7 +109,12 @@ namespace OpenWasherHardwareLibrary.Enums
 
         [Description("Open water with open door")]
         TRY_OPEN_WATER_WITH_OPEN_DOOR = 0x60,   // попытка набрать воду при открытой дверце
-
+        [Description("Prewash valve doesn't open")]
+        VALVE1_NOT_OPEN = 0x61,
+        [Description("Wash valve doesn't open")]
+        VALVE2_NOT_OPEN = 0x62,
+        [Description("No water")]
+        NO_WATER = 0x63,
         #endregion
 
         #region EEPROM

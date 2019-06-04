@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.lblStage = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblFinishTime = new System.Windows.Forms.Label();
@@ -39,8 +40,11 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnStart = new System.Windows.Forms.Button();
             this.timerPoll = new System.Windows.Forms.Timer(this.components);
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,12 +69,12 @@
             // lblFinishTime
             // 
             this.lblFinishTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblFinishTime.AutoSize = true;
-            this.lblFinishTime.Location = new System.Drawing.Point(472, 48);
+            this.lblFinishTime.Location = new System.Drawing.Point(384, 48);
             this.lblFinishTime.Name = "lblFinishTime";
-            this.lblFinishTime.Size = new System.Drawing.Size(35, 13);
+            this.lblFinishTime.Size = new System.Drawing.Size(123, 13);
             this.lblFinishTime.TabIndex = 3;
             this.lblFinishTime.Text = "label3";
+            this.lblFinishTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblFinishTime.Visible = false;
             // 
             // statusStrip1
@@ -111,7 +115,9 @@
             this.btnOptions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
             this.ffToolStripMenuItem,
-            this.logToolStripMenuItem});
+            this.logToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.AboutToolStripMenuItem});
             this.btnOptions.Image = global::WindowsFormsClient.Properties.Resources.options;
             this.btnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOptions.Name = "btnOptions";
@@ -121,22 +127,34 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // ffToolStripMenuItem
             // 
             this.ffToolStripMenuItem.Name = "ffToolStripMenuItem";
-            this.ffToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.ffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ffToolStripMenuItem.Text = "Firmware update";
             this.ffToolStripMenuItem.Click += new System.EventHandler(this.ffToolStripMenuItem_Click);
             // 
             // logToolStripMenuItem
             // 
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-            this.logToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logToolStripMenuItem.Text = "Log";
+            this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // AboutToolStripMenuItem
+            // 
+            this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AboutToolStripMenuItem.Text = "About";
             // 
             // btnStart
             // 
@@ -153,6 +171,11 @@
             this.timerPoll.Interval = 1000;
             this.timerPoll.Tick += new System.EventHandler(this.timerPoll_Tick);
             // 
+            // trayIcon
+            // 
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.DoubleClick += new System.EventHandler(this.TrayIcon_DoubleClick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,11 +188,11 @@
             this.Controls.Add(this.lblStage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "Main";
-            this.Text = "Form1";
+            this.Text = "OpenWasher";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
+            this.Resize += new System.EventHandler(this.Main_Resize);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -191,6 +214,9 @@
         private System.Windows.Forms.ToolStripMenuItem ffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblTemp;
+        private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
     }
 }
 

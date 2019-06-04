@@ -22,5 +22,7 @@ namespace OpenWasherHardwareLibrary.Enums
         DrawWater = 7,
         [Description("Sink")]
         Sink = 8,
+        [Description("SelfTesting")]
+        SelfTesting = 9,
     }
 }

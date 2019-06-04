@@ -8,6 +8,7 @@
 #include "stm32f10x.h"
 #include "i2c_hardware.h"
 #include "main.h"
+#include "delay.h"
 #include <stdbool.h>
 
 uint8_t I2C_Read(uint8_t reg_addr)
@@ -47,17 +48,6 @@ uint8_t I2C_Read(uint8_t reg_addr)
 	I2C2->CR1 |= I2C_CR1_STOP;
 
 	return data;
-}
-
-bool I2C_ReadAll(uint8_t* buffer, int size)
-{
-	uint8_t count = 0;
-	while (!I2C_ReadBuffer(buffer, size) && ++count < 10)
-		delay_ms(5u);
-	if (count == 10)
-		return false;
-
-	return true;
 }
 
 bool I2C_ReadBuffer(uint8_t* buffer, int size)
@@ -134,27 +124,20 @@ bool I2C_ReadBuffer(uint8_t* buffer, int size)
 		*buffer++ = I2C2->DR;
 
 		size--;
+
 	}
 	I2C2->CR1 |= I2C_CR1_STOP;
 
 	return true;
 }
 
-
-bool I2C_WriteAll(uint8_t* buffer, int size)
+bool I2C_TryReadBuffer(uint8_t* buffer, int size)
 {
-	for(int i = 0; i < size / PAGESIZE; i++)
-	{
-		uint8_t count = 0;
-		do
-		{
-			delay_ms(10u);
-		}
-		while(!I2C_WritePage(i, buffer + i*PAGESIZE) && ++count < 10);
-
-		if(count == 10)
-			return false;
-	}
+	uint8_t count = 0;
+	while (!I2C_ReadBuffer(buffer, size) && ++count < 10)
+		delay_ms(5u);
+	if (count == 10)
+		return false;
 
 	return true;
 }
@@ -202,4 +185,21 @@ bool I2C_WritePage(uint8_t page, uint8_t* buffer)
 	return !(I2C2->SR1 & I2C_SR1_AF);
 }
 
+bool I2C_WriteBuffer(uint8_t* buffer, int size)
+{
+	for(int i = 0; i < size / PAGESIZE; i++)
+	{
+		uint8_t count = 0;
+		do
+		{
+			delay_ms(10u);
+		}
+		while(!I2C_WritePage(i, buffer + i*PAGESIZE) && ++count < 10);
+
+		if(count == 10)
+			return false;
+	}
+
+	return true;
+}
 

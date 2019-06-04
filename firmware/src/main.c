@@ -1,16 +1,15 @@
-#include <bootloader.h>
-#include <commands.h>
-#include <delay.h>
-#include <eeprom.h>
-#include <error.h>
-#include <events.h>
-#include <programs.h>
 #include <stdbool.h>
-#include <stdint-gcc.h>
-#include <uart_driver.h>
+#include "bootloader.h"
+#include "commands.h"
+#include "delay.h"
+#include "eeprom.h"
+#include "error.h"
+#include "events.h"
+#include "programs.h"
+#include "uart_driver.h"
 #include "main.h"
 #include "status.h"
-#include "led_hardware.h"
+#include "led_driver.h"
 #include "engine_driver.h"
 #include "hc05.h"
 
@@ -48,7 +47,8 @@ void main(void)
 		if(error != NOERROR)
 		{
 			send_error(error);
-			error = NOERROR;
+			printf("Error %X\n", error);
+			while(1);
 		}
 		if (action & GOTOBOOTLOADER)
 		{
@@ -67,7 +67,7 @@ void main(void)
 void process_program()
 {
 
-	uint8_t number = actionargs[0];
+	uint8_t number = actionargs.number;
 	if(number >= PROGRAM_COUNT)
 		return;
 
@@ -75,7 +75,7 @@ void process_program()
 	status_set_program(number);
 
 	ct = false;
-	bool result = programs[number](number, (uint8_t*)actionargs+1);
+	bool result = programs[number](actionargs);
 
 	if(result)
 		send_event1args(STOP_PROGRAM, number);

@@ -63,6 +63,16 @@ namespace WindowsFormsClient.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap delete {
+            get {
+                object obj = ResourceManager.GetObject("delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap options {
             get {
                 object obj = ResourceManager.GetObject("options", resourceCulture);
@@ -117,6 +127,96 @@ namespace WindowsFormsClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Шерсть.
+        /// </summary>
+        internal static string Program_10 {
+            get {
+                return ResourceManager.GetString("Program_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Шелк.
+        /// </summary>
+        internal static string Program_11 {
+            get {
+                return ResourceManager.GetString("Program_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Полоскание.
+        /// </summary>
+        internal static string Program_12 {
+            get {
+                return ResourceManager.GetString("Program_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Деликатное полоскание.
+        /// </summary>
+        internal static string Program_13 {
+            get {
+                return ResourceManager.GetString("Program_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Отжим.
+        /// </summary>
+        internal static string Program_14 {
+            get {
+                return ResourceManager.GetString("Program_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Деликатный отжим.
+        /// </summary>
+        internal static string Program_15 {
+            get {
+                return ResourceManager.GetString("Program_15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Слив.
+        /// </summary>
+        internal static string Program_16 {
+            get {
+                return ResourceManager.GetString("Program_16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Слив шлангов.
+        /// </summary>
+        internal static string Program_17 {
+            get {
+                return ResourceManager.GetString("Program_17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Водонагреватель.
+        /// </summary>
+        internal static string Program_18 {
+            get {
+                return ResourceManager.GetString("Program_18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Притирка щеток.
+        /// </summary>
+        internal static string Program_19 {
+            get {
+                return ResourceManager.GetString("Program_19", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Хлопок 90°.
         /// </summary>
         internal static string Program_2 {
@@ -162,11 +262,48 @@ namespace WindowsFormsClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на Синтетика 60°.
         /// </summary>
         internal static string Program_6 {
             get {
                 return ResourceManager.GetString("Program_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Синтетика 50°.
+        /// </summary>
+        internal static string Program_7 {
+            get {
+                return ResourceManager.GetString("Program_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Синтетика 40°.
+        /// </summary>
+        internal static string Program_8 {
+            get {
+                return ResourceManager.GetString("Program_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Синтетика 30°.
+        /// </summary>
+        internal static string Program_9 {
+            get {
+                return ResourceManager.GetString("Program_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap save {
+            get {
+                object obj = ResourceManager.GetObject("save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

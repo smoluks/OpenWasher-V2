@@ -207,7 +207,7 @@ namespace OpenWasherHardwareLibrary
             if (data.Length == 0)
                 return AnswerType.Ping;
             else
-                return (AnswerType)(data[0] & 0b00111111);
+                return (AnswerType)(data[0]);
         }
 
         private static byte GetAdditiveCrc(byte data, byte oldcrc)

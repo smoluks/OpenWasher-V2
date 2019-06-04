@@ -2,16 +2,18 @@
  * притирка щеток
  */
 
-#include <delay.h>
-#include <engine_driver.h>
 #include <stdbool.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
+#include "options.h"
+#include "engine_driver.h"
+#include "delay.h"
+#include "grindingbrushesprogram.h"
 
 bool grindingbrushesint_go();
 
 extern volatile bool ct;
 
-bool grindingbrushes_go(uint8_t number, uint8_t* args)
+bool grindingbrushes_go(__attribute__((unused)) options args)
 {
 	bool result = grindingbrushesint_go();
 

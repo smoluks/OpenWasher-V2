@@ -21,7 +21,7 @@ enum errorcode
 	WATERLEVEL_UP_ON =  0x20,			// залип верхний датчик давления
 	WATERLEVEL_DOWN_ON =  0x21,			// залип нижний датчик давления
 	WATERLEVEL_UP_OFF =  0x22,			// не срабатывает верхний датчик давления
-	WATERLEVEL_DOWN_OFF =  0x23,		// не срабатывает  нижний датчик давления
+	WATERLEVEL_DOWN_OFF =  0x23,		// не срабатывает нижний датчик давления
 	OVERFLOW =  0x24,					// переполнение
 	//тэн
 	OVERHEAT =  0x30,					// температура выше 95
@@ -37,6 +37,7 @@ enum errorcode
 	ENGINE_RELAYCCW_STICKING =  0x42,	// залипание реле двигателя 2
 	NO_TACHO =  0x43,					// нет сигнала с тахометра или двигатель не раскручивается
 	PID_ERROR =  0x44,					//
+	ENGINE_TRIAK_STICKING =  0x45,		// пробой симистора двигателя
 	//дверца
 	NO_LOCKER = 0x50,					// нет сигнала от защелки
 	BAD_DOOR_TRIAK = 0x51,				// нет фидбэка от защелки
@@ -44,7 +45,9 @@ enum errorcode
 	TRY_OPEN_DOOR_WITH_WATER =  0x53,   // попытка разблокировать дверцу при набранной воде
 	//клапаны
 	TRY_OPEN_WATER_WITH_OPEN_DOOR =  0x60,	// попытка набрать воду при открытой дверце
-	TRY_OPEN_WATER_WITH_WATER =  0x61,	// попытка набрать воду при набранной воде
+	VALVE1_NOT_OPEN =  0x61,
+	VALVE2_NOT_OPEN =  0x62,
+	NO_WATER =  0x63,
 	//eeprom
 	EEPROM_EMPTY =  0x70,				// нет маркера записи
 	EEPROM_BADCRC =  0x71,				// неправильный crc

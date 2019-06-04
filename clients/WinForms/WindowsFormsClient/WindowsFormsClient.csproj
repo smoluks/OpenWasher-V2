@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Log.cs" />
     <Compile Include="FirmwareFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +145,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\thermometer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\delete.png" />
+    <Content Include="Resources\save.png" />
+    <Content Include="Resources\washing-machine.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,7 +15,7 @@ extern volatile uint8_t tacho_currentrps;
 
 void ADC1_2_IRQHandler(void) {
 	if (ADC1->SR & ADC_SR_JEOC) {
-		processRawTemperature(ADC1->JDR1);
+		therm_adc(ADC1->JDR1);
 		ADC1->SR &= ~ADC_SR_JEOC;
 	}
 	if (ADC2->SR & ADC_SR_JEOC) {

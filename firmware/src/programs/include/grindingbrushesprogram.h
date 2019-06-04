@@ -1,6 +1,7 @@
 #pragma once
 
-#include "system_stm32f10x.h"
+#include "options.h"
 #include <stdbool.h>
+#include <stdint.h>
 
-bool grindingbrushes_go(uint8_t number, uint8_t* args);
+bool grindingbrushes_go(options args);

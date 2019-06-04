@@ -13,6 +13,7 @@ enum stage_e
 	STATUS_WASHING = 6,
 	STATUS_DRAWWATER = 7,
 	STATUS_SINK = 8,
+	STATUS_SELFTESTING = 9,
 };
 
 struct status_s

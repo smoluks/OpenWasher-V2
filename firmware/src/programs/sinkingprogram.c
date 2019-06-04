@@ -2,14 +2,15 @@
  * Слив
  */
 
-#include <door_stages.h>
-#include <pump_driver.h>
 #include <stdbool.h>
-#include <stdint-gcc.h>
-#include <valve_driver.h>
-#include <valve_hardware.h>
+#include <stdio.h>
+#include "options.h"
+#include "door_stages.h"
+#include "pump_driver.h"
+#include "valve_driver.h"
+#include "valve_hardware.h"
 
-bool sink_go(uint8_t number, uint8_t* args)
+bool sink_go(__attribute__((unused)) options args)
 {
 	if(!stage_door_close())
 		return false;
@@ -23,7 +24,7 @@ bool sink_go(uint8_t number, uint8_t* args)
 	return true;
 }
 
-bool sink_open_valve_go(uint8_t number, uint8_t* args)
+bool sink_open_valve_go(__attribute__((unused)) options args)
 {
 	if(!stage_door_close())
 		return false;

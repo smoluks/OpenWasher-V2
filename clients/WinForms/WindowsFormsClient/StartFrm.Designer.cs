@@ -60,6 +60,10 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.checkBoxAdditional = new System.Windows.Forms.CheckBox();
+            this.cbWashingSpeed = new System.Windows.Forms.CheckBox();
+            this.nUDWashingSpeed = new System.Windows.Forms.NumericUpDown();
+            this.trackBarWashingSpeed = new System.Windows.Forms.TrackBar();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUDWaterLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDRinsingCycles)).BeginInit();
@@ -71,6 +75,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpinningSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTemperature)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUDWashingSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarWashingSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // btnRunProgram
@@ -93,6 +99,10 @@
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.nUDWashingSpeed);
+            this.groupBox.Controls.Add(this.label2);
+            this.groupBox.Controls.Add(this.cbWashingSpeed);
+            this.groupBox.Controls.Add(this.trackBarWashingSpeed);
             this.groupBox.Controls.Add(this.cbWaterLevel);
             this.groupBox.Controls.Add(this.cbRinsingCycles);
             this.groupBox.Controls.Add(this.cbSpinningSpeed);
@@ -121,14 +131,14 @@
             this.groupBox.Enabled = false;
             this.groupBox.Location = new System.Drawing.Point(12, 39);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(433, 296);
+            this.groupBox.Size = new System.Drawing.Size(433, 319);
             this.groupBox.TabIndex = 2;
             this.groupBox.TabStop = false;
             // 
             // cbWaterLevel
             // 
             this.cbWaterLevel.AutoSize = true;
-            this.cbWaterLevel.Location = new System.Drawing.Point(6, 230);
+            this.cbWaterLevel.Location = new System.Drawing.Point(6, 264);
             this.cbWaterLevel.Name = "cbWaterLevel";
             this.cbWaterLevel.Size = new System.Drawing.Size(94, 17);
             this.cbWaterLevel.TabIndex = 33;
@@ -138,7 +148,7 @@
             // cbRinsingCycles
             // 
             this.cbRinsingCycles.AutoSize = true;
-            this.cbRinsingCycles.Location = new System.Drawing.Point(6, 179);
+            this.cbRinsingCycles.Location = new System.Drawing.Point(6, 213);
             this.cbRinsingCycles.Name = "cbRinsingCycles";
             this.cbRinsingCycles.Size = new System.Drawing.Size(94, 17);
             this.cbRinsingCycles.TabIndex = 32;
@@ -148,7 +158,7 @@
             // cbSpinningSpeed
             // 
             this.cbSpinningSpeed.AutoSize = true;
-            this.cbSpinningSpeed.Location = new System.Drawing.Point(6, 129);
+            this.cbSpinningSpeed.Location = new System.Drawing.Point(6, 163);
             this.cbSpinningSpeed.Name = "cbSpinningSpeed";
             this.cbSpinningSpeed.Size = new System.Drawing.Size(127, 17);
             this.cbSpinningSpeed.TabIndex = 31;
@@ -158,7 +168,7 @@
             // cbDuration
             // 
             this.cbDuration.AutoSize = true;
-            this.cbDuration.Location = new System.Drawing.Point(6, 78);
+            this.cbDuration.Location = new System.Drawing.Point(6, 70);
             this.cbDuration.Name = "cbDuration";
             this.cbDuration.Size = new System.Drawing.Size(88, 17);
             this.cbDuration.TabIndex = 30;
@@ -177,14 +187,14 @@
             // 
             // nUDWaterLevel
             // 
-            this.nUDWaterLevel.Location = new System.Drawing.Point(133, 229);
+            this.nUDWaterLevel.Location = new System.Drawing.Point(133, 263);
             this.nUDWaterLevel.Name = "nUDWaterLevel";
             this.nUDWaterLevel.Size = new System.Drawing.Size(46, 20);
             this.nUDWaterLevel.TabIndex = 28;
             // 
             // nUDRinsingCycles
             // 
-            this.nUDRinsingCycles.Location = new System.Drawing.Point(133, 178);
+            this.nUDRinsingCycles.Location = new System.Drawing.Point(133, 212);
             this.nUDRinsingCycles.Maximum = new decimal(new int[] {
             5,
             0,
@@ -196,7 +206,7 @@
             // 
             // nUDSpinningSpeed
             // 
-            this.nUDSpinningSpeed.Location = new System.Drawing.Point(133, 128);
+            this.nUDSpinningSpeed.Location = new System.Drawing.Point(133, 162);
             this.nUDSpinningSpeed.Maximum = new decimal(new int[] {
             20,
             0,
@@ -208,7 +218,7 @@
             // 
             // nUDDuration
             // 
-            this.nUDDuration.Location = new System.Drawing.Point(133, 77);
+            this.nUDDuration.Location = new System.Drawing.Point(133, 69);
             this.nUDDuration.Maximum = new decimal(new int[] {
             180,
             0,
@@ -253,7 +263,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(406, 261);
+            this.label13.Location = new System.Drawing.Point(400, 295);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(25, 13);
             this.label13.TabIndex = 23;
@@ -262,7 +272,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(184, 261);
+            this.label14.Location = new System.Drawing.Point(184, 295);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(13, 13);
             this.label14.TabIndex = 22;
@@ -270,7 +280,7 @@
             // 
             // trackBarWaterLevel
             // 
-            this.trackBarWaterLevel.Location = new System.Drawing.Point(178, 229);
+            this.trackBarWaterLevel.Location = new System.Drawing.Point(178, 263);
             this.trackBarWaterLevel.Maximum = 100;
             this.trackBarWaterLevel.Name = "trackBarWaterLevel";
             this.trackBarWaterLevel.Size = new System.Drawing.Size(247, 45);
@@ -281,7 +291,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(406, 210);
+            this.label11.Location = new System.Drawing.Point(406, 244);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(13, 13);
             this.label11.TabIndex = 20;
@@ -290,7 +300,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(184, 210);
+            this.label12.Location = new System.Drawing.Point(184, 244);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(13, 13);
             this.label12.TabIndex = 19;
@@ -299,7 +309,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(406, 159);
+            this.label9.Location = new System.Drawing.Point(400, 193);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(19, 13);
             this.label9.TabIndex = 18;
@@ -308,7 +318,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(184, 159);
+            this.label10.Location = new System.Drawing.Point(184, 193);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(13, 13);
             this.label10.TabIndex = 17;
@@ -317,7 +327,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(400, 108);
+            this.label7.Location = new System.Drawing.Point(400, 100);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(25, 13);
             this.label7.TabIndex = 16;
@@ -326,7 +336,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(184, 108);
+            this.label8.Location = new System.Drawing.Point(184, 100);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 13);
             this.label8.TabIndex = 15;
@@ -352,7 +362,7 @@
             // 
             // trackBarRinsingCycles
             // 
-            this.trackBarRinsingCycles.Location = new System.Drawing.Point(178, 178);
+            this.trackBarRinsingCycles.Location = new System.Drawing.Point(178, 212);
             this.trackBarRinsingCycles.Maximum = 5;
             this.trackBarRinsingCycles.Name = "trackBarRinsingCycles";
             this.trackBarRinsingCycles.Size = new System.Drawing.Size(247, 45);
@@ -361,7 +371,7 @@
             // 
             // trackBarSpinningSpeed
             // 
-            this.trackBarSpinningSpeed.Location = new System.Drawing.Point(178, 128);
+            this.trackBarSpinningSpeed.Location = new System.Drawing.Point(178, 162);
             this.trackBarSpinningSpeed.Maximum = 20;
             this.trackBarSpinningSpeed.Name = "trackBarSpinningSpeed";
             this.trackBarSpinningSpeed.Size = new System.Drawing.Size(247, 45);
@@ -370,7 +380,7 @@
             // 
             // trackBarDuration
             // 
-            this.trackBarDuration.Location = new System.Drawing.Point(178, 77);
+            this.trackBarDuration.Location = new System.Drawing.Point(178, 69);
             this.trackBarDuration.Maximum = 180;
             this.trackBarDuration.Minimum = 15;
             this.trackBarDuration.Name = "trackBarDuration";
@@ -403,11 +413,50 @@
             this.checkBoxAdditional.UseVisualStyleBackColor = true;
             this.checkBoxAdditional.CheckedChanged += new System.EventHandler(this.CheckBoxAdditional_CheckedChanged_1);
             // 
+            // cbWashingSpeed
+            // 
+            this.cbWashingSpeed.AutoSize = true;
+            this.cbWashingSpeed.Location = new System.Drawing.Point(6, 117);
+            this.cbWashingSpeed.Name = "cbWashingSpeed";
+            this.cbWashingSpeed.Size = new System.Drawing.Size(128, 17);
+            this.cbWashingSpeed.TabIndex = 36;
+            this.cbWashingSpeed.Text = "Washing speed, RPS";
+            this.cbWashingSpeed.UseVisualStyleBackColor = true;
+            // 
+            // nUDWashingSpeed
+            // 
+            this.nUDWashingSpeed.Location = new System.Drawing.Point(133, 116);
+            this.nUDWashingSpeed.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.nUDWashingSpeed.Name = "nUDWashingSpeed";
+            this.nUDWashingSpeed.Size = new System.Drawing.Size(46, 20);
+            this.nUDWashingSpeed.TabIndex = 35;
+            // 
+            // trackBarWashingSpeed
+            // 
+            this.trackBarWashingSpeed.Location = new System.Drawing.Point(178, 116);
+            this.trackBarWashingSpeed.Name = "trackBarWashingSpeed";
+            this.trackBarWashingSpeed.Size = new System.Drawing.Size(247, 45);
+            this.trackBarWashingSpeed.TabIndex = 34;
+            this.trackBarWashingSpeed.Scroll += new System.EventHandler(this.TrackBarWashingSpeed_Scroll);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(400, 148);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(19, 13);
+            this.label2.TabIndex = 37;
+            this.label2.Text = "10";
+            // 
             // StartFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 347);
+            this.ClientSize = new System.Drawing.Size(458, 367);
             this.Controls.Add(this.checkBoxAdditional);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.cbPrograms);
@@ -427,6 +476,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpinningSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTemperature)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUDWashingSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarWashingSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -465,5 +516,9 @@
         private System.Windows.Forms.CheckBox cbSpinningSpeed;
         private System.Windows.Forms.CheckBox cbDuration;
         private System.Windows.Forms.CheckBox cbTemperature;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox cbWashingSpeed;
+        private System.Windows.Forms.NumericUpDown nUDWashingSpeed;
+        private System.Windows.Forms.TrackBar trackBarWashingSpeed;
     }
 }
