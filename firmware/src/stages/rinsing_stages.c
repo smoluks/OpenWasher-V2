@@ -3,55 +3,45 @@
 #include <stdbool.h>
 #include <therm_driver.h>
 #include <valve_driver.h>
+#include "valve_hardware.h"
 #include "stm32f10x.h"
 #include "delay.h"
 #include "status.h"
+#include "systick.h"
 
 extern volatile bool ct;
 
-bool stage_rinsing(uint8_t count)
+bool stage_rinsing(uint8_t count, uint8_t waterlevel)
 {
 	if(!count)
 		return true;
 
 	status_set_stage(STATUS_RINSING);
 
-	while(count--)
+	for(int i = 0; i<count; i++)
 	{
-		engine_settargetrps(2, ccw);
+		if(!engine_settargetrps(1, ccw))
+			return false;
 
-		if(!valve_drawwater(conditioner_valve, 10))
+		if(!valve_drawwater(conditioner_valve, waterlevel + 10))
 		{
 			engine_settargetrps(0, off);
 			return false;
 		}
 
-		delay_ms_with_ct(5000u);
-
-		engine_settargetrps(0, off);
-		if(ct)
-			return false;
-
-		enum direction_e direction = cw;
-		for(int i = 0; i < 5; i++)
+		uint32_t endtime = get_systime() + (i * 5 + 1 )* 60000u;
+		while(!check_time_passed(endtime))
 		{
-			engine_settargetrps(2, direction);
-			direction = direction == cw ? ccw : cw;
-
-			delay_ms_with_ct(55000u);
-			engine_settargetrps(0, off);
-			if(ct)
-				break;
-
-			delay_ms_with_ct(5000u);
-			if(ct)
-				break;
+			if (!is_water()) {
+					if (!valve_drawwater(conditioner_valve, waterlevel + 10))
+						return false;
+				}
 		}
 
-		if(!sink(15000))
+		if(!engine_settargetrps(0, off))
 			return false;
 
-		if(ct)
+		if(!sink(15000) || ct)
 			return false;
 	}
 

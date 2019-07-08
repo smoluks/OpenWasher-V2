@@ -70,7 +70,7 @@ bool wash_go(options args)
 	if(!stage_wash(temperature, delay, washingspeed, both_washmode, waterlevel))
 		return false;
 
-	if(!stage_rinsing(rinsingcycles))
+	if(!stage_rinsing(rinsingcycles, waterlevel))
 		return false;
 
 	if(!spinning_go(spinningspeed))

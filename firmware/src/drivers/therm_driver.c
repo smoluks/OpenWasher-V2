@@ -110,7 +110,7 @@ bool set_temperature(uint8_t t) {
 		set_error(SET_HEAT_OVER90);
 		return false;
 	} else {
-		targettemperature = ((uint16_t) t - 8) * 169 / 4;
+		targettemperature = ((uint16_t) t - 8) * 169 / 4 - THERM_HYSTERESIS * 42 - eeprom_config.temperaturenoise;
 		return true;
 	}
 }
@@ -119,6 +119,7 @@ inline uint8_t get_temperature() {
 	return rawtemperature * 4 / 169 + 8;
 }
 
+uint32_t heater_off_timestamp = 0;
 inline void therm_crosszero() {
 	if (therm_manualcontrol)
 		return;
@@ -128,9 +129,12 @@ inline void therm_crosszero() {
 		return;
 	}
 
-	if (rawtemperature >= targettemperature)
+	if (rawtemperature > targettemperature)
+	{
 		heater_disable();
-	else if (rawtemperature < (targettemperature - THERM_HYSTERESIS * 42 - eeprom_config.temperaturenoise))
+		heater_off_timestamp = get_systime() + 10000U;
+	}
+	else if (rawtemperature < targettemperature && check_time_passed(heater_off_timestamp))
 		heater_enable();
 }
 

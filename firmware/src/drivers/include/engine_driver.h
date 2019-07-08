@@ -4,7 +4,7 @@
 #include "engine_hardware.h"
 #include "stm32f10x.h"
 
-#define VALUE_FULL 32768
+#define VALUE_FULL 1020
 
 enum engine_feedback_state_e
 {
@@ -16,6 +16,7 @@ enum engine_feedback_state_e
 
 
 bool engine_test();
+uint8_t engine_getcurrentrps();
 bool engine_settargetrps(uint8_t rps, enum direction_e direction);
 void engine_emergencystop();
 

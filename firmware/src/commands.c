@@ -36,6 +36,7 @@ void processcommand(uint8_t* buffer, uint8_t count)
 			send_answer_with_data(0x03, get_status(), sizeof(struct status_s));
 			break;
 		case 0x0A:
+			ct = true;
 			send_answer(0x0A, NOEEROR);
 			action |= GOTOBOOTLOADER;
 			break;

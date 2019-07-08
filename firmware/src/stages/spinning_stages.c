@@ -41,7 +41,7 @@ bool spinning_go(uint8_t maxrpm) {
 			return false;
 		}
 
-		if (spinning_cycle(maxrpm)) {
+		if (!spinning_cycle(maxrpm)) {
 			pump_disable();
 			return false;
 		}

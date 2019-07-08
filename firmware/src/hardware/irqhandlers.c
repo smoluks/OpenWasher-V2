@@ -11,7 +11,7 @@
 #include "crosszero_driver.h"
 
 volatile uint16_t voltage;
-extern volatile uint8_t tacho_currentrps;
+extern volatile uint16_t engine_current_speed;
 
 void ADC1_2_IRQHandler(void) {
 	if (ADC1->SR & ADC_SR_JEOC) {
@@ -96,7 +96,7 @@ void EXTI15_10_IRQHandler(void) {
 void TIM3_IRQHandler(void) {
 	TIM3->SR &= ~TIM_SR_UIF;
 
-	tacho_currentrps = 0;
+	engine_current_speed = 0;
 
 	while (TIM3->SR & TIM_SR_UIF);
 }
@@ -106,9 +106,10 @@ void TIM4_IRQHandler(void) {
 	TIM4->SR &= ~TIM_SR_UIF;
 
 	engine_triakon();
-	TIM2->CR1 &= ~TIM_CR1_CEN;
-	TIM2->CNT = 0;
-	TIM2->CR1 |= TIM_CR1_CEN; //запуск таймера задержки
+
+	//TIM2->CR1 &= ~TIM_CR1_CEN;
+	//TIM2->CNT = 0;
+	//TIM2->CR1 |= TIM_CR1_CEN; //запуск таймера задержки
 
 	while (TIM4->SR & TIM_SR_UIF);
 }

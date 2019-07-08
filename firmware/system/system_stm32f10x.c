@@ -145,10 +145,10 @@ void SystemInit(void) {
 	TIM2->DIER = TIM_DIER_UIE;
 	NVIC_SetPriority(TIM2_IRQn, 1);
 	NVIC_EnableIRQ(TIM2_IRQn);
-	//----TIM3 - tacho - 1MHz-----
-	TIM3->PSC = 72 - 1;
+	//----TIM3 - tacho - 100KHz-----
+	TIM3->PSC = 720 - 1;
 	TIM3->CR1 = TIM_CR1_OPM;
-	TIM3->ARR = 65535;
+	TIM3->ARR = 18750;
 	TIM3->EGR |= TIM_EGR_UG;
 	delay_us(1);
 	TIM3->SR &= ~(TIM_SR_UIF);

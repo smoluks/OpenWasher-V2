@@ -9,9 +9,10 @@
 #include "testprogram.h"
 #include "washingprogram.h"
 #include "waterheaterprogram.h"
+#include "pidprogram.h"
 #include <stdbool.h>
 
-#define PROGRAM_COUNT 20
+#define PROGRAM_COUNT 21
 
 typedef bool (*fn_program)(options args);
 
@@ -30,11 +31,12 @@ const fn_program programs[PROGRAM_COUNT] =
 	wash_go,					//10
 	wash_go,					//11
 	rinsingprogram_go,			//12
-	delicaterinsingprogram_go,	//13
+	rinsingprogram_go,			//13
 	spinningprogram_go,			//14
 	delicatespinningprogram_go,	//15
 	sink_go,					//16
 	sink_open_valve_go,			//17
 	waterheater_go,				//18
 	grindingbrushes_go,			//19
+	pid_go,						//20
 };

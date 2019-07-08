@@ -3,9 +3,10 @@
  */
 
 #include <stdbool.h>
-#include <stdint-gcc.h>
+#include "system_stm32f10x.h"
+#include "options.h"
 
-bool empty_go(__attribute__((unused)) uint8_t number, __attribute__((unused)) uint8_t* args)
+bool empty_go(__attribute__((unused)) options args)
 {
 	return true;
 }

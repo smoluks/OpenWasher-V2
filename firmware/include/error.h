@@ -38,6 +38,7 @@ enum errorcode
 	NO_TACHO =  0x43,					// нет сигнала с тахометра или двигатель не раскручивается
 	PID_ERROR =  0x44,					//
 	ENGINE_TRIAK_STICKING =  0x45,		// пробой симистора двигателя
+	SPEED_LIMIT =  0x46,				//
 	//дверца
 	NO_LOCKER = 0x50,					// нет сигнала от защелки
 	BAD_DOOR_TRIAK = 0x51,				// нет фидбэка от защелки

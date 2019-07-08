@@ -33,10 +33,8 @@ inline enum direction_e get_direction() {
 
 inline void engine_triakon() {
 	GPIOA->BSRR = 0x00000080;
-	led_orange_on();
 }
 
 inline void engine_triakoff() {
 	GPIOA->BSRR = 0x00800000;
-	led_orange_off();
 }

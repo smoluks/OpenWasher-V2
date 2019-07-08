@@ -48,7 +48,13 @@ void main(void)
 		{
 			send_error(error);
 			printf("Error %X\n", error);
-			while(1);
+			while (1) {
+				if (action & GOTOBOOTLOADER) {
+					send_event(GOTOBOOTLOADER);
+					waittransmissionend();
+					JumpToBootloader();
+				}
+			}
 		}
 		if (action & GOTOBOOTLOADER)
 		{

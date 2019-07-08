@@ -18,32 +18,31 @@ void pid_clearstate()
 	dstate = 0;
 }
 
-inline int16_t pid_process(int8_t tacho_currentrps, int8_t tacho_targetrps)
+uint16_t pid_process(int32_t current, int32_t target)
 {
-	int32_t out = eeprom_config.enginestartvalue;
-	int32_t delta = (int32_t)tacho_targetrps - (int32_t)tacho_currentrps;
+	int32_t out = (48 + (target * 2)) << 8;
+	int32_t delta = target - current;
 
 	//p
-	int32_t pterm = delta * P;
-	out += pterm;
+	out += delta * P;
 
 	//i
-	istate += delta;
+	istate += delta * I;
 	if(istate > IMAX)
 		istate = IMAX;
-	if(istate < IMIN)
+	else if(istate < IMIN)
 		istate = IMIN;
-	out += istate * I;
+	out += istate;
 
 	//d
-	out -= (tacho_currentrps - dstate) * D;
-	dstate = tacho_currentrps;
+	out -= (current - dstate) * D;
+	dstate = current;
 
-	if (out < 0)
-		out = 0;
-	else if (out > VALUE_FULL)
-		out = VALUE_FULL;
-
-	return (int16_t)out;
+	if (out <= 0)
+		return 0;
+	else if (out >= (VALUE_FULL << 8))
+		return VALUE_FULL;
+	else
+		return out >> 8;
 }
 
