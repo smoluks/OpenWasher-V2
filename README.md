@@ -13,8 +13,9 @@ Open-source controller for washing machine based on STM32F103.
 
 ## Current supported platforms:
  * Arcadia without drying, collector motor - replace CPU PCB
+ ![](/images/module-front.png)
+ ![](/images/module-back.png)
  
-
 ## Current functions:
  * Self-test
  * Pre-wash
