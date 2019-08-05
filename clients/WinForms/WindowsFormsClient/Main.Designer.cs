@@ -102,7 +102,6 @@
             // lblTemp
             // 
             this.lblTemp.AutoSize = false;
-            this.lblTemp.Image = global::WindowsFormsClient.Properties.Resources.thermometer;
             this.lblTemp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblTemp.Name = "lblTemp";
             this.lblTemp.Size = new System.Drawing.Size(51, 19);

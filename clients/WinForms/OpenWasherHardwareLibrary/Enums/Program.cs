@@ -44,6 +44,8 @@ namespace OpenWasherHardwareLibrary.Enums
         waterHeater = 18,
         [Description("Grinding brushes")]
         GrindingBrushes = 19,
+        [Description("Calibrate PID")]
+        CalibratePID = 20,
 
         Nothing = 255
     }

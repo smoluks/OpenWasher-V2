@@ -3,7 +3,7 @@
 #include "stm32f10x.h"
 
 #define P (2 << 4)
-#define I 20
+#define I 16
 #define D (1 << 4)
 #define IMAX (100 << 8)
 #define IMIN 0

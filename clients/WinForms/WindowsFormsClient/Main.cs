@@ -51,8 +51,8 @@ namespace WindowsFormsClient
                 }
                 else
                 {
-                    var localizedProgram = ResourceString.GetString($"Program_{(int)status.program}", EnumManager.GetEnumDescription(status.program));
-                    var localizedStage = ResourceString.GetString($"Stage_{(int)status.stage}", EnumManager.GetEnumDescription(status.stage));
+                    var localizedProgram = ResourceManager.GetString($"Program_{(int)status.program}", EnumManager.GetEnumDescription(status.program));
+                    var localizedStage = ResourceManager.GetString($"Stage_{(int)status.stage}", EnumManager.GetEnumDescription(status.stage));
 
                     lblStage.Text = localizedProgram + ": " + localizedStage;
                     lblStage.Visible = true;

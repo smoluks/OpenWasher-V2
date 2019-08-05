@@ -23,13 +23,13 @@ namespace WindowsFormsClient
             this.Height = checkBoxAdditional.Checked ? 367 : 110;
             foreach (Programs program in Enum.GetValues(typeof(Programs)))
             {
-                cbPrograms.Items.Add(ResourceString.GetString($"Program_{(int)program}", EnumManager.GetEnumDescription(program)));
+                cbPrograms.Items.Add(ResourceManager.GetString($"Program_{(int)program}", EnumManager.GetEnumDescription(program)));
             }
         }
 
         private void CbPrograms_SelectedIndexChanged(object sender, EventArgs e)
         {
-            toolTip.SetToolTip(cbPrograms, ResourceString.GetString($"Program_{cbPrograms.SelectedIndex}_Comment"));
+            toolTip.SetToolTip(cbPrograms, ResourceManager.GetString($"Program_{cbPrograms.SelectedIndex}_Comment"));
         }
 
         private void CheckBoxAdditional_CheckedChanged_1(object sender, EventArgs e)

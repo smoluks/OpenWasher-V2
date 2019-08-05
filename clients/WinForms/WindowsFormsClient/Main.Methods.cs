@@ -17,7 +17,7 @@ namespace WindowsFormsClient
 
         async Task ConnectAsync()
         {
-            lblStatus.Text = ResourceString.GetString("Status_Connecting", "Connecting");            
+            lblStatus.Text = ResourceManager.GetString("Status_Connecting", "Connecting");            
             try
             {
                 string port;
@@ -27,8 +27,8 @@ namespace WindowsFormsClient
                     port = await _hardwareLibrary.ConnectAsync();
                     if (port == null)
                     {
-                        lblStatus.Text = ResourceString.GetString("Status_NotFound", "Not found");
-                        trayIcon.Text = ResourceString.GetString("Status_NotFound", "Not found");
+                        lblStatus.Text = ResourceManager.GetString("Status_NotFound", "Not found");
+                        trayIcon.Text = ResourceManager.GetString("Status_NotFound", "Not found");
                         return;
                     }
                 }
@@ -38,9 +38,9 @@ namespace WindowsFormsClient
                     await _hardwareLibrary.ConnectAsync(port);
                 }
 
-                lblStatus.Text = string.Format(ResourceString.GetString("Status_Connected", "{0} Connected"), port);
+                lblStatus.Text = string.Format(ResourceManager.GetString("Status_Connected", "{0} Connected"), port);
                 btnStart.Enabled = true;
-                trayIcon.Text = string.Format(ResourceString.GetString("Status_Connected", "{0} Connected"), port);
+                trayIcon.Text = string.Format(ResourceManager.GetString("Status_Connected", "{0} Connected"), port);
                 timerPoll.Enabled = true;
             }
             catch(Exception e)
@@ -54,9 +54,9 @@ namespace WindowsFormsClient
             timerPoll.Enabled = false;
             _hardwareLibrary.Disconnect();
 
-            lblStatus.Text = string.Format(ResourceString.GetString("Status_Disconnected", "Disconnected"));
+            lblStatus.Text = string.Format(ResourceManager.GetString("Status_Disconnected", "Disconnected"));
             btnStart.Enabled = false;
-            trayIcon.Text = string.Format(ResourceString.GetString("Status_Disconnected", "Disconnected"));
+            trayIcon.Text = string.Format(ResourceManager.GetString("Status_Disconnected", "Disconnected"));
         }
 
         void DisconnectInvoke()
@@ -64,9 +64,9 @@ namespace WindowsFormsClient
             timerPoll.Enabled = false;
             _hardwareLibrary.Disconnect();
 
-            this.Invoke((MethodInvoker)(() => lblStatus.Text = string.Format(ResourceString.GetString("Status_Disconnected", "Disconnected"))));
+            this.Invoke((MethodInvoker)(() => lblStatus.Text = string.Format(ResourceManager.GetString("Status_Disconnected", "Disconnected"))));
             this.Invoke((MethodInvoker)(() => btnStart.Enabled = false));
-            this.Invoke((MethodInvoker)(() => trayIcon.Text = string.Format(ResourceString.GetString("Status_Disconnected", "Disconnected"))));
+            this.Invoke((MethodInvoker)(() => trayIcon.Text = string.Format(ResourceManager.GetString("Status_Disconnected", "Disconnected"))));
         }
 
         async Task<Status> GetStatusAsync()
