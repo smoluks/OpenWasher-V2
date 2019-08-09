@@ -5,9 +5,9 @@ using WindowsFormsClient.Properties;
 
 namespace WindowsFormsClient.Managers
 {
-    internal class ResourceManager
+    internal class Localizator
     {
-        internal ResourceManager()
+        internal Localizator()
         {
             var locLibraries = Directory.GetFiles(@"\", "Localization_*.dll");
             if (locLibraries.Length == 0)

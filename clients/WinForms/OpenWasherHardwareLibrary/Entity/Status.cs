@@ -4,7 +4,7 @@ namespace OpenWasherHardwareLibrary.Entity
 {
     public class Status
     {
-        public Programs program;
+        public WashProgram program;
 
         public Stage stage;
 

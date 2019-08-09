@@ -1,22 +1,23 @@
-﻿using OpenWasherHardwareLibrary.Enums;
+﻿using OpenWasherHardwareLibrary.Entity;
+using OpenWasherHardwareLibrary.Enums;
 
 namespace OpenWasherHardwareLibrary.Managers
 {
     public static class ParamsManager
     {
-        public static Params GetDefault(Programs program)
+        public static ProgramOptions GetDefault(WashProgram program)
         {
             if ((int)program < 1 || (int)program > 11)
                 return null;
 
             int number = (int)program - 1;
-            return new Params
+            return new ProgramOptions
             {
-                Temperature = washtemperature[number],
-                Time = washdelay[number],
-                SpinningRPS = spinningrps[number],
-                WaterLevel = 10,
-                RinsingCycles = 3
+                temperature = washtemperature[number],
+                duration = washdelay[number],
+                spinningspeed = spinningrps[number],
+                waterlevel = 10,
+                rinsingCycles = 3
             };
         }
 
@@ -35,16 +36,5 @@ namespace OpenWasherHardwareLibrary.Managers
         20, 5, 5, 5,
         5, 5, 0
         };
-
-        public class Params
-        {
-            public byte Temperature { get; internal set; }
-            public byte Time { get; internal set; }
-            public byte SpinningRPS { get; internal set; }
-            public byte WaterLevel { get; internal set; }
-            public byte RinsingCycles { get; internal set; }
-        }
     }
-
-
 }

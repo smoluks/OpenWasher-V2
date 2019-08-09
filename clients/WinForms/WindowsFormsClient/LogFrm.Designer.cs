@@ -80,6 +80,7 @@
             this.Controls.Add(this.listBoxLogs);
             this.Name = "LogFrm";
             this.Text = "Log";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LogFrm_FormClosing);
             this.Load += new System.EventHandler(this.LogFrm_Load);
             this.ResumeLayout(false);
 

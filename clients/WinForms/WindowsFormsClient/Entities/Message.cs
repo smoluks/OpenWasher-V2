@@ -2,9 +2,9 @@
 
 namespace WindowsFormsClient.Entities
 {
-    public class Log
+    public class Message
     {
-        public Log(string message)
+        public Message(string message)
         {
             this.message = message;
             this.timestamp = DateTime.Now;

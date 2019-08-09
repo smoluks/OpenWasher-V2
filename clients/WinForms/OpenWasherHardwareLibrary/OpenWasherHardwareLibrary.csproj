@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenWasherHardwareLibrary</RootNamespace>
     <AssemblyName>OpenWasherHardwareLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,12 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GetStatus.cs" />
+    <Compile Include="Commands\GoToBootloader.cs" />
+    <Compile Include="Commands\IWasherCommand.cs" />
+    <Compile Include="Commands\Ping.cs" />
+    <Compile Include="Commands\StartProgram.cs" />
+    <Compile Include="Commands\StopProgram.cs" />
     <Compile Include="Entity\ProgramOptions.cs" />
     <Compile Include="Entity\Status.cs" />
     <Compile Include="Enums\AnswerType.cs" />
+    <Compile Include="Enums\ConnectionEventType.cs" />
     <Compile Include="Enums\ErrorType.cs" />
     <Compile Include="Enums\EventType.cs" />
-    <Compile Include="Enums\Program.cs" />
+    <Compile Include="Enums\WashProgram.cs" />
     <Compile Include="Enums\Stage.cs" />
     <Compile Include="Exceptions\CommandException.cs" />
     <Compile Include="Managers\CommandsManager.cs" />

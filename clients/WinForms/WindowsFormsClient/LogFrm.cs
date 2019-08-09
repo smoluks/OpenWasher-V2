@@ -1,29 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using WindowsFormsClient.Entities;
+using WindowsFormsClient.Managers;
 
 namespace WindowsFormsClient
 {
     internal partial class LogFrm : Form
     {
-        private readonly List<Log> logs;
-
-        public LogFrm(List<Log> logs)
+        public LogFrm()
         {
-            InitializeComponent();
-            this.logs = logs;      
+            InitializeComponent();   
         }
 
         private void LogFrm_Load(object sender, EventArgs e)
         {
-            foreach(var log in logs)
+            MessageManager.NewLogMessageEvent += newMessageHandler;
+            foreach (var log in MessageManager.GetMessages())
             {
                 listBoxLogs.Items.Add(log);
             }
         }
 
-        internal void newLogMessage(Log log)
+        private void newMessageHandler(Entities.Message log)
         {
             listBoxLogs.Invoke((MethodInvoker)(() => listBoxLogs.Items.Add(log)));
         }
@@ -31,6 +28,11 @@ namespace WindowsFormsClient
         private void BtnClear_Click(object sender, EventArgs e)
         {
             listBoxLogs.Items.Clear();
+        }
+
+        private void LogFrm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MessageManager.NewLogMessageEvent += newMessageHandler;
         }
     }
 }

@@ -7,12 +7,13 @@
     <ProjectGuid>{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WindowsFormsClient</RootNamespace>
-    <AssemblyName>WindowsFormsClient</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AssemblyName>OpenWasher Client</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -52,6 +52,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\washing-machine.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
@@ -69,7 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\WashingProgram.cs" />
     <Compile Include="FirmwareFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,12 +92,13 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main.Methods.cs">
+    <Compile Include="Main.WasherHandlers.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Managers\ConfigManager.cs" />
     <Compile Include="Managers\EnumManager.cs" />
-    <Compile Include="Managers\ResourceString.cs" />
+    <Compile Include="Managers\Localizator.cs" />
+    <Compile Include="Managers\MessageManager.cs" />
     <Compile Include="SettingsFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,12 +107,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StartFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StartFrm.Designer.cs">
-      <DependentUpon>StartFrm.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="FirmwareFrm.resx">
       <DependentUpon>FirmwareFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,9 +129,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="StartFrm.resx">
-      <DependentUpon>StartFrm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -161,23 +157,19 @@
     <None Include="Resources\options.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\stop.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\thermometer.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\delete.png" />
     <Content Include="Resources\save.png" />
+    <Content Include="Resources\start.png" />
     <Content Include="Resources\washing-machine.png" />
+    <Content Include="Resources\washing-machine.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

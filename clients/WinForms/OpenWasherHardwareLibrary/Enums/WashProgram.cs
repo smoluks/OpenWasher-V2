@@ -2,7 +2,7 @@
 
 namespace OpenWasherHardwareLibrary.Enums
 {
-    public enum Programs
+    public enum WashProgram
     {
         SelfTest = 0,
 

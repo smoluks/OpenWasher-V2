@@ -1,6 +1,5 @@
-﻿using OpenWasherHardwareLibrary.Entity;
+﻿using OpenWasherHardwareLibrary.Commands;
 using OpenWasherHardwareLibrary.Enums;
-using OpenWasherHardwareLibrary.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,134 +11,138 @@ namespace OpenWasherHardwareLibrary.Managers
 {
     internal class CommandsManager : IDisposable
     {
-        private IOManager io;
-        private bool connected;
+        const int DELAY_AFTER_CONNECT = 3000;
+
+        private IOManager _io;
+
         private readonly MessageReceivedDelegate messageDelegate;
         private readonly ErrorReceivedDelegate errorDelegate;
         private readonly EventReceivedDelegate eventDelegate;
+        private readonly ConnectionEventDelegate connectionEventDelegate;
 
         internal static IEnumerable<string> AvaliableComPorts => IOManager.GetAvaliableComPorts();
 
         internal CommandsManager(
             MessageReceivedDelegate messageDelegate = null,
             ErrorReceivedDelegate errorDelegate = null,
-            EventReceivedDelegate eventDelegate = null)
+            EventReceivedDelegate eventDelegate = null,
+            ConnectionEventDelegate connectionEventDelegate = null)
         {
             this.messageDelegate = messageDelegate;
             this.errorDelegate = errorDelegate;
             this.eventDelegate = eventDelegate;
+            this.connectionEventDelegate = connectionEventDelegate;
         }
 
-        internal async Task<string> ConnectAsync(string port = null)
+        internal async Task ConnectAsync(string port = null)
         {
-            if(io != null)
-                io.Dispose();
+            if (_io != null)
+                _io.Dispose();
 
             if (port != null)
             {
-                io = new IOManager(port, messageDelegate, errorDelegate, eventDelegate);
-                Thread.Sleep(3000);
-                await SendPingAsync(10000);
-                connected = true;
-
-                return io.Port;
+                //connect to port
+                var result = await GetConnectionTask(port);
+                if (result.Success)
+                    connectionEventDelegate?.Invoke(ConnectionEventType.Connected, _io.Port);
+                else
+                    connectionEventDelegate?.Invoke(ConnectionEventType.ConnectFailed, result.Error);
             }
             else
             {
+                //try connect to all ports
                 var ports = IOManager.GetAvaliableComPorts();
-                io = ports.AsParallel().Select(x =>
+                var tasks = ports.Select(x => GetConnectionTask(x)).ToList();
+
+                while (tasks.Count > 0)
                 {
-                    try
+                    var connectTask = await Task.WhenAny(tasks).ConfigureAwait(false);
+                    if (connectTask.Result.Success && _io == null)
                     {
-                        io = new IOManager(x, messageDelegate, errorDelegate, eventDelegate);
-                        Thread.Sleep(3000);
-                        SendPingAsync(10000).GetAwaiter().GetResult();
-                        return io;
+                        _io = connectTask.Result.ioManager;
+                        connectionEventDelegate?.Invoke(ConnectionEventType.Connected, _io.Port);
+                        return;
                     }
-                    catch (Exception)
-                    {
-                        return null;
-                    }
-                })
-                .Where(x => x != null)
-                .FirstOrDefault();
+                    else _io.Dispose();
 
-                if (io != null)
-                    connected = true;
+                    tasks.Remove(connectTask);
+                }
 
-                return io?.Port;
+                connectionEventDelegate?.Invoke(ConnectionEventType.NotFound, null);
+            }
+        }
+
+        private async Task<(bool Success, string Error, IOManager ioManager)> GetConnectionTask(string port)
+        {
+            try
+            {
+                var ioManager = new IOManager(port, messageDelegate, errorDelegate, eventDelegate);
+                Thread.Sleep(DELAY_AFTER_CONNECT);
+                await SendCommandAsync(new Ping());
+                return (true, null, ioManager);
+            }
+            catch( Exception e)
+            {
+                return (false, e.Message, null);
             }
         }
 
         internal void Disconnect()
         {
-            if (io != null)
-                io.Dispose();
+            if (_io != null)
+                _io.Dispose();
         }
 
         public void Dispose()
         {
-            if (io != null)
-                io.Dispose();
+            if (_io != null)
+                _io.Dispose();
         }
 
-        internal async Task SendPingAsync(int timeout = 500)
+        internal async Task SendCommandAsync(IWasherCommand command, int timeout = 10000, int tryCount = 3)
         {
-            await io.SendAsync(new byte[0], timeout);
-        }
+            if (_io == null)
+                throw new ApplicationException("No connection");
 
-        internal async Task StartProgramAsync(Programs program, ProgramOptions options = null)
-        {
-            byte[] data;
-            if (options == null)
+            do
             {
-                data = new byte[2] { 1, (byte)program};
+                try
+                {
+                    await _io.SendAsync(command.GetRequest(), timeout);
+                    return;
+                }
+                catch (TimeoutException e)
+                {
+                    if (--tryCount <= 0)
+                        throw e;
+                }
             }
-            else
+            while (tryCount > 0);
+
+            throw new TimeoutException($"No answer at {timeout} ms");
+        }
+
+        internal async Task<TRESULT> SendCommandAsync<TRESULT>(IWasherCommand<TRESULT> command, int timeout = 10000, int tryCount = 3)
+        {
+            if (_io == null)
+                throw new ApplicationException("No connection");
+
+            do
             {
-                data = new byte[8] { 1, (byte)program, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-                if (options.temperature.HasValue)
-                    data[2] = options.temperature.Value;
-                if (options.duration.HasValue)
-                    data[3] = options.duration.Value;
-                //if (options.spinningspeed.HasValue)
-                //    data[4] = options.spinningspeed.Value;
-                if (options.spinningspeed.HasValue)
-                    data[5] = options.spinningspeed.Value;
-                if (options.waterlevel.HasValue)
-                    data[6] = options.waterlevel.Value;
-                if (options.rinsingCycles.HasValue)
-                    data[7] = options.rinsingCycles.Value;
+                try
+                {
+                    var responce = await _io.SendAsync(command.GetRequest(), timeout);
+                    return command.ParceResponse(responce);
+                }
+                catch(TimeoutException e)
+                {
+                    if (--tryCount <= 0)
+                        throw e;
+                }
             }
+            while (tryCount > 0);
 
-            var result = await io.SendAsync(data, 500);
+            throw new TimeoutException($"No answer at {timeout} ms");
         }
-
-        internal async Task StopProgramAsync()
-        {
-            var result = await io.SendAsync(new byte[1] { 2 }, 500);
-        }
-
-        internal async Task<Status> GetStatusAsync()
-        {
-            var result = await io.SendAsync(new byte[1] { 3 }, 3000);
-            if (result.Length != 12)
-                throw new CommandException($"Bad status answer length: {result.Length} instead of 12");
-
-            var status = new Status();
-            status.program = (Programs)result[1];
-            status.stage = (Stage)result[2];
-            status.temperature = result[3];
-            status.timefull = result[7] << 24 + result[6] << 16 + result[5] << 8 + result[4];
-            status.timepassed = result[11] << 24 + result[10] << 16 + result[9] << 8 + result[8];
-
-            return status;
-        }
-
-        internal async Task GoToBootloaderAsync()
-        {
-            var result = await io.SendAsync(new byte[1] { 0x0A }, 5000);
-        }
-        
     }
 }

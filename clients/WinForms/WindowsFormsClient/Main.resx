@@ -120,13 +120,24 @@
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>117, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEESURBVDhPjdM9TgMxFEXhQQqR2EQ2QE368NOCELuCbAOU
+        BiiA0NBQ07MBqNgCkHDOxM/yBGuSK33SYL+Ysee56ckR3pMDBzZlF6PVY5tnLJNbB1L2YW0nQ1i0wCsu
+        8YNY4BtTvKW/7+Bvcs4QxduaIGcPX6gV1nxggE5mKIsecZ74XM5dI+cYFpR7do87iPh8j5j/xQsu0B5c
+        TAQXXc8J1utUHdx2Af95+xq+jq8VE5u24HYfYLPl3CAKVB7iUxoLHngnfpJPlEV9/OR++pxD1Ar7nCLH
+        tnTfTtiutq3tG8Xu+Qq2uQdn23da2XhBvCiRWFBzB1K8cP8uUy1jxHV2i5U0zR/jXIqn0/LqBgAAAABJ
+        RU5ErkJggg==
+</value>
+  </data>
   <metadata name="timerPoll.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="trayIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>233, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="trayIcon.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAAAAAAAEAIAAkJwAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAEAAAABAAgEAAAA9ntg7QAAJutJ
@@ -299,4 +310,7 @@
         /D/oTRf+vgA1zwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
+  </metadata>
 </root>
