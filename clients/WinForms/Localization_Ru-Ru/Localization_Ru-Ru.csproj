@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>WindowsFormsClient</RootNamespace>
+    <RootNamespace>LocalizationRuRu</RootNamespace>
+    <NeutralLanguage>ru-RU</NeutralLanguage>
+    <AssemblyName>LocalizationRuRu</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

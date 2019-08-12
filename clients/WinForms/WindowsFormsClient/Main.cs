@@ -1,5 +1,6 @@
 ﻿using OpenWasherHardwareLibrary;
 using OpenWasherHardwareLibrary.Commands;
+using OpenWasherHardwareLibrary.Entity;
 using OpenWasherHardwareLibrary.Enums;
 using System;
 using System.Windows.Forms;
@@ -11,15 +12,28 @@ namespace WindowsFormsClient
     public partial class Main : Form
     {
         readonly HardwareLibrary hardwareLibrary;
+        readonly Localizator localizator;
         readonly ConfigManager configManager = new ConfigManager();
         private bool isWashing;
 
         LogFrm logFrm;
+        private SettingsFrm settingsForm;
 
         public Main()
         {
             InitializeComponent();
             hardwareLibrary = new HardwareLibrary(configManager.Port, MessageManager.MessageHandler, ErrorHandler, EventHandler, ConnectionEventHandler, configManager.LogEnable);
+            localizator = new Localizator(configManager.Locale);
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            foreach (var program in EnumManager.GetValues<WashProgram>())
+            {
+                listBoxPrograms.Items.Add(new WashingProgram(
+                    program,
+                    localizator.GetString($"Program_{(byte)program}", $"{program}")));
+            }
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
@@ -35,12 +49,12 @@ namespace WindowsFormsClient
 
                 btnRunProgram.Enabled = true;
                 lblTemp.Text = $"{status.temperature}°C";
-                if(status.program != WashProgram.Nothing)
+                if (status.program != WashProgram.Nothing)
                 {
                     SetStatusText(string.Format(
-                        Localizator.GetString("Status_Washing", "{0}: {1}"),
-                        Localizator.GetString($"Program_{status.program}", $"Program {status.program}"),
-                        Localizator.GetString($"Stage_{status.stage}", $"Stage {status.stage}")));
+                        localizator.GetString("Status_Washing", "{0}: {1}"),
+                        localizator.GetString($"Program_{status.program}", $"Program {status.program}"),
+                        localizator.GetString($"Stage_{status.stage}", $"Stage {status.stage}")));
 
                     groupBoxOptions.Enabled = false;
                 }
@@ -48,14 +62,14 @@ namespace WindowsFormsClient
                 {
                     isWashing = false;
                     groupBoxOptions.Enabled = true;
-                    SetStatusText(Localizator.GetString("Status_Stopped", "Stopped"));
+                    SetStatusText(localizator.GetString("Status_Stopped", "Stopped"));
                 }
             }
             catch (TimeoutException)
             {
                 btnRunProgram.Enabled = false;
                 groupBoxOptions.Enabled = false;
-                SetStatusText(Localizator.GetString("Status_ConnectionBreak", "Connection break"));
+                SetStatusText(localizator.GetString("Status_ConnectionBreak", "Connection break"));
             }
         }
 
@@ -63,22 +77,63 @@ namespace WindowsFormsClient
         {
             if (isWashing)
             {
+                DialogResult dialogResult = MessageBox.Show("Really stop?", "Stop program", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    await hardwareLibrary.SendCommandAsync(new StopProgram());
+                    groupBoxOptions.Enabled = true;
+                }
             }
             else
             {
                 if (listBoxPrograms.SelectedIndex != -1)
                 {
                     var program = listBoxPrograms.SelectedItem as WashingProgram;
-                    await hardwareLibrary.SendCommandAsync(new StartProgram(program.Program));
+                    await hardwareLibrary.SendCommandAsync(new StartProgram(program.Program, GetOptions()));
                     groupBoxOptions.Enabled = false;
                 }
             }
         }
 
+        private ProgramOptions GetOptions()
+        {
+            var options = new ProgramOptions();
+
+            if (cbTemperature.Checked)
+                options.temperature = (byte)nUDTemperature.Value;
+            if (cbDuration.Checked)
+                options.duration = (byte)nUDDuration.Value;
+            if (cbWashingSpeed.Checked)
+                options.washingspeed = (byte)nUDWashingSpeed.Value;
+            if (cbSpinningSpeed.Checked)
+                options.spinningspeed = (byte)nUDSpinningSpeed.Value;
+            if (cbRinsingCycles.Checked)
+                options.rinsingCycles = (byte)nUDRinsingCycles.Value;
+            if (cbWaterLevel.Checked)
+                options.waterlevel = (byte)nUDWaterLevel.Value;
+
+            return options;
+        }
+
+        private void LogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (logFrm == null)
+            {
+                logFrm = new LogFrm();
+                logFrm.Show();
+            }
+            else
+                logFrm.BringToFront();
+        }
+
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SettingsFrm settingsForm = new SettingsFrm(configManager);
-            settingsForm.Show();
+            if (settingsForm == null)
+            {
+                settingsForm = new SettingsFrm(configManager);
+                settingsForm.Show();
+            }
+            else settingsForm.BringToFront();
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -102,22 +157,64 @@ namespace WindowsFormsClient
             trayIcon.Visible = false;
         }
 
-        private void LogToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TrackBarTemperature_Scroll(object sender, EventArgs e)
         {
-            logFrm = new LogFrm();
-            logFrm.Show();
+            nUDTemperature.Value = trackBarTemperature.Value;
         }
 
-        private void Main_Load(object sender, EventArgs e)
+        private void TrackBarDuration_Scroll(object sender, EventArgs e)
         {
-            foreach (var program in EnumManager.GetValues<WashProgram>())
-            {
-                listBoxPrograms.Items.Add(new WashingProgram()
-                {
-                    Program = program
-                });
-            }
+            nUDDuration.Value = trackBarDuration.Value;
         }
 
-     }
+        private void TrackBarWashingSpeed_Scroll(object sender, EventArgs e)
+        {
+            nUDWashingSpeed.Value = trackBarWashingSpeed.Value;
+        }
+
+        private void TrackBarSpinningSpeed_Scroll(object sender, EventArgs e)
+        {
+            nUDSpinningSpeed.Value = trackBarSpinningSpeed.Value;
+        }
+
+        private void TrackBarRinsingCycles_Scroll(object sender, EventArgs e)
+        {
+            nUDRinsingCycles.Value = trackBarRinsingCycles.Value;
+        }
+
+        private void TrackBarWaterLevel_Scroll(object sender, EventArgs e)
+        {
+            nUDWaterLevel.Value = trackBarWaterLevel.Value;
+        }
+
+        private void NUDTemperature_ValueChanged(object sender, EventArgs e)
+        {
+            trackBarTemperature.Value = (int)nUDTemperature.Value;
+        }
+
+        private void NUDDuration_ValueChanged(object sender, EventArgs e)
+        {
+            trackBarDuration.Value = (int)nUDDuration.Value;
+        }
+
+        private void NUDWashingSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            trackBarWashingSpeed.Value = (int)nUDWashingSpeed.Value;
+        }
+
+        private void NUDSpinningSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            trackBarSpinningSpeed.Value = (int)nUDSpinningSpeed.Value;
+        }
+
+        private void NUDRinsingCycles_ValueChanged(object sender, EventArgs e)
+        {
+            trackBarRinsingCycles.Value = (int)nUDRinsingCycles.Value;
+        }
+
+        private void NUDWaterLevel_ValueChanged(object sender, EventArgs e)
+        {
+            trackBarWaterLevel.Value = (int)nUDWaterLevel.Value;
+        }
+    }
 }

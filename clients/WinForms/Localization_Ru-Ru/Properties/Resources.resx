@@ -183,16 +183,7 @@
   <data name="Program_19" xml:space="preserve">
     <value>Притирка щеток</value>
   </data>
-  <data name="Status_NotFound" xml:space="preserve">
-    <value>Не найдено</value>
-  </data>
-  <data name="Status_Connected" xml:space="preserve">
-    <value>{0} Connected</value>
-  </data>
-  <data name="Status_ConnectionBreak" xml:space="preserve">
-    <value>Connection break</value>
-  </data>
-  <data name="Stage_1" xml:space="preserve">
+ <data name="Stage_1" xml:space="preserve">
     <value>Stage_1</value>
   </data>
   <data name="Stage_2" xml:space="preserve">
@@ -204,7 +195,16 @@
   <data name="Stage_4" xml:space="preserve">
     <value>Stage_4</value>
   </data>
-  <data name="Status_Washing" xml:space="preserve">
+  <data name="Status_NotFound" xml:space="preserve">
+    <value>Не найдено</value>
+  </data>
+  <data name="Status_Connected" xml:space="preserve">
+    <value>{0} Connected</value>
+  </data>
+  <data name="Status_ConnectionBreak" xml:space="preserve">
+    <value>Connection break</value>
+  </data>
+ <data name="Status_Washing" xml:space="preserve">
     <value>{0}: {1}</value>
   </data>
 </root>

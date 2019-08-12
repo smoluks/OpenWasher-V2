@@ -136,4 +136,94 @@
   <data name="washing_machine" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\washing-machine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Program_0" xml:space="preserve">
+    <value>Cамодиагностика</value>
+  </data>
+  <data name="Program_0_Comment" xml:space="preserve">
+    <value>Тестирование всех узлов и калибровка. Запускать после установки, без белья</value>
+  </data>
+  <data name="Program_1" xml:space="preserve">
+    <value>Хлопок 90° с предв.стиркой</value>
+  </data>
+  <data name="Program_1_Comment" xml:space="preserve">
+    <value>Очень сильно загрязненное белое белье (простыни, скатерти, и т.д.)</value>
+  </data>
+  <data name="Program_2" xml:space="preserve">
+    <value>Хлопок 90°</value>
+  </data>
+  <data name="Program_3" xml:space="preserve">
+    <value>Хлопок 60°</value>
+  </data>
+  <data name="Program_4" xml:space="preserve">
+    <value>Хлопок 40°</value>
+  </data>
+  <data name="Program_5" xml:space="preserve">
+    <value>Хлопок 30°</value>
+  </data>
+  <data name="Program_6" xml:space="preserve">
+    <value>Синтетика 60°</value>
+  </data>
+  <data name="Program_7" xml:space="preserve">
+    <value>Синтетика 50°</value>
+  </data>
+  <data name="Program_8" xml:space="preserve">
+    <value>Синтетика 40°</value>
+  </data>
+  <data name="Program_9" xml:space="preserve">
+    <value>Синтетика 30°</value>
+  </data>
+  <data name="Program_10" xml:space="preserve">
+    <value>Шерсть</value>
+  </data>
+  <data name="Program_11" xml:space="preserve">
+    <value>Шелк</value>
+  </data>
+  <data name="Program_12" xml:space="preserve">
+    <value>Полоскание</value>
+  </data>
+  <data name="Program_13" xml:space="preserve">
+    <value>Деликатное полоскание</value>
+  </data>
+  <data name="Program_14" xml:space="preserve">
+    <value>Отжим</value>
+  </data>
+  <data name="Program_15" xml:space="preserve">
+    <value>Деликатный отжим</value>
+  </data>
+  <data name="Program_16" xml:space="preserve">
+    <value>Слив</value>
+  </data>
+  <data name="Program_17" xml:space="preserve">
+    <value>Слив шлангов</value>
+  </data>
+  <data name="Program_18" xml:space="preserve">
+    <value>Водонагреватель</value>
+  </data>
+  <data name="Program_19" xml:space="preserve">
+    <value>Притирка щеток</value>
+  </data>
+ <data name="Stage_1" xml:space="preserve">
+    <value>Stage_1</value>
+  </data>
+  <data name="Stage_2" xml:space="preserve">
+    <value>Stage_2</value>
+  </data>
+  <data name="Stage_3" xml:space="preserve">
+    <value>Stage_3</value>
+  </data>
+  <data name="Stage_4" xml:space="preserve">
+    <value>Stage_4</value>
+  </data>
+  <data name="Status_NotFound" xml:space="preserve">
+    <value>Не найдено</value>
+  </data>
+  <data name="Status_Connected" xml:space="preserve">
+    <value>{0} Connected</value>
+  </data>
+  <data name="Status_ConnectionBreak" xml:space="preserve">
+    <value>Connection break</value>
+  </data>
+ <data name="Status_Washing" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
 </root>

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using WindowsFormsClient.Managers;
 
@@ -20,6 +22,11 @@ namespace WindowsFormsClient
             }
         }
 
+        private void LogFrm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MessageManager.NewLogMessageEvent += newMessageHandler;
+        }
+
         private void newMessageHandler(Entities.Message log)
         {
             listBoxLogs.Invoke((MethodInvoker)(() => listBoxLogs.Items.Add(log)));
@@ -30,9 +37,12 @@ namespace WindowsFormsClient
             listBoxLogs.Items.Clear();
         }
 
-        private void LogFrm_FormClosing(object sender, FormClosingEventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
-            MessageManager.NewLogMessageEvent += newMessageHandler;
+            if (saveLogFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllLines(saveLogFileDialog.FileName, listBoxLogs.Items.Cast<Message>().Select(x => x.ToString()));
+            }
         }
     }
 }

@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WindowsFormsClient.Properties {
-    using System;
-    
-    
+namespace WindowsFormsClient.Properties
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -81,6 +81,204 @@ namespace WindowsFormsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cамодиагностика.
+        /// </summary>
+        internal static string Program_0 {
+            get {
+                return ResourceManager.GetString("Program_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Тестирование всех узлов и калибровка. Запускать после установки, без белья.
+        /// </summary>
+        internal static string Program_0_Comment {
+            get {
+                return ResourceManager.GetString("Program_0_Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Хлопок 90° с предв.стиркой.
+        /// </summary>
+        internal static string Program_1 {
+            get {
+                return ResourceManager.GetString("Program_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Очень сильно загрязненное белое белье (простыни, скатерти, и т.д.).
+        /// </summary>
+        internal static string Program_1_Comment {
+            get {
+                return ResourceManager.GetString("Program_1_Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Шерсть.
+        /// </summary>
+        internal static string Program_10 {
+            get {
+                return ResourceManager.GetString("Program_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Шелк.
+        /// </summary>
+        internal static string Program_11 {
+            get {
+                return ResourceManager.GetString("Program_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Полоскание.
+        /// </summary>
+        internal static string Program_12 {
+            get {
+                return ResourceManager.GetString("Program_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Деликатное полоскание.
+        /// </summary>
+        internal static string Program_13 {
+            get {
+                return ResourceManager.GetString("Program_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отжим.
+        /// </summary>
+        internal static string Program_14 {
+            get {
+                return ResourceManager.GetString("Program_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Деликатный отжим.
+        /// </summary>
+        internal static string Program_15 {
+            get {
+                return ResourceManager.GetString("Program_15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Слив.
+        /// </summary>
+        internal static string Program_16 {
+            get {
+                return ResourceManager.GetString("Program_16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Слив шлангов.
+        /// </summary>
+        internal static string Program_17 {
+            get {
+                return ResourceManager.GetString("Program_17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Водонагреватель.
+        /// </summary>
+        internal static string Program_18 {
+            get {
+                return ResourceManager.GetString("Program_18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Притирка щеток.
+        /// </summary>
+        internal static string Program_19 {
+            get {
+                return ResourceManager.GetString("Program_19", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Хлопок 90°.
+        /// </summary>
+        internal static string Program_2 {
+            get {
+                return ResourceManager.GetString("Program_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Хлопок 60°.
+        /// </summary>
+        internal static string Program_3 {
+            get {
+                return ResourceManager.GetString("Program_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Хлопок 40°.
+        /// </summary>
+        internal static string Program_4 {
+            get {
+                return ResourceManager.GetString("Program_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Хлопок 30°.
+        /// </summary>
+        internal static string Program_5 {
+            get {
+                return ResourceManager.GetString("Program_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Синтетика 60°.
+        /// </summary>
+        internal static string Program_6 {
+            get {
+                return ResourceManager.GetString("Program_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Синтетика 50°.
+        /// </summary>
+        internal static string Program_7 {
+            get {
+                return ResourceManager.GetString("Program_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Синтетика 40°.
+        /// </summary>
+        internal static string Program_8 {
+            get {
+                return ResourceManager.GetString("Program_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Синтетика 30°.
+        /// </summary>
+        internal static string Program_9 {
+            get {
+                return ResourceManager.GetString("Program_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap save {
@@ -91,12 +289,84 @@ namespace WindowsFormsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stage_1.
+        /// </summary>
+        internal static string Stage_1 {
+            get {
+                return ResourceManager.GetString("Stage_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stage_2.
+        /// </summary>
+        internal static string Stage_2 {
+            get {
+                return ResourceManager.GetString("Stage_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stage_3.
+        /// </summary>
+        internal static string Stage_3 {
+            get {
+                return ResourceManager.GetString("Stage_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stage_4.
+        /// </summary>
+        internal static string Stage_4 {
+            get {
+                return ResourceManager.GetString("Stage_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap start {
             get {
                 object obj = ResourceManager.GetObject("start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Connected.
+        /// </summary>
+        internal static string Status_Connected {
+            get {
+                return ResourceManager.GetString("Status_Connected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection break.
+        /// </summary>
+        internal static string Status_ConnectionBreak {
+            get {
+                return ResourceManager.GetString("Status_ConnectionBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не найдено.
+        /// </summary>
+        internal static string Status_NotFound {
+            get {
+                return ResourceManager.GetString("Status_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: {1}.
+        /// </summary>
+        internal static string Status_Washing {
+            get {
+                return ResourceManager.GetString("Status_Washing", resourceCulture);
             }
         }
         

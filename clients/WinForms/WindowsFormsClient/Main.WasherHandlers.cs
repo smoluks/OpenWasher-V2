@@ -13,15 +13,16 @@ namespace WindowsFormsClient
                 switch (type)
                 {
                     case ConnectionEventType.Connected:
-                        SetStatusText(string.Format(Localizator.GetString("Status_Connected", "{0} Connected"), text));
+                        SetStatusText(string.Format(localizator.GetString("Status_Connected", "{0} Connected"), text));
+                        listBoxPrograms.Enabled = true;
                         btnRunProgram.Enabled = true;
                         timerPoll.Enabled = true;
                         break;
                     case ConnectionEventType.ConnectFailed:
-                        SetStatusText(Localizator.GetString("Status_NotFound", "Not found"));
+                        SetStatusText(localizator.GetString("Status_NotFound", "Not found"));
                         break;
                     case ConnectionEventType.NotFound:
-                        SetStatusText(Localizator.GetString("Status_NotFound", "Not found"));
+                        SetStatusText(localizator.GetString("Status_NotFound", "Not found"));
                         break;
                 }
             }));

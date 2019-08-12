@@ -31,19 +31,17 @@
             this.listBoxLogs = new System.Windows.Forms.ListBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveLogFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // listBoxLogs
             // 
-            this.listBoxLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxLogs.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxLogs.FormattingEnabled = true;
-            this.listBoxLogs.Location = new System.Drawing.Point(0, 38);
+            this.listBoxLogs.Location = new System.Drawing.Point(0, 0);
             this.listBoxLogs.Name = "listBoxLogs";
-            this.listBoxLogs.Size = new System.Drawing.Size(599, 407);
+            this.listBoxLogs.Size = new System.Drawing.Size(599, 443);
             this.listBoxLogs.TabIndex = 0;
             // 
             // btnSave
@@ -51,19 +49,20 @@
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.BackgroundImage = global::WindowsFormsClient.Properties.Resources.save;
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSave.Location = new System.Drawing.Point(533, 4);
+            this.btnSave.Location = new System.Drawing.Point(503, 12);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(30, 30);
             this.btnSave.TabIndex = 1;
             this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClear.BackgroundImage = global::WindowsFormsClient.Properties.Resources.delete;
             this.btnClear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnClear.Location = new System.Drawing.Point(567, 4);
+            this.btnClear.Location = new System.Drawing.Point(539, 12);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(30, 30);
             this.btnClear.TabIndex = 2;
@@ -74,7 +73,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(599, 450);
+            this.ClientSize = new System.Drawing.Size(599, 443);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.listBoxLogs);
@@ -91,6 +90,6 @@
         private System.Windows.Forms.ListBox listBoxLogs;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveLogFileDialog;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using OpenWasherHardwareLibrary.Enums;
-using WindowsFormsClient.Managers;
 
 namespace WindowsFormsClient.Entities
 {
@@ -8,11 +7,18 @@ namespace WindowsFormsClient.Entities
     /// </summary>
     internal class WashingProgram
     {
-        internal WashProgram Program { get; set; }
+        internal string Name { get; }
+        internal WashProgram Program { get; }
+
+        internal WashingProgram(WashProgram program, string name)
+        {
+            Name = name;
+            Program = program;
+        }
 
         public override string ToString()
         {
-            return Localizator.GetString($"Program_{(byte)Program}", $"{Program}");
+            return Name;
         }
     }
 }

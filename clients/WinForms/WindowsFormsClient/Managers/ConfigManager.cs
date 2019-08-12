@@ -1,6 +1,5 @@
 ﻿using IniParser;
 using IniParser.Model;
-using System;
 
 namespace WindowsFormsClient.Managers
 {
@@ -9,14 +8,16 @@ namespace WindowsFormsClient.Managers
         FileIniDataParser parser = new FileIniDataParser();
 
         internal string Port = "AUTO";
-
         internal bool LogEnable;
+        internal string Locale;
 
         internal ConfigManager()
         {
             try
             {
                 IniData data = parser.ReadFile("config.ini");
+
+                Locale = data["General"]["Language"];
 
                 Port = data["Connect"]["Port"];
 
@@ -32,9 +33,11 @@ namespace WindowsFormsClient.Managers
         {
             IniData data = new IniData();
 
+            data["General"]["Language"] = Locale;
+
             data["Connect"]["Port"] = Port;
 
-            data["Log"]["Enable"] = LogEnable.ToString();
+            data["Log"]["Enable"] = LogEnable.ToString();            
 
             parser.WriteFile("config.ini", data);
         }

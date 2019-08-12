@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWasherHardwareLibrary",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsClient", "WindowsFormsClient\WindowsFormsClient.csproj", "{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization_Ru-Ru", "Localization_Ru-Ru\Localization_Ru-Ru.csproj", "{B64DDAAE-77CC-4228-934D-508AA977664B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization_ru-RU", "Localization_Ru-Ru\Localization_ru-RU.csproj", "{B64DDAAE-77CC-4228-934D-508AA977664B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
