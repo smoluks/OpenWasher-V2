@@ -13,7 +13,7 @@ namespace OpenWasherHardwareLibrary.Managers
     {
         const int DELAY_AFTER_CONNECT = 3000;
 
-        private IOManager _io;
+        internal IOManager _io;
 
         private readonly MessageReceivedDelegate messageDelegate;
         private readonly ErrorReceivedDelegate errorDelegate;
@@ -39,12 +39,15 @@ namespace OpenWasherHardwareLibrary.Managers
             if (_io != null)
                 _io.Dispose();
 
-            if (port != null)
+            if (!string.IsNullOrEmpty(port) && port != "AUTO")
             {
                 //connect to port
                 var result = await GetConnectionTask(port);
                 if (result.Success)
+                {
+                    _io = result.ioManager;
                     connectionEventDelegate?.Invoke(ConnectionEventType.Connected, _io.Port);
+                }
                 else
                     connectionEventDelegate?.Invoke(ConnectionEventType.ConnectFailed, result.Error);
             }
@@ -57,32 +60,37 @@ namespace OpenWasherHardwareLibrary.Managers
                 while (tasks.Count > 0)
                 {
                     var connectTask = await Task.WhenAny(tasks).ConfigureAwait(false);
-                    if (connectTask.Result.Success && _io == null)
+                    if (connectTask.Result.Success)
                     {
-                        _io = connectTask.Result.ioManager;
-                        connectionEventDelegate?.Invoke(ConnectionEventType.Connected, _io.Port);
-                        return;
-                    }
-                    else _io.Dispose();
+                        if (_io == null)
+                        {
+                            _io = connectTask.Result.ioManager;
+                            connectionEventDelegate?.Invoke(ConnectionEventType.Connected, _io.Port);
+                        }
+                        else _io.Dispose();
+                    }                  
 
                     tasks.Remove(connectTask);
                 }
 
-                connectionEventDelegate?.Invoke(ConnectionEventType.NotFound, null);
+                if(_io == null)
+                    connectionEventDelegate?.Invoke(ConnectionEventType.NotFound, null);
             }
         }
 
         private async Task<(bool Success, string Error, IOManager ioManager)> GetConnectionTask(string port)
         {
+            IOManager ioManager = null;
             try
             {
-                var ioManager = new IOManager(port, messageDelegate, errorDelegate, eventDelegate);
+                ioManager = new IOManager(port, messageDelegate, errorDelegate, eventDelegate);
                 Thread.Sleep(DELAY_AFTER_CONNECT);
-                await SendCommandAsync(new Ping());
+                await SendCommandAsync(ioManager, new Ping());
                 return (true, null, ioManager);
             }
             catch( Exception e)
             {
+                ioManager.Dispose();
                 return (false, e.Message, null);
             }
         }
@@ -99,16 +107,16 @@ namespace OpenWasherHardwareLibrary.Managers
                 _io.Dispose();
         }
 
-        internal async Task SendCommandAsync(IWasherCommand command, int timeout = 10000, int tryCount = 3)
+        internal async Task SendCommandAsync(IOManager iomanager, IWasherCommand command, int timeout = 10000, int tryCount = 3)
         {
-            if (_io == null)
+            if (iomanager == null)
                 throw new ApplicationException("No connection");
 
             do
             {
                 try
                 {
-                    await _io.SendAsync(command.GetRequest(), timeout);
+                    await iomanager.SendAsync(command.GetRequest(), timeout);
                     return;
                 }
                 catch (TimeoutException e)
@@ -122,16 +130,16 @@ namespace OpenWasherHardwareLibrary.Managers
             throw new TimeoutException($"No answer at {timeout} ms");
         }
 
-        internal async Task<TRESULT> SendCommandAsync<TRESULT>(IWasherCommand<TRESULT> command, int timeout = 10000, int tryCount = 3)
+        internal async Task<TRESULT> SendCommandAsync<TRESULT>(IOManager iomanager, IWasherCommand<TRESULT> command, int timeout = 10000, int tryCount = 3)
         {
-            if (_io == null)
+            if (iomanager == null)
                 throw new ApplicationException("No connection");
 
             do
             {
                 try
                 {
-                    var responce = await _io.SendAsync(command.GetRequest(), timeout);
+                    var responce = await iomanager.SendAsync(command.GetRequest(), timeout);
                     return command.ParceResponse(responce);
                 }
                 catch(TimeoutException e)

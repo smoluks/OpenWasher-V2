@@ -115,6 +115,7 @@
             // lblTemp
             // 
             this.lblTemp.AutoSize = false;
+            this.lblTemp.Image = global::WindowsFormsClient.Properties.Resources.thermometer;
             this.lblTemp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblTemp.Name = "lblTemp";
             this.lblTemp.Size = new System.Drawing.Size(51, 19);
@@ -139,7 +140,7 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -147,26 +148,26 @@
             // 
             this.ffToolStripMenuItem.Enabled = false;
             this.ffToolStripMenuItem.Name = "ffToolStripMenuItem";
-            this.ffToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.ffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ffToolStripMenuItem.Text = "Firmware update";
             // 
             // logToolStripMenuItem
             // 
             this.logToolStripMenuItem.Enabled = false;
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-            this.logToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logToolStripMenuItem.Text = "Log";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.AboutToolStripMenuItem.Text = "About";
             // 
             // timerPoll
@@ -222,6 +223,7 @@
             this.groupBoxOptions.Controls.Add(this.trackBarSpinningSpeed);
             this.groupBoxOptions.Controls.Add(this.trackBarDuration);
             this.groupBoxOptions.Controls.Add(this.trackBarTemperature);
+            this.groupBoxOptions.Enabled = false;
             this.groupBoxOptions.Location = new System.Drawing.Point(197, 12);
             this.groupBoxOptions.Name = "groupBoxOptions";
             this.groupBoxOptions.Size = new System.Drawing.Size(427, 307);
@@ -551,6 +553,7 @@
             // 
             // listBoxPrograms
             // 
+            this.listBoxPrograms.Enabled = false;
             this.listBoxPrograms.FormattingEnabled = true;
             this.listBoxPrograms.Location = new System.Drawing.Point(12, 12);
             this.listBoxPrograms.Name = "listBoxPrograms";

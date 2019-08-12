@@ -69,7 +69,7 @@ namespace OpenWasherHardwareLibrary
         /// </summary>
         public async Task SendCommandAsync(IWasherCommand command, int timeout = 1000)
         {
-            await _commgr.SendCommandAsync(command, timeout);
+            await _commgr.SendCommandAsync(_commgr._io, command, timeout);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace OpenWasherHardwareLibrary
         /// </summary>
         public async Task<TRESULT> SendCommandAsync<TRESULT>(IWasherCommand<TRESULT> command, int timeout = 1000)
         {
-            return await _commgr.SendCommandAsync(command, timeout);
+            return await _commgr.SendCommandAsync(_commgr._io, command, timeout);
         }
 
         /// <summary>

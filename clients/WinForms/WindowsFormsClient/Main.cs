@@ -21,9 +21,10 @@ namespace WindowsFormsClient
 
         public Main()
         {
-            InitializeComponent();
+            InitializeComponent();            
             hardwareLibrary = new HardwareLibrary(configManager.Port, MessageManager.MessageHandler, ErrorHandler, EventHandler, ConnectionEventHandler, configManager.LogEnable);
             localizator = new Localizator(configManager.Locale);
+            SetStatusText(localizator.GetString("Status_Connecting", "Connecting"));
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -47,7 +48,6 @@ namespace WindowsFormsClient
             {
                 var status = await hardwareLibrary.SendCommandAsync(new GetStatus());
 
-                btnRunProgram.Enabled = true;
                 lblTemp.Text = $"{status.temperature}°C";
                 if (status.program != WashProgram.Nothing)
                 {
@@ -56,13 +56,22 @@ namespace WindowsFormsClient
                         localizator.GetString($"Program_{status.program}", $"Program {status.program}"),
                         localizator.GetString($"Stage_{status.stage}", $"Stage {status.stage}")));
 
+                    listBoxPrograms.Enabled = false;
                     groupBoxOptions.Enabled = false;
+                    groupBoxOptions.Enabled = false;
+                    isWashing = true;
                 }
-                else if (isWashing)
+                else 
                 {
-                    isWashing = false;
-                    groupBoxOptions.Enabled = true;
-                    SetStatusText(localizator.GetString("Status_Stopped", "Stopped"));
+                    
+                    listBoxPrograms.Enabled = true;
+                    groupBoxOptions.Enabled = true;                 
+                    logToolStripMenuItem.Enabled = true;
+                    if (isWashing)
+                    {
+                        isWashing = false;
+                        SetStatusText(localizator.GetString("Status_Stopped", "Stopped"));
+                    }
                 }
             }
             catch (TimeoutException)
