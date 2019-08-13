@@ -11,13 +11,15 @@ namespace WindowsFormsClient
 {
     public partial class Main : Form
     {
-        readonly HardwareLibrary hardwareLibrary;
-        readonly Localizator localizator;
-        readonly ConfigManager configManager = new ConfigManager();
+        private readonly HardwareLibrary hardwareLibrary;
+        private readonly Localizator localizator;
+        private readonly ConfigManager configManager = new ConfigManager();
         private bool isWashing;
 
-        LogFrm logFrm;
+        private LogFrm logFrm;
         private SettingsFrm settingsForm;
+        private AboutFrm aboutForm;
+        private FirmwareFrm firmwareFrm;
 
         public Main()
         {
@@ -39,6 +41,15 @@ namespace WindowsFormsClient
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
+            if (logFrm != null && !logFrm.IsDisposed)
+                logFrm.Close();
+            if (settingsForm != null && !settingsForm.IsDisposed)
+                settingsForm.Close();
+            if (aboutForm != null && !aboutForm.IsDisposed)
+                aboutForm.Close();
+            if (firmwareFrm != null && !firmwareFrm.IsDisposed)
+                firmwareFrm.Close();
+
             hardwareLibrary.Dispose();
         }
 
@@ -126,7 +137,7 @@ namespace WindowsFormsClient
 
         private void LogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (logFrm == null)
+            if (logFrm == null || logFrm.IsDisposed)
             {
                 logFrm = new LogFrm();
                 logFrm.Show();
@@ -137,17 +148,35 @@ namespace WindowsFormsClient
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (settingsForm == null)
+            if (settingsForm == null || settingsForm.IsDisposed)
             {
                 settingsForm = new SettingsFrm(configManager);
                 settingsForm.Show();
             }
-            else settingsForm.BringToFront();
+            else
+                settingsForm.BringToFront();
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (aboutForm == null || aboutForm.IsDisposed)
+            {
+                aboutForm = new AboutFrm();
+                aboutForm.Show();
+            }
+            else
+                aboutForm.BringToFront();
+        }
 
+        private void FirmwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (firmwareFrm == null || firmwareFrm.IsDisposed)
+            {
+                firmwareFrm = new FirmwareFrm(hardwareLibrary);
+                firmwareFrm.Show();
+            }
+            else
+                firmwareFrm.BringToFront();
         }
 
         private void Main_Resize(object sender, EventArgs e)

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>LocalizationRuRu</RootNamespace>
+    <RootNamespace>LocalizationRu</RootNamespace>
     <NeutralLanguage>ru-RU</NeutralLanguage>
-    <AssemblyName>LocalizationRuRu</AssemblyName>
+    <AssemblyName>LocalizationRu</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

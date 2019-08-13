@@ -35,7 +35,7 @@
             this.lblTemp = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnOptions = new System.Windows.Forms.ToolStripDropDownButton();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FirmwareUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,7 +127,7 @@
             this.btnOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOptions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.ffToolStripMenuItem,
+            this.FirmwareUpdateToolStripMenuItem,
             this.logToolStripMenuItem,
             this.toolStripSeparator1,
             this.AboutToolStripMenuItem});
@@ -144,12 +144,12 @@
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
-            // ffToolStripMenuItem
+            // FirmwareUpdateToolStripMenuItem
             // 
-            this.ffToolStripMenuItem.Enabled = false;
-            this.ffToolStripMenuItem.Name = "ffToolStripMenuItem";
-            this.ffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ffToolStripMenuItem.Text = "Firmware update";
+            this.FirmwareUpdateToolStripMenuItem.Name = "FirmwareUpdateToolStripMenuItem";
+            this.FirmwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FirmwareUpdateToolStripMenuItem.Text = "Firmware update";
+            this.FirmwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.FirmwareUpdateToolStripMenuItem_Click);
             // 
             // logToolStripMenuItem
             // 
@@ -182,6 +182,7 @@
             // 
             // btnRunProgram
             // 
+            this.btnRunProgram.BackgroundImage = global::WindowsFormsClient.Properties.Resources.start;
             this.btnRunProgram.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRunProgram.Enabled = false;
             this.btnRunProgram.Location = new System.Drawing.Point(12, 279);
@@ -603,7 +604,7 @@
         private System.Windows.Forms.ToolStripDropDownButton btnOptions;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.Timer timerPoll;
-        private System.Windows.Forms.ToolStripMenuItem ffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FirmwareUpdateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblTemp;
         private System.Windows.Forms.NotifyIcon trayIcon;

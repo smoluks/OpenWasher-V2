@@ -18,6 +18,11 @@ namespace OpenWasherHardwareLibrary
         //callback for errros from washing machine
         public delegate void ErrorReceivedDelegate(ErrorType type, byte[] data);
 
+        public void updateFirmware(byte[] firmware)
+        {
+            throw new NotImplementedException();
+        }
+
         //callback for events from washing machine
         public delegate void EventReceivedDelegate(EventType type, byte[] data);
 
@@ -69,7 +74,7 @@ namespace OpenWasherHardwareLibrary
         /// </summary>
         public async Task SendCommandAsync(IWasherCommand command, int timeout = 1000)
         {
-            await _commgr.SendCommandAsync(_commgr._io, command, timeout);
+            await _commgr.SendCommandAsync(command, timeout);
         }
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace OpenWasherHardwareLibrary
         /// </summary>
         public async Task<TRESULT> SendCommandAsync<TRESULT>(IWasherCommand<TRESULT> command, int timeout = 1000)
         {
-            return await _commgr.SendCommandAsync(_commgr._io, command, timeout);
+            return await _commgr.SendCommandAsync(command, timeout);
         }
 
         /// <summary>

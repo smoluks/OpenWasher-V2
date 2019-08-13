@@ -72,6 +72,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutFrm.Designer.cs">
+      <DependentUpon>AboutFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\WashingProgram.cs" />
     <Compile Include="FirmwareFrm.cs">
@@ -107,6 +113,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AboutFrm.resx">
+      <DependentUpon>AboutFrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FirmwareFrm.resx">
       <DependentUpon>FirmwareFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,9 +153,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Localization_Ru-Ru\Localization_ru-RU.csproj">
-      <Project>{b64ddaae-77cc-4228-934d-508aa977664b}</Project>
-      <Name>Localization_ru-RU</Name>
+    <ProjectReference Include="..\IntelHexParser\IntelHexParser.csproj">
+      <Project>{E15E262F-0FB2-4B14-9DB2-80AB870E1414}</Project>
+      <Name>IntelHexParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenWasherHardwareLibrary\OpenWasherHardwareLibrary.csproj">
       <Project>{a3b97f4c-3d1a-4e87-9cac-91ea773a9ac6}</Project>

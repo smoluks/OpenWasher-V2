@@ -13,7 +13,7 @@ namespace OpenWasherHardwareLibrary.Managers
     {
         const int DELAY_AFTER_CONNECT = 3000;
 
-        internal IOManager _io;
+        private IOManager _io;
 
         private readonly MessageReceivedDelegate messageDelegate;
         private readonly ErrorReceivedDelegate errorDelegate;
@@ -107,7 +107,17 @@ namespace OpenWasherHardwareLibrary.Managers
                 _io.Dispose();
         }
 
-        internal async Task SendCommandAsync(IOManager iomanager, IWasherCommand command, int timeout = 10000, int tryCount = 3)
+        internal async Task<TRESULT> SendCommandAsync<TRESULT>(IWasherCommand<TRESULT> command, int timeout)
+        {
+            return await SendCommandAsync(_io, command, timeout);
+        }
+
+        internal async Task SendCommandAsync(IWasherCommand command, int timeout)
+        {
+            await SendCommandAsync(_io, command, timeout);
+        }
+
+        private async Task SendCommandAsync(IOManager iomanager, IWasherCommand command, int timeout = 10000, int tryCount = 3)
         {
             if (iomanager == null)
                 throw new ApplicationException("No connection");
@@ -130,7 +140,7 @@ namespace OpenWasherHardwareLibrary.Managers
             throw new TimeoutException($"No answer at {timeout} ms");
         }
 
-        internal async Task<TRESULT> SendCommandAsync<TRESULT>(IOManager iomanager, IWasherCommand<TRESULT> command, int timeout = 10000, int tryCount = 3)
+        private async Task<TRESULT> SendCommandAsync<TRESULT>(IOManager iomanager, IWasherCommand<TRESULT> command, int timeout = 10000, int tryCount = 3)
         {
             if (iomanager == null)
                 throw new ApplicationException("No connection");

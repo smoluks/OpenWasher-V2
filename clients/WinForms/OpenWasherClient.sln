@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWasherHardwareLibrary",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsClient", "WindowsFormsClient\WindowsFormsClient.csproj", "{FFFAF55A-1B95-4BA1-9806-1A8C6EC83119}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization_ru-RU", "Localization_Ru-Ru\Localization_ru-RU.csproj", "{B64DDAAE-77CC-4228-934D-508AA977664B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationRu", "Localization_Ru-Ru\LocalizationRu.csproj", "{B64DDAAE-77CC-4228-934D-508AA977664B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelHexParser", "IntelHexParser\IntelHexParser.csproj", "{E15E262F-0FB2-4B14-9DB2-80AB870E1414}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B64DDAAE-77CC-4228-934D-508AA977664B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B64DDAAE-77CC-4228-934D-508AA977664B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B64DDAAE-77CC-4228-934D-508AA977664B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E15E262F-0FB2-4B14-9DB2-80AB870E1414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E15E262F-0FB2-4B14-9DB2-80AB870E1414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E15E262F-0FB2-4B14-9DB2-80AB870E1414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E15E262F-0FB2-4B14-9DB2-80AB870E1414}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

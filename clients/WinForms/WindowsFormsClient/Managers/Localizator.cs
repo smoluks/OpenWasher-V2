@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Resources;
 
@@ -40,7 +39,16 @@ namespace WindowsFormsClient.Managers
 
         internal static IEnumerable<string> GetAvaliableLanguages()
         {
-            return Directory.GetFiles("", "Localization_*.dll").Select(x => x.Remove(13, x.Length - 17));
+            var languages = new List<string>();
+
+            foreach(var languageLib in Directory.GetFiles(Directory.GetCurrentDirectory(), "Localization*.dll"))
+            {
+                var assembly = Assembly.LoadFrom(languageLib);
+                var languageAttribute = assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
+                languages.Add(languageAttribute.CultureName);
+            }
+
+            return languages;
         }
     }
 }
