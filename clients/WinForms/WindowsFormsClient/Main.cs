@@ -33,9 +33,12 @@ namespace WindowsFormsClient
         {
             foreach (var program in EnumManager.GetValues<WashProgram>())
             {
-                listBoxPrograms.Items.Add(new WashingProgram(
-                    program,
-                    localizator.GetString($"Program_{(byte)program}", $"{program}")));
+                if (program != WashProgram.Nothing)
+                {
+                    listBoxPrograms.Items.Add(new WashingProgram(
+                        program,
+                        localizator.GetString($"Program_{(byte)program}", $"{program}")));
+                }
             }
         }
 
@@ -64,8 +67,8 @@ namespace WindowsFormsClient
                 {
                     SetStatusText(string.Format(
                         localizator.GetString("Status_Washing", "{0}: {1}"),
-                        localizator.GetString($"Program_{status.program}", $"Program {status.program}"),
-                        localizator.GetString($"Stage_{status.stage}", $"Stage {status.stage}")));
+                        localizator.GetString($"Program_{(byte)status.program}", $"Program {status.program}"),
+                        localizator.GetString($"Stage_{(byte)status.stage}", $"Stage {status.stage}")));
 
                     listBoxPrograms.Enabled = false;
                     groupBoxOptions.Enabled = false;
@@ -85,7 +88,7 @@ namespace WindowsFormsClient
                     }
                 }
             }
-            catch (TimeoutException)
+            catch
             {
                 btnRunProgram.Enabled = false;
                 groupBoxOptions.Enabled = false;
@@ -253,6 +256,16 @@ namespace WindowsFormsClient
         private void NUDWaterLevel_ValueChanged(object sender, EventArgs e)
         {
             trackBarWaterLevel.Value = (int)nUDWaterLevel.Value;
+        }
+
+        private void ListBoxPrograms_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxPrograms.SelectedIndex == -1)
+                return;
+
+            textBoxProgramDescription.Text = localizator.GetString($"Program_{listBoxPrograms.SelectedIndex}_Comment",
+                localizator.GetString($"Program_{listBoxPrograms.SelectedIndex}",
+                $"Program {(WashProgram)listBoxPrograms.SelectedIndex}"));
         }
     }
 }

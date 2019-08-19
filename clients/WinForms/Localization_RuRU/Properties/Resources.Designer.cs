@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OpenWasherClient.Properties {
+namespace Localization_RuRU.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace OpenWasherClient.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenWasherClient.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization_RuRU.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,26 +57,6 @@ namespace OpenWasherClient.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap delete {
-            get {
-                object obj = ResourceManager.GetObject("delete", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap options {
-            get {
-                object obj = ResourceManager.GetObject("options", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -99,7 +79,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сotton 90° with prewashing.
+        ///   Looks up a localized string similar to Хлопок 90° с предв..
         /// </summary>
         internal static string Program_1 {
             get {
@@ -108,7 +88,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extremely soiled whites (sheets, tablecloths, etc.).
+        ///   Looks up a localized string similar to Очень сильно загрязненное белое белье (простыни, скатерти, и т.д.).
         /// </summary>
         internal static string Program_1_Comment {
             get {
@@ -297,7 +277,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сotton 90°.
+        ///   Looks up a localized string similar to Хлопок 90°.
         /// </summary>
         internal static string Program_2 {
             get {
@@ -306,7 +286,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extremely soiled whites (sheets, tablecloths, etc.).
+        ///   Looks up a localized string similar to Очень сильно загрязненное белое белье (простыни, скатерти, и т.д.).
         /// </summary>
         internal static string Program_2_Comment {
             get {
@@ -315,7 +295,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сotton 60°.
+        ///   Looks up a localized string similar to Хлопок 60°.
         /// </summary>
         internal static string Program_3 {
             get {
@@ -324,7 +304,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Heavily soiled whites and fast colours.
+        ///   Looks up a localized string similar to Сильно загрязненное белое и прочно окрашенное цветное белье.
         /// </summary>
         internal static string Program_3_Comment {
             get {
@@ -333,7 +313,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сotton 40°.
+        ///   Looks up a localized string similar to Хлопок 40°.
         /// </summary>
         internal static string Program_4 {
             get {
@@ -342,7 +322,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Slightly soiled whites and shedding colours.
+        ///   Looks up a localized string similar to Слабо загрязненное белое и линяющее цветное белье (рубашки, майки, и т.д.).
         /// </summary>
         internal static string Program_4_Comment {
             get {
@@ -351,7 +331,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сotton 30°.
+        ///   Looks up a localized string similar to Хлопок 30°.
         /// </summary>
         internal static string Program_5 {
             get {
@@ -360,7 +340,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Slightly soiled shedding colours.
+        ///   Looks up a localized string similar to Слабо загрязненное линяющее цветное белье.
         /// </summary>
         internal static string Program_5_Comment {
             get {
@@ -369,7 +349,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synthetics 60°.
+        ///   Looks up a localized string similar to Синтетика 60°.
         /// </summary>
         internal static string Program_6 {
             get {
@@ -378,7 +358,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Сильно загрязненная, прочно окрашенная цветная (детская одежда и пр.).
         /// </summary>
         internal static string Program_6_Comment {
             get {
@@ -387,7 +367,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synthetics 50°.
+        ///   Looks up a localized string similar to Синтетика 50°.
         /// </summary>
         internal static string Program_7 {
             get {
@@ -405,7 +385,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synthetics 40°.
+        ///   Looks up a localized string similar to Синтетика 40°.
         /// </summary>
         internal static string Program_8 {
             get {
@@ -423,7 +403,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synthetics 30°.
+        ///   Looks up a localized string similar to Синтетика 30°.
         /// </summary>
         internal static string Program_9 {
             get {
@@ -437,16 +417,6 @@ namespace OpenWasherClient.Properties {
         internal static string Program_9_Comment {
             get {
                 return ResourceManager.GetString("Program_9_Comment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap save {
-            get {
-                object obj = ResourceManager.GetObject("save", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -541,16 +511,6 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap start {
-            get {
-                object obj = ResourceManager.GetObject("start", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} Connected.
         /// </summary>
         internal static string Status_Connected {
@@ -592,26 +552,6 @@ namespace OpenWasherClient.Properties {
         internal static string Status_Washing {
             get {
                 return ResourceManager.GetString("Status_Washing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap thermometer {
-            get {
-                object obj = ResourceManager.GetObject("thermometer", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap washing_machine {
-            get {
-                object obj = ResourceManager.GetObject("washing_machine", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

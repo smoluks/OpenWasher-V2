@@ -1,12 +1,15 @@
+using IntelHexParser.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Coshx.IntelHexParser {
+namespace Coshx.IntelHexParser
+{
+    /// <summary>
+    /// Intel HEX to binary and binary to Intel Hex converter
+    /// </summary>
     public class Serializer {
-        private const int START_CODE_OFFSET = 0;
         private const int START_CODE_LENGTH = 1;
-        private const int BYTE_COUNT_OFFSET = START_CODE_OFFSET + START_CODE_LENGTH;
+        private const int BYTE_COUNT_OFFSET = START_CODE_LENGTH;
         private const int BYTE_COUNT_LENGTH = 2;
         private const int ADDRESS_OFFSET = BYTE_COUNT_OFFSET + BYTE_COUNT_LENGTH;
         private const int ADDRESS_LENGTH = 4;
@@ -21,12 +24,6 @@ namespace Coshx.IntelHexParser {
             }
         }
         
-        private bool IsChecksumValid(String line, Record currentRecord) {
-            byte current = Convert.ToByte(line.Substring(DATA_OFFSET + currentRecord.DataLength * 2, CHECKSUM_LENGTH), 16);
-            
-            return currentRecord.Checksum == current;
-        }
-
         private bool IsChecksumValid(string line)
         {
             byte checksum = 0;
@@ -39,7 +36,7 @@ namespace Coshx.IntelHexParser {
             return checksum == Convert.ToByte(line.Substring(line.Length - 2, 2), 16);
         }
 
-        public String Serialize(byte[] source) {
+        /*public String Serialize(byte[] source) {
             int i = 0, currentRecordIndex;
             Record[] records;
             String outcome;
@@ -90,7 +87,7 @@ namespace Coshx.IntelHexParser {
             }
             
             return outcome;
-        }
+        }*/
 
         /// <summary>
         /// 
@@ -103,6 +100,7 @@ namespace Coshx.IntelHexParser {
 
             foreach (var line in lines)
             {
+                //check line
                 if (line.Length < MinimumLineLength)
                     throw new IntelHexParserException(IntelHexParserException.Kind.INVALID_LINE);
                 if (line[0] != ':')
@@ -110,51 +108,56 @@ namespace Coshx.IntelHexParser {
                 if (!IsChecksumValid(line))
                     throw new IntelHexParserException(IntelHexParserException.Kind.INVALID_CHECKSUM);
 
-                var dataLength = Convert.ToInt16(line.Substring(BYTE_COUNT_OFFSET, BYTE_COUNT_LENGTH), 16);
-                var address = Convert.ToUInt16(line.Substring(ADDRESS_OFFSET, ADDRESS_LENGTH), 16);
-                var type = Convert.ToInt16(line.Substring(RECORD_TYPE_OFFSET, RECORD_TYPE_LENGTH), 16);
-                var data = new byte[dataLength];
-                for (int i = 0; i < dataLength; i++)
+                //parce line and check
+                var record = new Record();
+
+                var typeNumber = Convert.ToInt16(line.Substring(RECORD_TYPE_OFFSET, RECORD_TYPE_LENGTH), 16);
+                if (!Enum.IsDefined(typeof(LineType), typeNumber))
+                {
+                    throw new IntelHexParserException(IntelHexParserException.Kind.UNSUPPORTED_RECORD_TYPE);
+                }
+                record.Type = (LineType)typeNumber;
+
+                record.DataLength = Convert.ToInt16(line.Substring(BYTE_COUNT_OFFSET, BYTE_COUNT_LENGTH), 16);
+                record.Address = Convert.ToUInt16(line.Substring(ADDRESS_OFFSET, ADDRESS_LENGTH), 16);                
+
+                var data = new byte[record.DataLength];
+                for (int i = 0; i < record.DataLength; i++)
                 {
                     data[i] = Convert.ToByte(line.Substring(DATA_OFFSET + 2 * i, 2), 16);
-                }
+                }                 
 
-                if (type != 0 && type != 1 && type != 4 && type != 5)
-                    throw new IntelHexParserException(IntelHexParserException.Kind.UNSUPPORTED_RECORD_TYPE);
-
-                records.Add(new Record()
-                {
-                    DataLength = dataLength,
-                    Address = address,
-                    Type = type,
-                    Data = data
-                });
+                records.Add(record);
             }
 
+            //calculate page sizes
             var sizes = new Dictionary<ushort, int>();
             ushort page = 0;
             foreach (var record in records)
             {
-                if(record.Type == 5)
+                if (record.Type ==  LineType.EndOfFile)
+                   break;
+                else switch (record.Type)
                 {
-                    continue;
-                }
-                else if (record.Type == 4)
-                {
-                    page = (ushort)((record.Data[1] << 8) + record.Data[0]);
-                    continue;
-                }
-                else if (record.Type == 1)
-                    break;
-
-                if (!sizes.ContainsKey(page))
-                {
-                    sizes.Add(page, record.Address + record.DataLength);
-                }
-                else if (sizes[page] < record.Address + record.DataLength)
-                    sizes[page] = record.Address + record.DataLength;
+                    case LineType.Data:
+                        if (!sizes.ContainsKey(page))
+                        {
+                            sizes.Add(page, record.Address + record.DataLength);
+                        }
+                        else if (sizes[page] < record.Address + record.DataLength)
+                        {
+                            sizes[page] = record.Address + record.DataLength;
+                        }
+                        break;                    
+                    case LineType.ExtendedLinearAddress:
+                        page = (ushort)((record.Data[1] << 8) + record.Data[0]);
+                        break;
+                    case LineType.StartLinearAddress:
+                        break;
+                }                
             }
 
+            //merge data
             var results = new Dictionary<ushort, byte[]>();
             foreach(var size in sizes)
             {
@@ -164,19 +167,19 @@ namespace Coshx.IntelHexParser {
             page = 0;
             foreach (var record in records)
             {
-                if (record.Type == 5)
-                {
-                    continue;
-                }
-                else if (record.Type == 4)
-                {
-                    page = (ushort)((record.Data[1] << 8) + record.Data[0]);
-                    continue;
-                }
-                else if (record.Type == 1)
+                if (record.Type == LineType.EndOfFile)
                     break;
-
-                record.Data.CopyTo(results[page], record.Address);
+                else switch (record.Type)
+                    {
+                        case LineType.Data:
+                            record.Data.CopyTo(results[page], record.Address);
+                            break;
+                        case LineType.ExtendedLinearAddress:
+                            page = (ushort)((record.Data[1] << 8) + record.Data[0]);
+                            break;
+                        case LineType.StartLinearAddress:
+                            break;
+                    }
             }
 
             return results;

@@ -15,18 +15,19 @@ namespace WindowsFormsClient.Managers
             if (string.IsNullOrWhiteSpace(locale))
                 locale = CultureInfo.CurrentCulture.Name;
 
-            Assembly assembly;
-            if (File.Exists(@"Localization_{locale}.dll"))
+            Assembly localeAssembly = null;
+            foreach (var languageLib in Directory.GetFiles(Directory.GetCurrentDirectory(), "Localization*.dll"))
             {
-                assembly = Assembly.LoadFrom(@"Localization_{locale}.dll");
+                var assembly = Assembly.LoadFrom(languageLib);
+                var languageAttribute = assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
+                if (languageAttribute.CultureName == locale)
+                    localeAssembly = assembly;
             }
-            else
-            {
-                assembly = this.GetType().Assembly;                
-            }
+            if(localeAssembly == null)
+                localeAssembly = this.GetType().Assembly;
 
-            string name = assembly.GetName().Name;
-            resourceManager = new ResourceManager(name + ".Properties.Resources", assembly);
+            string name = localeAssembly.GetName().Name;
+            resourceManager = new ResourceManager(name + ".Properties.Resources", localeAssembly);
         }
 
         internal string GetString(string name, string _default = null)

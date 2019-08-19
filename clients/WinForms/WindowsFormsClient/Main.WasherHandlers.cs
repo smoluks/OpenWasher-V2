@@ -19,7 +19,7 @@ namespace WindowsFormsClient
                         timerPoll_Tick(null, null);
                         break;
                     case ConnectionEventType.ConnectFailed:
-                        SetStatusText(localizator.GetString("ConnectFailed", text));
+                        SetStatusText(localizator.GetString("Status_ConnectFailed", text));
                         break;
                     case ConnectionEventType.NotFound:
                         SetStatusText(localizator.GetString("Status_NotFound", "Not found"));

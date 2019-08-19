@@ -1,14 +1,12 @@
+using IntelHexParser.Enums;
 using System;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("IntelHexParserTest")]
-
-namespace Coshx.IntelHexParser {
-
+namespace Coshx.IntelHexParser
+{
     internal class Record {
-        internal int Type { get; set; }
+        internal LineType Type { get; set; }
         internal int DataLength { get; set; }
-        internal UInt16 Address { get; set; }
+        internal ushort Address { get; set; }
         internal byte[] Data { get; set; }
         
         internal byte Checksum {
@@ -30,21 +28,20 @@ namespace Coshx.IntelHexParser {
             }
         }
         
-        public override String ToString() {
-            String outcome;
+        public override string ToString() {
 
             // store in little endian, show in big endian
             byte[] addressBytes = BitConverter.GetBytes(Address);
             if (!BitConverter.IsLittleEndian)
                 Array.Reverse(addressBytes);
 
-            outcome = String.Format("{0}{1:X2}{2:X2}{3:X2}{4:X2}", ':', DataLength, addressBytes[0], addressBytes[1], Type);
+            string outcome = string.Format("{0}{1:X2}{2:X2}{3:X2}{4:X2}", ':', DataLength, addressBytes[0], addressBytes[1], Type);
             
             for (int i = 0; i < DataLength; i++) {
-                outcome += String.Format("{0:X2}",  Data[i]);
+                outcome += string.Format("{0:X2}",  Data[i]);
             }
             
-            outcome += String.Format("{0:X2}",  Checksum);
+            outcome += string.Format("{0:X2}",  Checksum);
             
             return outcome;
         }

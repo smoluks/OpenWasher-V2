@@ -47,7 +47,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.BackgroundImage = global::WindowsFormsClient.Properties.Resources.save;
+            this.btnSave.BackgroundImage = global::OpenWasherClient.Properties.Resources.save;
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSave.Location = new System.Drawing.Point(503, 12);
             this.btnSave.Name = "btnSave";
@@ -60,7 +60,7 @@
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.BackgroundImage = global::WindowsFormsClient.Properties.Resources.delete;
+            this.btnClear.BackgroundImage = global::OpenWasherClient.Properties.Resources.delete;
             this.btnClear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnClear.Location = new System.Drawing.Point(539, 12);
             this.btnClear.Name = "btnClear";

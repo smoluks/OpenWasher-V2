@@ -137,85 +137,157 @@
     <value>..\Resources\washing-machine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Program_0" xml:space="preserve">
-    <value>Cамодиагностика</value>
+    <value>Self-diagnostics</value>
   </data>
   <data name="Program_0_Comment" xml:space="preserve">
-    <value>Тестирование всех узлов и калибровка. Запускать после установки, без белья</value>
+    <value>All component self testing. Run without laundry after installation or flashing</value>
   </data>
   <data name="Program_1" xml:space="preserve">
-    <value>Хлопок 90° с предв.стиркой</value>
+    <value>Сotton 90° with prewashing</value>
   </data>
   <data name="Program_1_Comment" xml:space="preserve">
-    <value>Очень сильно загрязненное белое белье (простыни, скатерти, и т.д.)</value>
+    <value>Extremely soiled whites (sheets, tablecloths, etc.)</value>
   </data>
   <data name="Program_2" xml:space="preserve">
-    <value>Хлопок 90°</value>
+    <value>Сotton 90°</value>
   </data>
+  <data name="Program_2_Comment" xml:space="preserve">
+    <value>Extremely soiled whites (sheets, tablecloths, etc.)</value>
+  </data>   
   <data name="Program_3" xml:space="preserve">
-    <value>Хлопок 60°</value>
+    <value>Сotton 60°</value>
+  </data>
+  <data name="Program_3_Comment" xml:space="preserve">
+    <value>Heavily soiled whites and fast colours</value>
   </data>
   <data name="Program_4" xml:space="preserve">
-    <value>Хлопок 40°</value>
+    <value>Сotton 40°</value>
+  </data>
+  <data name="Program_4_Comment" xml:space="preserve">
+    <value>Slightly soiled whites and shedding colours</value>
   </data>
   <data name="Program_5" xml:space="preserve">
-    <value>Хлопок 30°</value>
+    <value>Сotton 30°</value>
+  </data>
+  <data name="Program_5_Comment" xml:space="preserve">
+    <value>Slightly soiled shedding colours</value>  
   </data>
   <data name="Program_6" xml:space="preserve">
-    <value>Синтетика 60°</value>
+    <value>Synthetics 60°</value>
+  </data>
+  <data name="Program_6_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_7" xml:space="preserve">
-    <value>Синтетика 50°</value>
+    <value>Synthetics 50°</value>
+  </data>
+  <data name="Program_7_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_8" xml:space="preserve">
-    <value>Синтетика 40°</value>
+    <value>Synthetics 40°</value>
+  </data>
+  <data name="Program_8_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_9" xml:space="preserve">
-    <value>Синтетика 30°</value>
+    <value>Synthetics 30°</value>
+  </data>
+  <data name="Program_9_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_10" xml:space="preserve">
-    <value>Шерсть</value>
+    <value>Wool</value>
+  </data>
+  <data name="Program_10_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_11" xml:space="preserve">
-    <value>Шелк</value>
+    <value>Silk</value>
+  </data>
+  <data name="Program_11_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_12" xml:space="preserve">
-    <value>Полоскание</value>
+    <value>Rinse</value>
+  </data>
+  <data name="Program_12_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_13" xml:space="preserve">
-    <value>Деликатное полоскание</value>
+    <value>Delicate rinse</value>
+  </data>
+  <data name="Program_13_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_14" xml:space="preserve">
-    <value>Отжим</value>
+    <value>Spin</value>
+  </data>
+  <data name="Program_14_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_15" xml:space="preserve">
-    <value>Деликатный отжим</value>
+    <value>Delicate spin</value>
+  </data>
+  <data name="Program_15_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_16" xml:space="preserve">
-    <value>Слив</value>
+    <value>Drain</value>
+  </data>
+  <data name="Program_16_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_17" xml:space="preserve">
-    <value>Слив шлангов</value>
+    <value>Drain pipes </value>
+  </data>
+  <data name="Program_17_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_18" xml:space="preserve">
-    <value>Водонагреватель</value>
+    <value>Water heater</value>
+  </data>
+  <data name="Program_18_Comment" xml:space="preserve">
+    <value></value>  
   </data>
   <data name="Program_19" xml:space="preserve">
-    <value>Притирка щеток</value>
+    <value>Grinding brushes</value>
   </data>
- <data name="Stage_1" xml:space="preserve">
-    <value>Stage_1</value>
+  <data name="Program_19_Comment" xml:space="preserve">
+    <value></value>  
+  </data>
+  <data name="Stage_0" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Stage_1" xml:space="preserve">
+    <value>Closing door</value>
   </data>
   <data name="Stage_2" xml:space="preserve">
-    <value>Stage_2</value>
+    <value>Unlocking door</value>
   </data>
   <data name="Stage_3" xml:space="preserve">
-    <value>Stage_3</value>
+    <value>Rinsing</value>
   </data>
   <data name="Stage_4" xml:space="preserve">
-    <value>Stage_4</value>
+    <value>Spinning</value>
+  </data>
+  <data name="Stage_5" xml:space="preserve">
+    <value>Prewashing</value>
+  </data>
+  <data name="Stage_6" xml:space="preserve">
+    <value>Washing</value>
+  </data>
+  <data name="Stage_7" xml:space="preserve">
+    <value>Draw water</value>
+  </data>
+  <data name="Stage_8" xml:space="preserve">
+    <value>Sink</value>
+  </data>
+  <data name="Stage_9" xml:space="preserve">
+    <value>Self-testing</value>
   </data>
   <data name="Status_NotFound" xml:space="preserve">
-    <value>Не найдено</value>
+    <value>Not found</value>
   </data>
   <data name="Status_Connected" xml:space="preserve">
     <value>{0} Connected</value>
@@ -223,7 +295,10 @@
   <data name="Status_ConnectionBreak" xml:space="preserve">
     <value>Connection break</value>
   </data>
- <data name="Status_Washing" xml:space="preserve">
+  <data name="Status_Washing" xml:space="preserve">
     <value>{0}: {1}</value>
+  </data>
+  <data name="Status_ConnectFailed" xml:space="preserve">
+    <value>Connect failed</value>
   </data>
 </root>

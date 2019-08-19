@@ -43,6 +43,7 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnRunProgram = new System.Windows.Forms.Button();
             this.groupBoxOptions = new System.Windows.Forms.GroupBox();
+            this.textBoxProgramDescription = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -96,7 +97,7 @@
             this.lblStatus,
             this.lblTemp,
             this.btnOptions});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 326);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 376);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(635, 24);
             this.statusStrip1.TabIndex = 4;
@@ -115,7 +116,7 @@
             // lblTemp
             // 
             this.lblTemp.AutoSize = false;
-            this.lblTemp.Image = global::WindowsFormsClient.Properties.Resources.thermometer;
+            this.lblTemp.Image = global::OpenWasherClient.Properties.Resources.thermometer;
             this.lblTemp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblTemp.Name = "lblTemp";
             this.lblTemp.Size = new System.Drawing.Size(51, 19);
@@ -140,14 +141,14 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // FirmwareUpdateToolStripMenuItem
             // 
             this.FirmwareUpdateToolStripMenuItem.Name = "FirmwareUpdateToolStripMenuItem";
-            this.FirmwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FirmwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.FirmwareUpdateToolStripMenuItem.Text = "Firmware update";
             this.FirmwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.FirmwareUpdateToolStripMenuItem_Click);
             // 
@@ -155,19 +156,19 @@
             // 
             this.logToolStripMenuItem.Enabled = false;
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-            this.logToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.logToolStripMenuItem.Text = "Log";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.AboutToolStripMenuItem.Text = "About";
             // 
             // timerPoll
@@ -182,10 +183,10 @@
             // 
             // btnRunProgram
             // 
-            this.btnRunProgram.BackgroundImage = global::WindowsFormsClient.Properties.Resources.start;
+            this.btnRunProgram.BackgroundImage = global::OpenWasherClient.Properties.Resources.start;
             this.btnRunProgram.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRunProgram.Enabled = false;
-            this.btnRunProgram.Location = new System.Drawing.Point(12, 279);
+            this.btnRunProgram.Location = new System.Drawing.Point(12, 333);
             this.btnRunProgram.Name = "btnRunProgram";
             this.btnRunProgram.Size = new System.Drawing.Size(179, 40);
             this.btnRunProgram.TabIndex = 13;
@@ -194,6 +195,8 @@
             // 
             // groupBoxOptions
             // 
+            this.groupBoxOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxOptions.Controls.Add(this.textBoxProgramDescription);
             this.groupBoxOptions.Controls.Add(this.label3);
             this.groupBoxOptions.Controls.Add(this.label14);
             this.groupBoxOptions.Controls.Add(this.label10);
@@ -225,17 +228,26 @@
             this.groupBoxOptions.Controls.Add(this.trackBarDuration);
             this.groupBoxOptions.Controls.Add(this.trackBarTemperature);
             this.groupBoxOptions.Enabled = false;
-            this.groupBoxOptions.Location = new System.Drawing.Point(197, 12);
+            this.groupBoxOptions.Location = new System.Drawing.Point(197, 7);
             this.groupBoxOptions.Name = "groupBoxOptions";
-            this.groupBoxOptions.Size = new System.Drawing.Size(427, 307);
+            this.groupBoxOptions.Size = new System.Drawing.Size(427, 366);
             this.groupBoxOptions.TabIndex = 15;
             this.groupBoxOptions.TabStop = false;
-            this.groupBoxOptions.Text = "Washing params";
+            // 
+            // textBoxProgramDescription
+            // 
+            this.textBoxProgramDescription.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxProgramDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxProgramDescription.Location = new System.Drawing.Point(10, 19);
+            this.textBoxProgramDescription.Multiline = true;
+            this.textBoxProgramDescription.Name = "textBoxProgramDescription";
+            this.textBoxProgramDescription.Size = new System.Drawing.Size(408, 41);
+            this.textBoxProgramDescription.TabIndex = 50;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(217, 283);
+            this.label3.Location = new System.Drawing.Point(221, 335);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(13, 13);
             this.label3.TabIndex = 49;
@@ -244,7 +256,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(217, 144);
+            this.label14.Location = new System.Drawing.Point(221, 196);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(13, 13);
             this.label14.TabIndex = 22;
@@ -253,7 +265,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(217, 239);
+            this.label10.Location = new System.Drawing.Point(221, 291);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(13, 13);
             this.label10.TabIndex = 17;
@@ -261,7 +273,7 @@
             // 
             // nUDWashingSpeed
             // 
-            this.nUDWashingSpeed.Location = new System.Drawing.Point(140, 112);
+            this.nUDWashingSpeed.Location = new System.Drawing.Point(144, 164);
             this.nUDWashingSpeed.Maximum = new decimal(new int[] {
             10,
             0,
@@ -275,7 +287,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(397, 143);
+            this.label2.Location = new System.Drawing.Point(401, 195);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 37;
@@ -284,7 +296,7 @@
             // cbWashingSpeed
             // 
             this.cbWashingSpeed.AutoSize = true;
-            this.cbWashingSpeed.Location = new System.Drawing.Point(6, 113);
+            this.cbWashingSpeed.Location = new System.Drawing.Point(10, 165);
             this.cbWashingSpeed.Name = "cbWashingSpeed";
             this.cbWashingSpeed.Size = new System.Drawing.Size(128, 17);
             this.cbWashingSpeed.TabIndex = 36;
@@ -293,7 +305,7 @@
             // 
             // trackBarWashingSpeed
             // 
-            this.trackBarWashingSpeed.Location = new System.Drawing.Point(209, 112);
+            this.trackBarWashingSpeed.Location = new System.Drawing.Point(213, 164);
             this.trackBarWashingSpeed.Name = "trackBarWashingSpeed";
             this.trackBarWashingSpeed.Size = new System.Drawing.Size(210, 45);
             this.trackBarWashingSpeed.TabIndex = 38;
@@ -302,7 +314,7 @@
             // cbWaterLevel
             // 
             this.cbWaterLevel.AutoSize = true;
-            this.cbWaterLevel.Location = new System.Drawing.Point(6, 255);
+            this.cbWaterLevel.Location = new System.Drawing.Point(10, 307);
             this.cbWaterLevel.Name = "cbWaterLevel";
             this.cbWaterLevel.Size = new System.Drawing.Size(94, 17);
             this.cbWaterLevel.TabIndex = 33;
@@ -312,7 +324,7 @@
             // cbRinsingCycles
             // 
             this.cbRinsingCycles.AutoSize = true;
-            this.cbRinsingCycles.Location = new System.Drawing.Point(6, 208);
+            this.cbRinsingCycles.Location = new System.Drawing.Point(10, 260);
             this.cbRinsingCycles.Name = "cbRinsingCycles";
             this.cbRinsingCycles.Size = new System.Drawing.Size(94, 17);
             this.cbRinsingCycles.TabIndex = 32;
@@ -322,7 +334,7 @@
             // cbSpinningSpeed
             // 
             this.cbSpinningSpeed.AutoSize = true;
-            this.cbSpinningSpeed.Location = new System.Drawing.Point(6, 160);
+            this.cbSpinningSpeed.Location = new System.Drawing.Point(10, 212);
             this.cbSpinningSpeed.Name = "cbSpinningSpeed";
             this.cbSpinningSpeed.Size = new System.Drawing.Size(127, 17);
             this.cbSpinningSpeed.TabIndex = 31;
@@ -332,7 +344,7 @@
             // cbDuration
             // 
             this.cbDuration.AutoSize = true;
-            this.cbDuration.Location = new System.Drawing.Point(6, 65);
+            this.cbDuration.Location = new System.Drawing.Point(10, 117);
             this.cbDuration.Name = "cbDuration";
             this.cbDuration.Size = new System.Drawing.Size(88, 17);
             this.cbDuration.TabIndex = 30;
@@ -342,7 +354,7 @@
             // cbTemperature
             // 
             this.cbTemperature.AutoSize = true;
-            this.cbTemperature.Location = new System.Drawing.Point(6, 17);
+            this.cbTemperature.Location = new System.Drawing.Point(10, 69);
             this.cbTemperature.Name = "cbTemperature";
             this.cbTemperature.Size = new System.Drawing.Size(103, 17);
             this.cbTemperature.TabIndex = 29;
@@ -351,7 +363,7 @@
             // 
             // nUDWaterLevel
             // 
-            this.nUDWaterLevel.Location = new System.Drawing.Point(140, 255);
+            this.nUDWaterLevel.Location = new System.Drawing.Point(144, 307);
             this.nUDWaterLevel.Name = "nUDWaterLevel";
             this.nUDWaterLevel.Size = new System.Drawing.Size(63, 20);
             this.nUDWaterLevel.TabIndex = 39;
@@ -359,7 +371,7 @@
             // 
             // nUDRinsingCycles
             // 
-            this.nUDRinsingCycles.Location = new System.Drawing.Point(140, 207);
+            this.nUDRinsingCycles.Location = new System.Drawing.Point(144, 259);
             this.nUDRinsingCycles.Maximum = new decimal(new int[] {
             5,
             0,
@@ -372,7 +384,7 @@
             // 
             // nUDSpinningSpeed
             // 
-            this.nUDSpinningSpeed.Location = new System.Drawing.Point(140, 159);
+            this.nUDSpinningSpeed.Location = new System.Drawing.Point(144, 211);
             this.nUDSpinningSpeed.Maximum = new decimal(new int[] {
             20,
             0,
@@ -385,7 +397,7 @@
             // 
             // nUDDuration
             // 
-            this.nUDDuration.Location = new System.Drawing.Point(140, 64);
+            this.nUDDuration.Location = new System.Drawing.Point(144, 116);
             this.nUDDuration.Maximum = new decimal(new int[] {
             180,
             0,
@@ -408,7 +420,7 @@
             // 
             // nUDTemperature
             // 
-            this.nUDTemperature.Location = new System.Drawing.Point(140, 16);
+            this.nUDTemperature.Location = new System.Drawing.Point(144, 68);
             this.nUDTemperature.Maximum = new decimal(new int[] {
             80,
             0,
@@ -432,7 +444,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(391, 287);
+            this.label13.Location = new System.Drawing.Point(395, 339);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(25, 13);
             this.label13.TabIndex = 23;
@@ -440,7 +452,7 @@
             // 
             // trackBarWaterLevel
             // 
-            this.trackBarWaterLevel.Location = new System.Drawing.Point(209, 255);
+            this.trackBarWaterLevel.Location = new System.Drawing.Point(213, 307);
             this.trackBarWaterLevel.Maximum = 100;
             this.trackBarWaterLevel.Name = "trackBarWaterLevel";
             this.trackBarWaterLevel.Size = new System.Drawing.Size(207, 45);
@@ -450,7 +462,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(400, 239);
+            this.label11.Location = new System.Drawing.Point(404, 291);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(13, 13);
             this.label11.TabIndex = 20;
@@ -459,7 +471,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(217, 191);
+            this.label12.Location = new System.Drawing.Point(221, 243);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(13, 13);
             this.label12.TabIndex = 19;
@@ -468,7 +480,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(397, 191);
+            this.label9.Location = new System.Drawing.Point(401, 243);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(19, 13);
             this.label9.TabIndex = 18;
@@ -477,7 +489,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(394, 96);
+            this.label7.Location = new System.Drawing.Point(398, 148);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(25, 13);
             this.label7.TabIndex = 16;
@@ -486,7 +498,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(214, 96);
+            this.label8.Location = new System.Drawing.Point(218, 148);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 13);
             this.label8.TabIndex = 15;
@@ -495,7 +507,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(400, 48);
+            this.label6.Location = new System.Drawing.Point(404, 100);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(19, 13);
             this.label6.TabIndex = 14;
@@ -504,7 +516,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(212, 48);
+            this.label1.Location = new System.Drawing.Point(216, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(19, 13);
             this.label1.TabIndex = 13;
@@ -512,7 +524,7 @@
             // 
             // trackBarRinsingCycles
             // 
-            this.trackBarRinsingCycles.Location = new System.Drawing.Point(209, 207);
+            this.trackBarRinsingCycles.Location = new System.Drawing.Point(213, 259);
             this.trackBarRinsingCycles.Maximum = 5;
             this.trackBarRinsingCycles.Name = "trackBarRinsingCycles";
             this.trackBarRinsingCycles.Size = new System.Drawing.Size(210, 45);
@@ -521,7 +533,7 @@
             // 
             // trackBarSpinningSpeed
             // 
-            this.trackBarSpinningSpeed.Location = new System.Drawing.Point(209, 159);
+            this.trackBarSpinningSpeed.Location = new System.Drawing.Point(213, 211);
             this.trackBarSpinningSpeed.Name = "trackBarSpinningSpeed";
             this.trackBarSpinningSpeed.Size = new System.Drawing.Size(210, 45);
             this.trackBarSpinningSpeed.TabIndex = 46;
@@ -529,7 +541,7 @@
             // 
             // trackBarDuration
             // 
-            this.trackBarDuration.Location = new System.Drawing.Point(209, 64);
+            this.trackBarDuration.Location = new System.Drawing.Point(213, 116);
             this.trackBarDuration.Maximum = 180;
             this.trackBarDuration.Minimum = 15;
             this.trackBarDuration.Name = "trackBarDuration";
@@ -542,7 +554,7 @@
             // trackBarTemperature
             // 
             this.trackBarTemperature.LargeChange = 10;
-            this.trackBarTemperature.Location = new System.Drawing.Point(209, 16);
+            this.trackBarTemperature.Location = new System.Drawing.Point(213, 68);
             this.trackBarTemperature.Maximum = 80;
             this.trackBarTemperature.Minimum = 10;
             this.trackBarTemperature.Name = "trackBarTemperature";
@@ -558,14 +570,15 @@
             this.listBoxPrograms.FormattingEnabled = true;
             this.listBoxPrograms.Location = new System.Drawing.Point(12, 12);
             this.listBoxPrograms.Name = "listBoxPrograms";
-            this.listBoxPrograms.Size = new System.Drawing.Size(179, 264);
+            this.listBoxPrograms.Size = new System.Drawing.Size(179, 316);
             this.listBoxPrograms.TabIndex = 16;
+            this.listBoxPrograms.SelectedIndexChanged += new System.EventHandler(this.ListBoxPrograms_SelectedIndexChanged);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(635, 350);
+            this.ClientSize = new System.Drawing.Size(635, 400);
             this.Controls.Add(this.listBoxPrograms);
             this.Controls.Add(this.groupBoxOptions);
             this.Controls.Add(this.btnRunProgram);
@@ -643,6 +656,7 @@
         private System.Windows.Forms.TrackBar trackBarTemperature;
         private System.Windows.Forms.ListBox listBoxPrograms;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxProgramDescription;
     }
 }
 

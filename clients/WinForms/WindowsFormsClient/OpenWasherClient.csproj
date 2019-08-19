@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>OpenWasherClient</RootNamespace>
     <AssemblyName>OpenWasherClient</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -61,13 +61,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -157,12 +159,8 @@
       <Project>{E15E262F-0FB2-4B14-9DB2-80AB870E1414}</Project>
       <Name>IntelHexParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Localization_RuRU\Localization_RuRU.csproj">
-      <Project>{601f5f73-8419-4321-995c-823f3f01dd19}</Project>
-      <Name>Localization_RuRU</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenWasherHardwareLibrary\OpenWasherHardwareLibrary.csproj">
-      <Project>{a3b97f4c-3d1a-4e87-9cac-91ea773a9ac6}</Project>
+      <Project>{A3B97F4C-3D1A-4E87-9CAC-91EA773A9AC6}</Project>
       <Name>OpenWasherHardwareLibrary</Name>
     </ProjectReference>
   </ItemGroup>
