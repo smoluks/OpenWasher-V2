@@ -1,6 +1,5 @@
 ﻿using OpenWasherHardwareLibrary.Enums;
 using System.Windows.Forms;
-using WindowsFormsClient.Managers;
 
 namespace WindowsFormsClient
 {

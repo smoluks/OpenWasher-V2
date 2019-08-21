@@ -1,43 +1,44 @@
 ﻿using IniParser;
 using IniParser.Model;
+using OpenWasherClient.Entities;
 
 namespace WindowsFormsClient.Managers
 {
     internal class ConfigManager
     {
-        FileIniDataParser parser = new FileIniDataParser();
+        readonly FileIniDataParser parser = new FileIniDataParser();
 
-        internal string Port = "AUTO";
-        internal bool LogEnable;
-        internal string Locale;
+        internal Config CurrentConfig { get; private set; }
 
         internal ConfigManager()
         {
+            CurrentConfig = new Config();
             try
             {
                 IniData data = parser.ReadFile("config.ini");
 
-                Locale = data["General"]["Language"];
-
-                Port = data["Connect"]["Port"];
-
-                LogEnable = bool.Parse(data["Log"]["Enable"]);
+                CurrentConfig.Locale = data["General"]["Language"];
+                CurrentConfig.Port = data["Connect"]["Port"];
+                CurrentConfig.LogEnable = bool.Parse(data["Log"]["Enable"]);
             }
             catch
             {
-                Save();
+                UpdateConfig();
             }
         }
 
-        internal void Save()
+        internal void UpdateConfig(Config config = null)
         {
+            if (config == null)
+                config = CurrentConfig;
+            else
+                CurrentConfig = config;
+
             IniData data = new IniData();
 
-            data["General"]["Language"] = Locale;
-
-            data["Connect"]["Port"] = Port;
-
-            data["Log"]["Enable"] = LogEnable.ToString();            
+            data["General"]["Language"] = config.Locale;
+            data["Connect"]["Port"] = config.Port;
+            data["Log"]["Enable"] = config.LogEnable.ToString();            
 
             parser.WriteFile("config.ini", data);
         }

@@ -78,6 +78,7 @@
     <Compile Include="AboutFrm.Designer.cs">
       <DependentUpon>AboutFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Config.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\WashingProgram.cs" />
     <Compile Include="FirmwareFrm.cs">

@@ -61,7 +61,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Self-diagnostics.
+        ///   Looks up a localized string similar to Самодиагностика.
         /// </summary>
         internal static string Program_0 {
             get {
@@ -70,7 +70,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All component self testing. Run without laundry after installation or flashing.
+        ///   Looks up a localized string similar to Поочередный тест всех компонентов. Запускать без белья после установки или переподключения.
         /// </summary>
         internal static string Program_0_Comment {
             get {
@@ -97,7 +97,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wool.
+        ///   Looks up a localized string similar to Шерсть.
         /// </summary>
         internal static string Program_10 {
             get {
@@ -106,7 +106,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Шерсть.
         /// </summary>
         internal static string Program_10_Comment {
             get {
@@ -115,7 +115,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Silk.
+        ///   Looks up a localized string similar to Шелк.
         /// </summary>
         internal static string Program_11 {
             get {
@@ -124,7 +124,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Особо деликатные ткани и одежда (завеси, шелк, вискоза и пр.).
         /// </summary>
         internal static string Program_11_Comment {
             get {
@@ -133,7 +133,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rinse.
+        ///   Looks up a localized string similar to Полоскание.
         /// </summary>
         internal static string Program_12 {
             get {
@@ -142,7 +142,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Полоскание.
         /// </summary>
         internal static string Program_12_Comment {
             get {
@@ -151,7 +151,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delicate rinse.
+        ///   Looks up a localized string similar to Деликатное полоскание.
         /// </summary>
         internal static string Program_13 {
             get {
@@ -160,7 +160,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Деликатное полоскание.
         /// </summary>
         internal static string Program_13_Comment {
             get {
@@ -169,7 +169,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spin.
+        ///   Looks up a localized string similar to Отжим.
         /// </summary>
         internal static string Program_14 {
             get {
@@ -178,7 +178,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Отжим.
         /// </summary>
         internal static string Program_14_Comment {
             get {
@@ -187,7 +187,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delicate spin.
+        ///   Looks up a localized string similar to Деликатный отжим.
         /// </summary>
         internal static string Program_15 {
             get {
@@ -196,7 +196,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Деликатный отжим.
         /// </summary>
         internal static string Program_15_Comment {
             get {
@@ -205,7 +205,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drain.
+        ///   Looks up a localized string similar to Слив.
         /// </summary>
         internal static string Program_16 {
             get {
@@ -214,7 +214,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Слив.
         /// </summary>
         internal static string Program_16_Comment {
             get {
@@ -223,7 +223,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drain pipes .
+        ///   Looks up a localized string similar to Слив магистрали.
         /// </summary>
         internal static string Program_17 {
             get {
@@ -232,7 +232,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Слив с открытыми клапанами.
         /// </summary>
         internal static string Program_17_Comment {
             get {
@@ -241,7 +241,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Water heater.
+        ///   Looks up a localized string similar to Водонагреватель.
         /// </summary>
         internal static string Program_18 {
             get {
@@ -250,7 +250,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Водонагреватель.
         /// </summary>
         internal static string Program_18_Comment {
             get {
@@ -259,7 +259,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Grinding brushes.
+        ///   Looks up a localized string similar to Притирка щеток.
         /// </summary>
         internal static string Program_19 {
             get {
@@ -268,7 +268,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Притирка щеток.
         /// </summary>
         internal static string Program_19_Comment {
             get {
@@ -376,7 +376,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Сильно загрязненная, прочно окрашенная цветная (детская одежда и пр.).
         /// </summary>
         internal static string Program_7_Comment {
             get {
@@ -394,7 +394,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Слабо загрязненная, деликатная цветная (любая одежда).
         /// </summary>
         internal static string Program_8_Comment {
             get {
@@ -412,7 +412,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Слабо загрязненная, деликатная цветная (любая одежда).
         /// </summary>
         internal static string Program_9_Comment {
             get {
@@ -421,7 +421,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop.
+        ///   Looks up a localized string similar to стоп.
         /// </summary>
         internal static string Stage_0 {
             get {
@@ -430,7 +430,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Closing door.
+        ///   Looks up a localized string similar to блокировка люка.
         /// </summary>
         internal static string Stage_1 {
             get {
@@ -439,7 +439,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unlocking door.
+        ///   Looks up a localized string similar to разблокировка люка.
         /// </summary>
         internal static string Stage_2 {
             get {
@@ -448,7 +448,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rinsing.
+        ///   Looks up a localized string similar to полоскание.
         /// </summary>
         internal static string Stage_3 {
             get {
@@ -457,7 +457,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spinning.
+        ///   Looks up a localized string similar to отжим.
         /// </summary>
         internal static string Stage_4 {
             get {
@@ -466,7 +466,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prewashing.
+        ///   Looks up a localized string similar to предв.стирка.
         /// </summary>
         internal static string Stage_5 {
             get {
@@ -475,7 +475,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Washing.
+        ///   Looks up a localized string similar to стирка.
         /// </summary>
         internal static string Stage_6 {
             get {
@@ -484,7 +484,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Draw water.
+        ///   Looks up a localized string similar to набор воды.
         /// </summary>
         internal static string Stage_7 {
             get {
@@ -493,7 +493,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sink.
+        ///   Looks up a localized string similar to слив.
         /// </summary>
         internal static string Stage_8 {
             get {
@@ -502,7 +502,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Self-testing.
+        ///   Looks up a localized string similar to самотестирование.
         /// </summary>
         internal static string Stage_9 {
             get {
@@ -511,7 +511,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Connected.
+        ///   Looks up a localized string similar to Подключено через {0}.
         /// </summary>
         internal static string Status_Connected {
             get {
@@ -520,7 +520,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect failed.
+        ///   Looks up a localized string similar to Не удалось подключиться.
         /// </summary>
         internal static string Status_ConnectFailed {
             get {
@@ -529,7 +529,7 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connection break.
+        ///   Looks up a localized string similar to Нет связи.
         /// </summary>
         internal static string Status_ConnectionBreak {
             get {
@@ -538,11 +538,20 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not found.
+        ///   Looks up a localized string similar to Не найдено.
         /// </summary>
         internal static string Status_NotFound {
             get {
                 return ResourceManager.GetString("Status_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Переподключение.
+        /// </summary>
+        internal static string Status_Reconnecting {
+            get {
+                return ResourceManager.GetString("Status_Reconnecting", resourceCulture);
             }
         }
         

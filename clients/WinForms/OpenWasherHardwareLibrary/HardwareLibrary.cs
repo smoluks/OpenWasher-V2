@@ -35,6 +35,8 @@ namespace OpenWasherHardwareLibrary
 
         private readonly CommandsManager _commgr;
 
+        public bool LogEnable { get; set; }
+
         #endregion
 
         #region Constructor

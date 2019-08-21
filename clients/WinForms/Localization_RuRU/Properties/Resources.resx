@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Program_0" xml:space="preserve">
-    <value>Self-diagnostics</value>
+    <value>Самодиагностика</value>
   </data>
   <data name="Program_0_Comment" xml:space="preserve">
-    <value>All component self testing. Run without laundry after installation or flashing</value>
+    <value>Поочередный тест всех компонентов. Запускать без белья после установки или переподключения</value>
   </data>
   <data name="Program_1" xml:space="preserve">
     <value>Хлопок 90° с предв.</value>
@@ -163,123 +163,126 @@
     <value>Синтетика 50°</value>
   </data>
   <data name="Program_7_Comment" xml:space="preserve">
-    <value />
+    <value>Сильно загрязненная, прочно окрашенная цветная (детская одежда и пр.)</value>
   </data>
   <data name="Program_8" xml:space="preserve">
     <value>Синтетика 40°</value>
   </data>
   <data name="Program_8_Comment" xml:space="preserve">
-    <value />
+    <value>Слабо загрязненная, деликатная цветная (любая одежда)</value>
   </data>
   <data name="Program_9" xml:space="preserve">
     <value>Синтетика 30°</value>
   </data>
   <data name="Program_9_Comment" xml:space="preserve">
-    <value />
+    <value>Слабо загрязненная, деликатная цветная (любая одежда)</value>
   </data>
   <data name="Program_10" xml:space="preserve">
-    <value>Wool</value>
+    <value>Шерсть</value>
   </data>
   <data name="Program_10_Comment" xml:space="preserve">
-    <value />
+    <value>Шерсть</value>
   </data>
   <data name="Program_11" xml:space="preserve">
-    <value>Silk</value>
+    <value>Шелк</value>
   </data>
   <data name="Program_11_Comment" xml:space="preserve">
-    <value />
+    <value>Особо деликатные ткани и одежда (завеси, шелк, вискоза и пр.)</value>
   </data>
   <data name="Program_12" xml:space="preserve">
-    <value>Rinse</value>
+    <value>Полоскание</value>
   </data>
   <data name="Program_12_Comment" xml:space="preserve">
-    <value />
+    <value>Полоскание</value>
   </data>
   <data name="Program_13" xml:space="preserve">
-    <value>Delicate rinse</value>
+    <value>Деликатное полоскание</value>
   </data>
   <data name="Program_13_Comment" xml:space="preserve">
-    <value />
+    <value>Деликатное полоскание</value>
   </data>
   <data name="Program_14" xml:space="preserve">
-    <value>Spin</value>
+    <value>Отжим</value>
   </data>
   <data name="Program_14_Comment" xml:space="preserve">
-    <value />
+    <value>Отжим</value>
   </data>
   <data name="Program_15" xml:space="preserve">
-    <value>Delicate spin</value>
+    <value>Деликатный отжим</value>
   </data>
   <data name="Program_15_Comment" xml:space="preserve">
-    <value />
+    <value>Деликатный отжим</value>
   </data>
   <data name="Program_16" xml:space="preserve">
-    <value>Drain</value>
+    <value>Слив</value>
   </data>
   <data name="Program_16_Comment" xml:space="preserve">
-    <value />
+    <value>Слив</value>
   </data>
   <data name="Program_17" xml:space="preserve">
-    <value>Drain pipes </value>
+    <value>Слив магистрали</value>
   </data>
   <data name="Program_17_Comment" xml:space="preserve">
-    <value />
+    <value>Слив с открытыми клапанами</value>
   </data>
   <data name="Program_18" xml:space="preserve">
-    <value>Water heater</value>
+    <value>Водонагреватель</value>
   </data>
   <data name="Program_18_Comment" xml:space="preserve">
-    <value />
+    <value>Водонагреватель</value>
   </data>
   <data name="Program_19" xml:space="preserve">
-    <value>Grinding brushes</value>
+    <value>Притирка щеток</value>
   </data>
   <data name="Program_19_Comment" xml:space="preserve">
-    <value />
+    <value>Притирка щеток</value>
   </data>
   <data name="Stage_0" xml:space="preserve">
-    <value>Stop</value>
+    <value>стоп</value>
   </data>
   <data name="Stage_1" xml:space="preserve">
-    <value>Closing door</value>
+    <value>блокировка люка</value>
   </data>
   <data name="Stage_2" xml:space="preserve">
-    <value>Unlocking door</value>
+    <value>разблокировка люка</value>
   </data>
   <data name="Stage_3" xml:space="preserve">
-    <value>Rinsing</value>
+    <value>полоскание</value>
   </data>
   <data name="Stage_4" xml:space="preserve">
-    <value>Spinning</value>
+    <value>отжим</value>
   </data>
   <data name="Stage_5" xml:space="preserve">
-    <value>Prewashing</value>
+    <value>предв.стирка</value>
   </data>
   <data name="Stage_6" xml:space="preserve">
-    <value>Washing</value>
+    <value>стирка</value>
   </data>
   <data name="Stage_7" xml:space="preserve">
-    <value>Draw water</value>
+    <value>набор воды</value>
   </data>
   <data name="Stage_8" xml:space="preserve">
-    <value>Sink</value>
+    <value>слив</value>
   </data>
   <data name="Stage_9" xml:space="preserve">
-    <value>Self-testing</value>
+    <value>самотестирование</value>
   </data>
   <data name="Status_NotFound" xml:space="preserve">
-    <value>Not found</value>
+    <value>Не найдено</value>
   </data>
   <data name="Status_Connected" xml:space="preserve">
-    <value>{0} Connected</value>
+    <value>Подключено через {0}</value>
   </data>
   <data name="Status_ConnectionBreak" xml:space="preserve">
-    <value>Connection break</value>
+    <value>Нет связи</value>
   </data>
   <data name="Status_Washing" xml:space="preserve">
     <value>{0}: {1}</value>
   </data>
   <data name="Status_ConnectFailed" xml:space="preserve">
-    <value>Connect failed</value>
+    <value>Не удалось подключиться</value>
+  </data>
+  <data name="Status_Reconnecting" xml:space="preserve">
+    <value>Переподключение</value>
   </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using OpenWasherHardwareLibrary;
+﻿using OpenWasherClient.Entities;
+using OpenWasherHardwareLibrary;
 using OpenWasherHardwareLibrary.Commands;
 using OpenWasherHardwareLibrary.Entity;
 using OpenWasherHardwareLibrary.Enums;
@@ -11,7 +12,7 @@ namespace WindowsFormsClient
 {
     public partial class Main : Form
     {
-        private readonly HardwareLibrary hardwareLibrary;
+        private HardwareLibrary hardwareLibrary;
         private readonly Localizator localizator;
         private readonly ConfigManager configManager = new ConfigManager();
         private bool isWashing;
@@ -24,13 +25,14 @@ namespace WindowsFormsClient
         public Main()
         {
             InitializeComponent();            
-            hardwareLibrary = new HardwareLibrary(configManager.Port, MessageManager.MessageHandler, ErrorHandler, EventHandler, ConnectionEventHandler, configManager.LogEnable);
-            localizator = new Localizator(configManager.Locale);
+            hardwareLibrary = new HardwareLibrary(configManager.CurrentConfig.Port, MessageManager.MessageHandler, ErrorHandler, EventHandler, ConnectionEventHandler, configManager.CurrentConfig.LogEnable);
+            localizator = new Localizator(configManager.CurrentConfig.Locale);
             SetStatusText(localizator.GetString("Status_Connecting", "Connecting"));
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
+            listBoxPrograms.Items.Clear();
             foreach (var program in EnumManager.GetValues<WashProgram>())
             {
                 if (program != WashProgram.Nothing)
@@ -153,11 +155,38 @@ namespace WindowsFormsClient
         {
             if (settingsForm == null || settingsForm.IsDisposed)
             {
-                settingsForm = new SettingsFrm(configManager);
+                settingsForm = new SettingsFrm(configManager.CurrentConfig, ConfigChangehandler);
                 settingsForm.Show();
             }
             else
                 settingsForm.BringToFront();
+        }
+
+        private void ConfigChangehandler(Config newConfig)
+        {
+            this.Invoke((MethodInvoker)(() =>
+            {
+                var currectConfig = configManager.CurrentConfig;
+                if (currectConfig.Port != newConfig.Port)
+                {
+                    btnRunProgram.Enabled = false;
+                    groupBoxOptions.Enabled = false;
+                    SetStatusText(localizator.GetString("Status_Reconnecting", "Reconnecting"));
+                    hardwareLibrary.Dispose();
+                    hardwareLibrary = new HardwareLibrary(newConfig.Port, MessageManager.MessageHandler, ErrorHandler, EventHandler, ConnectionEventHandler, newConfig.LogEnable);
+                }
+                else if(currectConfig.LogEnable != newConfig.LogEnable)
+                {
+                    hardwareLibrary.LogEnable = newConfig.LogEnable;
+                }
+
+                if (currectConfig.Locale != newConfig.Locale)
+                {
+                    Main_Load(null, null);
+                }
+            }));
+
+            configManager.UpdateConfig(newConfig);
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -266,6 +295,26 @@ namespace WindowsFormsClient
             textBoxProgramDescription.Text = localizator.GetString($"Program_{listBoxPrograms.SelectedIndex}_Comment",
                 localizator.GetString($"Program_{listBoxPrograms.SelectedIndex}",
                 $"Program {(WashProgram)listBoxPrograms.SelectedIndex}"));
+
+            var defaultOptions = HardwareLibrary.GetDefaultOptions((WashProgram)listBoxPrograms.SelectedIndex);
+
+            nUDTemperature.Value = defaultOptions.temperature ?? 10;
+            trackBarTemperature.Value = defaultOptions.temperature ?? 10;
+
+            nUDDuration.Value = defaultOptions.duration ?? 15;
+            trackBarDuration.Value = defaultOptions.duration ?? 15;
+
+            nUDWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
+            trackBarWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
+
+            nUDSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
+            trackBarSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
+
+            nUDRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
+            trackBarRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
+
+            nUDWaterLevel.Value = defaultOptions.waterlevel ?? 0;
+            trackBarWaterLevel.Value = defaultOptions.waterlevel ?? 0;
         }
     }
 }

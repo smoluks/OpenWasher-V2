@@ -44,6 +44,7 @@
             this.comboBoxPort.Name = "comboBoxPort";
             this.comboBoxPort.Size = new System.Drawing.Size(152, 21);
             this.comboBoxPort.TabIndex = 0;
+            this.comboBoxPort.SelectedIndexChanged += new System.EventHandler(this.ComboBoxPort_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -70,6 +71,7 @@
             this.comboBoxLanguage.Name = "comboBoxLanguage";
             this.comboBoxLanguage.Size = new System.Drawing.Size(152, 21);
             this.comboBoxLanguage.TabIndex = 3;
+            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboBoxLanguage_SelectedIndexChanged);
             // 
             // checkBoxLog
             // 
@@ -80,6 +82,7 @@
             this.checkBoxLog.TabIndex = 4;
             this.checkBoxLog.Text = "Log";
             this.checkBoxLog.UseVisualStyleBackColor = true;
+            this.checkBoxLog.CheckedChanged += new System.EventHandler(this.CheckBoxLog_CheckedChanged);
             // 
             // buttonOK
             // 

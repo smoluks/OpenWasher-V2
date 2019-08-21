@@ -1,4 +1,5 @@
-﻿using OpenWasherHardwareLibrary;
+﻿using OpenWasherClient.Entities;
+using OpenWasherHardwareLibrary;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,11 +9,17 @@ namespace WindowsFormsClient
 {
     internal partial class SettingsFrm : Form
     {
-        private ConfigManager config;
+        private readonly Config newConfig;
 
-        internal SettingsFrm(ConfigManager config)
+        internal delegate void ApplyNewConfigDelegate(Config newConfig);
+        private readonly ApplyNewConfigDelegate configChangeCallback;
+
+        public bool isChanged { get; private set; }
+
+        internal SettingsFrm(Config config, ApplyNewConfigDelegate configChangeCallback)
         {
-            this.config = config;
+            this.configChangeCallback = configChangeCallback;
+            this.newConfig = config.Clone();
             InitializeComponent();
         }
 
@@ -21,21 +28,19 @@ namespace WindowsFormsClient
             var ports = new List<string>() { "AUTO" };
             ports.AddRange(HardwareLibrary.GetComPorts());
             comboBoxPort.Items.AddRange(ports.ToArray());
-            comboBoxPort.SelectedItem = ports.Where(x => x == config.Port).FirstOrDefault();
+            comboBoxPort.SelectedItem = ports.Where(x => x == newConfig.Port).FirstOrDefault();
 
             var languages = Localizator.GetAvaliableLanguages();
             comboBoxLanguage.Items.AddRange(languages.ToArray());
-            comboBoxLanguage.SelectedItem = languages.Where(x => x == config.Locale).FirstOrDefault();
+            comboBoxLanguage.SelectedItem = languages.Where(x => x == newConfig.Locale).FirstOrDefault();
 
-            checkBoxLog.Checked = config.LogEnable;
+            checkBoxLog.Checked = newConfig.LogEnable;
         }
 
         private void ButtonOK_Click(object sender, System.EventArgs e)
         {
-            config.Port = (string)comboBoxPort.SelectedItem;
-            config.Locale = (string)comboBoxLanguage.SelectedItem;
-            config.LogEnable = checkBoxLog.Checked;
-            config.Save();
+            if(isChanged)
+                configChangeCallback?.Invoke(newConfig);
 
             this.Close();
         }
@@ -43,6 +48,33 @@ namespace WindowsFormsClient
         private void ButtonCancel_Click(object sender, System.EventArgs e)
         {
             this.Close();
+        }
+
+        private void ComboBoxPort_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if ((string)comboBoxPort.SelectedItem == newConfig.Port)
+                return;
+
+            newConfig.Port = (string)comboBoxPort.SelectedItem;
+            isChanged = true;                       
+        }
+
+        private void ComboBoxLanguage_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            if ((string)comboBoxLanguage.SelectedItem == newConfig.Locale)
+                return;
+
+            newConfig.Locale = (string)comboBoxLanguage.SelectedItem;
+            isChanged = true;
+        }
+
+        private void CheckBoxLog_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (checkBoxLog.Checked == newConfig.LogEnable)
+                return;
+
+            newConfig.LogEnable = checkBoxLog.Checked;
+            isChanged = true;
         }
     }
 }
