@@ -99,7 +99,7 @@
             this.btnOptions});
             this.statusStrip1.Location = new System.Drawing.Point(0, 376);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(635, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(647, 24);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -230,7 +230,7 @@
             this.groupBoxOptions.Enabled = false;
             this.groupBoxOptions.Location = new System.Drawing.Point(197, 7);
             this.groupBoxOptions.Name = "groupBoxOptions";
-            this.groupBoxOptions.Size = new System.Drawing.Size(427, 366);
+            this.groupBoxOptions.Size = new System.Drawing.Size(439, 366);
             this.groupBoxOptions.TabIndex = 15;
             this.groupBoxOptions.TabStop = false;
             // 
@@ -292,7 +292,7 @@
             // 
             this.textBoxProgramDescription.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxProgramDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxProgramDescription.Location = new System.Drawing.Point(10, 19);
+            this.textBoxProgramDescription.Location = new System.Drawing.Point(19, 19);
             this.textBoxProgramDescription.Multiline = true;
             this.textBoxProgramDescription.Name = "textBoxProgramDescription";
             this.textBoxProgramDescription.Size = new System.Drawing.Size(408, 41);
@@ -301,7 +301,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(221, 335);
+            this.label3.Location = new System.Drawing.Point(230, 335);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(13, 13);
             this.label3.TabIndex = 49;
@@ -310,7 +310,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(221, 196);
+            this.label14.Location = new System.Drawing.Point(230, 196);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(13, 13);
             this.label14.TabIndex = 22;
@@ -319,7 +319,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(221, 291);
+            this.label10.Location = new System.Drawing.Point(230, 291);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(13, 13);
             this.label10.TabIndex = 17;
@@ -327,7 +327,7 @@
             // 
             // nUDWashingSpeed
             // 
-            this.nUDWashingSpeed.Location = new System.Drawing.Point(144, 164);
+            this.nUDWashingSpeed.Location = new System.Drawing.Point(153, 164);
             this.nUDWashingSpeed.Maximum = new decimal(new int[] {
             10,
             0,
@@ -341,7 +341,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(401, 195);
+            this.label2.Location = new System.Drawing.Point(410, 195);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 37;
@@ -349,15 +349,15 @@
             // 
             // trackBarWashingSpeed
             // 
-            this.trackBarWashingSpeed.Location = new System.Drawing.Point(213, 164);
+            this.trackBarWashingSpeed.Location = new System.Drawing.Point(222, 164);
             this.trackBarWashingSpeed.Name = "trackBarWashingSpeed";
-            this.trackBarWashingSpeed.Size = new System.Drawing.Size(210, 45);
+            this.trackBarWashingSpeed.Size = new System.Drawing.Size(212, 45);
             this.trackBarWashingSpeed.TabIndex = 38;
             this.trackBarWashingSpeed.Scroll += new System.EventHandler(this.TrackBarWashingSpeed_Scroll);
             // 
             // nUDWaterLevel
             // 
-            this.nUDWaterLevel.Location = new System.Drawing.Point(144, 307);
+            this.nUDWaterLevel.Location = new System.Drawing.Point(153, 307);
             this.nUDWaterLevel.Name = "nUDWaterLevel";
             this.nUDWaterLevel.Size = new System.Drawing.Size(63, 20);
             this.nUDWaterLevel.TabIndex = 39;
@@ -365,7 +365,7 @@
             // 
             // nUDRinsingCycles
             // 
-            this.nUDRinsingCycles.Location = new System.Drawing.Point(144, 259);
+            this.nUDRinsingCycles.Location = new System.Drawing.Point(153, 259);
             this.nUDRinsingCycles.Maximum = new decimal(new int[] {
             5,
             0,
@@ -378,7 +378,7 @@
             // 
             // nUDSpinningSpeed
             // 
-            this.nUDSpinningSpeed.Location = new System.Drawing.Point(144, 211);
+            this.nUDSpinningSpeed.Location = new System.Drawing.Point(153, 211);
             this.nUDSpinningSpeed.Maximum = new decimal(new int[] {
             20,
             0,
@@ -391,7 +391,7 @@
             // 
             // nUDDuration
             // 
-            this.nUDDuration.Location = new System.Drawing.Point(144, 116);
+            this.nUDDuration.Location = new System.Drawing.Point(153, 116);
             this.nUDDuration.Maximum = new decimal(new int[] {
             180,
             0,
@@ -414,7 +414,7 @@
             // 
             // nUDTemperature
             // 
-            this.nUDTemperature.Location = new System.Drawing.Point(144, 68);
+            this.nUDTemperature.Location = new System.Drawing.Point(153, 68);
             this.nUDTemperature.Maximum = new decimal(new int[] {
             80,
             0,
@@ -438,7 +438,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(395, 339);
+            this.label13.Location = new System.Drawing.Point(404, 339);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(25, 13);
             this.label13.TabIndex = 23;
@@ -446,17 +446,17 @@
             // 
             // trackBarWaterLevel
             // 
-            this.trackBarWaterLevel.Location = new System.Drawing.Point(213, 307);
+            this.trackBarWaterLevel.Location = new System.Drawing.Point(222, 307);
             this.trackBarWaterLevel.Maximum = 100;
             this.trackBarWaterLevel.Name = "trackBarWaterLevel";
-            this.trackBarWaterLevel.Size = new System.Drawing.Size(207, 45);
+            this.trackBarWaterLevel.Size = new System.Drawing.Size(212, 45);
             this.trackBarWaterLevel.TabIndex = 44;
             this.trackBarWaterLevel.Scroll += new System.EventHandler(this.TrackBarWaterLevel_Scroll);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(404, 291);
+            this.label11.Location = new System.Drawing.Point(413, 291);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(13, 13);
             this.label11.TabIndex = 20;
@@ -465,7 +465,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(221, 243);
+            this.label12.Location = new System.Drawing.Point(230, 243);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(13, 13);
             this.label12.TabIndex = 19;
@@ -474,7 +474,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(401, 243);
+            this.label9.Location = new System.Drawing.Point(410, 243);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(19, 13);
             this.label9.TabIndex = 18;
@@ -483,7 +483,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(398, 148);
+            this.label7.Location = new System.Drawing.Point(407, 148);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(25, 13);
             this.label7.TabIndex = 16;
@@ -492,7 +492,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(218, 148);
+            this.label8.Location = new System.Drawing.Point(227, 148);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 13);
             this.label8.TabIndex = 15;
@@ -501,7 +501,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(404, 100);
+            this.label6.Location = new System.Drawing.Point(413, 100);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(19, 13);
             this.label6.TabIndex = 14;
@@ -510,7 +510,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(216, 100);
+            this.label1.Location = new System.Drawing.Point(225, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(19, 13);
             this.label1.TabIndex = 13;
@@ -518,29 +518,29 @@
             // 
             // trackBarRinsingCycles
             // 
-            this.trackBarRinsingCycles.Location = new System.Drawing.Point(213, 259);
+            this.trackBarRinsingCycles.Location = new System.Drawing.Point(222, 259);
             this.trackBarRinsingCycles.Maximum = 5;
             this.trackBarRinsingCycles.Name = "trackBarRinsingCycles";
-            this.trackBarRinsingCycles.Size = new System.Drawing.Size(210, 45);
+            this.trackBarRinsingCycles.Size = new System.Drawing.Size(212, 45);
             this.trackBarRinsingCycles.TabIndex = 45;
             this.trackBarRinsingCycles.Scroll += new System.EventHandler(this.TrackBarRinsingCycles_Scroll);
             // 
             // trackBarSpinningSpeed
             // 
-            this.trackBarSpinningSpeed.Location = new System.Drawing.Point(213, 211);
+            this.trackBarSpinningSpeed.Location = new System.Drawing.Point(222, 211);
             this.trackBarSpinningSpeed.Maximum = 20;
             this.trackBarSpinningSpeed.Name = "trackBarSpinningSpeed";
-            this.trackBarSpinningSpeed.Size = new System.Drawing.Size(210, 45);
+            this.trackBarSpinningSpeed.Size = new System.Drawing.Size(212, 45);
             this.trackBarSpinningSpeed.TabIndex = 46;
             this.trackBarSpinningSpeed.Scroll += new System.EventHandler(this.TrackBarSpinningSpeed_Scroll);
             // 
             // trackBarDuration
             // 
-            this.trackBarDuration.Location = new System.Drawing.Point(213, 116);
+            this.trackBarDuration.Location = new System.Drawing.Point(222, 116);
             this.trackBarDuration.Maximum = 180;
             this.trackBarDuration.Minimum = 15;
             this.trackBarDuration.Name = "trackBarDuration";
-            this.trackBarDuration.Size = new System.Drawing.Size(210, 45);
+            this.trackBarDuration.Size = new System.Drawing.Size(212, 45);
             this.trackBarDuration.TabIndex = 47;
             this.trackBarDuration.TickFrequency = 5;
             this.trackBarDuration.Value = 15;
@@ -549,7 +549,7 @@
             // trackBarTemperature
             // 
             this.trackBarTemperature.LargeChange = 10;
-            this.trackBarTemperature.Location = new System.Drawing.Point(213, 68);
+            this.trackBarTemperature.Location = new System.Drawing.Point(222, 68);
             this.trackBarTemperature.Maximum = 80;
             this.trackBarTemperature.Minimum = 10;
             this.trackBarTemperature.Name = "trackBarTemperature";
@@ -573,7 +573,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(635, 400);
+            this.ClientSize = new System.Drawing.Size(647, 400);
             this.Controls.Add(this.listBoxPrograms);
             this.Controls.Add(this.groupBoxOptions);
             this.Controls.Add(this.btnRunProgram);

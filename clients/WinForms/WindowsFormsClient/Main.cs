@@ -42,6 +42,13 @@ namespace WindowsFormsClient
                         localizator.GetString($"Program_{(byte)program}", $"{program}")));
                 }
             }
+
+            labelTemperature.Text = localizator.GetString("Label_Temperature", labelTemperature.Text);
+            labelDuration.Text = localizator.GetString("Label_Duration", labelDuration.Text);
+            labelWashingSpeed.Text = localizator.GetString("Label_WashingSpeed", labelWashingSpeed.Text);
+            labelSpinningSpeed.Text = localizator.GetString("Label_SpinningSpeed", labelSpinningSpeed.Text);
+            labelRinsingCycles.Text = localizator.GetString("Label_RinsingCycles", labelRinsingCycles.Text);
+            labelWaterLevel.Text = localizator.GetString("Label_WaterLevel", labelWaterLevel.Text);
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)

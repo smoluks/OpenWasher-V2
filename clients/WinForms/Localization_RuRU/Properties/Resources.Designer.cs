@@ -61,6 +61,60 @@ namespace Localization_RuRU.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Длительность стирки, мин..
+        /// </summary>
+        internal static string Label_Duration {
+            get {
+                return ResourceManager.GetString("Label_Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Количество полосканий.
+        /// </summary>
+        internal static string Label_RinsingCycles {
+            get {
+                return ResourceManager.GetString("Label_RinsingCycles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Скорость отжима, об./мин..
+        /// </summary>
+        internal static string Label_SpinningSpeed {
+            get {
+                return ResourceManager.GetString("Label_SpinningSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Температура, °C.
+        /// </summary>
+        internal static string Label_Temperature {
+            get {
+                return ResourceManager.GetString("Label_Temperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Скорость стирки, об./мин..
+        /// </summary>
+        internal static string Label_WashingSpeed {
+            get {
+                return ResourceManager.GetString("Label_WashingSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Уровень воды, %.
+        /// </summary>
+        internal static string Label_WaterLevel {
+            get {
+                return ResourceManager.GetString("Label_WaterLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Самодиагностика.
         /// </summary>
         internal static string Program_0 {

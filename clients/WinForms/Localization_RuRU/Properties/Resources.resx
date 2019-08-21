@@ -285,4 +285,22 @@
   <data name="Status_Reconnecting" xml:space="preserve">
     <value>Переподключение</value>
   </data>
+  <data name="Label_Duration" xml:space="preserve">
+    <value>Длительность стирки, мин.</value>
+  </data>
+  <data name="Label_RinsingCycles" xml:space="preserve">
+    <value>Количество полосканий</value>
+  </data>
+  <data name="Label_SpinningSpeed" xml:space="preserve">
+    <value>Скорость отжима, об./мин.</value>
+  </data>
+  <data name="Label_Temperature" xml:space="preserve">
+    <value>Температура, °C</value>
+  </data>
+  <data name="Label_WashingSpeed" xml:space="preserve">
+    <value>Скорость стирки, об./мин.</value>
+  </data>
+  <data name="Label_WaterLevel" xml:space="preserve">
+    <value>Уровень воды, %</value>
+  </data>
 </root>
