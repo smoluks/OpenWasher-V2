@@ -124,17 +124,17 @@ namespace WindowsFormsClient
         {
             var options = new ProgramOptions();
 
-            if (cbTemperature.Checked)
+            //if (cbTemperature.Checked)
                 options.temperature = (byte)nUDTemperature.Value;
-            if (cbDuration.Checked)
+            //if (cbDuration.Checked)
                 options.duration = (byte)nUDDuration.Value;
-            if (cbWashingSpeed.Checked)
+            //if (cbWashingSpeed.Checked)
                 options.washingspeed = (byte)nUDWashingSpeed.Value;
-            if (cbSpinningSpeed.Checked)
+            //if (cbSpinningSpeed.Checked)
                 options.spinningspeed = (byte)nUDSpinningSpeed.Value;
-            if (cbRinsingCycles.Checked)
+            //if (cbRinsingCycles.Checked)
                 options.rinsingCycles = (byte)nUDRinsingCycles.Value;
-            if (cbWaterLevel.Checked)
+            //if (cbWaterLevel.Checked)
                 options.waterlevel = (byte)nUDWaterLevel.Value;
 
             return options;
@@ -297,24 +297,54 @@ namespace WindowsFormsClient
                 $"Program {(WashProgram)listBoxPrograms.SelectedIndex}"));
 
             var defaultOptions = HardwareLibrary.GetDefaultOptions((WashProgram)listBoxPrograms.SelectedIndex);
+            if (defaultOptions == null)
+            {
+                nUDTemperature.Enabled = false;
+                trackBarTemperature.Enabled = false;
+                nUDDuration.Enabled = false;
+                trackBarDuration.Enabled = false;
+                nUDWashingSpeed.Enabled = false;
+                trackBarWashingSpeed.Enabled = false;
+                nUDSpinningSpeed.Enabled = false;
+                trackBarSpinningSpeed.Enabled = false;
+                nUDRinsingCycles.Enabled = false;
+                trackBarRinsingCycles.Enabled = false;
+                nUDWaterLevel.Enabled = false;
+                trackBarWaterLevel.Enabled = false;
+            }
+            else
+            {
+                nUDTemperature.Enabled = true;
+                trackBarTemperature.Enabled = true;
+                nUDDuration.Enabled = true;
+                trackBarDuration.Enabled = true;
+                nUDWashingSpeed.Enabled = true;
+                trackBarWashingSpeed.Enabled = true;
+                nUDSpinningSpeed.Enabled = true;
+                trackBarSpinningSpeed.Enabled = true;
+                nUDRinsingCycles.Enabled = true;
+                trackBarRinsingCycles.Enabled = true;
+                nUDWaterLevel.Enabled = true;
+                trackBarWaterLevel.Enabled = true;
 
-            nUDTemperature.Value = defaultOptions.temperature ?? 10;
-            trackBarTemperature.Value = defaultOptions.temperature ?? 10;
+                nUDTemperature.Value = defaultOptions.temperature ?? 10;
+                trackBarTemperature.Value = defaultOptions.temperature ?? 10;
 
-            nUDDuration.Value = defaultOptions.duration ?? 15;
-            trackBarDuration.Value = defaultOptions.duration ?? 15;
+                nUDDuration.Value = defaultOptions.duration ?? 15;
+                trackBarDuration.Value = defaultOptions.duration ?? 15;
 
-            nUDWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
-            trackBarWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
+                nUDWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
+                trackBarWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
 
-            nUDSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
-            trackBarSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
+                nUDSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
+                trackBarSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
 
-            nUDRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
-            trackBarRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
+                nUDRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
+                trackBarRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
 
-            nUDWaterLevel.Value = defaultOptions.waterlevel ?? 0;
-            trackBarWaterLevel.Value = defaultOptions.waterlevel ?? 0;
+                nUDWaterLevel.Value = defaultOptions.waterlevel ?? 0;
+                trackBarWaterLevel.Value = defaultOptions.waterlevel ?? 0;
+            }
         }
     }
 }
