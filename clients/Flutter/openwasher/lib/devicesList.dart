@@ -25,6 +25,7 @@ class DevicesListState extends State<DevicesList> {
   Timer _discoveringTimer;
   //
   bool _isDiscovering = false;
+  bool _isConnecting = false;
 
   //-----Constructor-----
   @override
@@ -44,13 +45,13 @@ class DevicesListState extends State<DevicesList> {
     });
 
     // Setup a list of the bonded devices
-    FlutterBluetoothSerial.instance
+/*     FlutterBluetoothSerial.instance
         .getBondedDevices()
         .then((List<BluetoothDevice> bondedDevices) {
       setState(() {
         devices = bondedDevices.map((device) => SlaveDevice(device)).toList();
       });
-    });
+    }); */
   }
 
   //-----Destructor-----
@@ -60,6 +61,76 @@ class DevicesListState extends State<DevicesList> {
     FlutterBluetoothSerial.instance.setPairingRequestHandler(null);
     _discoveringTimer?.cancel();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isConnecting)
+      return new Center(
+        child: new CircularProgressIndicator(),
+      );
+    else
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Devices'),
+        ),
+        body: Container(
+            child: ListView.builder(
+                padding: const EdgeInsets.all(16.0),
+                itemCount: devices.length,
+                itemBuilder: /*1*/ (BuildContext context, int index) {
+                  return BluetoothDeviceListEntry(
+                    slaveDevice: devices[index],
+                    onTap: () {
+                      onTapDevice(devices[index]);
+                    },
+                  );
+                })),
+      );
+  }
+
+  Future onTapDevice(SlaveDevice slaveDevice) async {
+    try {
+      if (slaveDevice.device.isBonded) {
+        Navigator.of(context).pop(slaveDevice.device);
+        return;
+      }
+
+      setState(() {
+        _isConnecting = true;
+      });
+
+      bool bonded = await FlutterBluetoothSerial.instance
+          .bondDeviceAtAddress(slaveDevice.device.address);
+
+      if (bonded) {
+        Navigator.of(context).pop(slaveDevice.device);
+      }
+    } catch (ex) {
+      showDialogWrapper('Error occured while bonding', "${ex.toString()}", () {
+        Navigator.of(context).pop();
+        FlutterBluetoothSerial.instance.setPairingRequestHandler(null);
+      });
+    } finally {
+      setState(() {
+        _isConnecting = false;
+      });
+    }
+  }
+
+  void showDialogWrapper(String title, String text, Function() onPressed) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(text),
+          actions: <Widget>[
+            new FlatButton(child: new Text("Close"), onPressed: onPressed),
+          ],
+        );
+      },
+    );
   }
 
   void setBluetoothState(BluetoothState state) {
@@ -72,8 +143,9 @@ class DevicesListState extends State<DevicesList> {
       _startDiscovery();
       //
       _discoveringTimer?.cancel();
-      _discoveringTimer =
-          Timer.periodic(Duration(seconds: 3), (Timer timer) {});
+      _discoveringTimer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+        _startDiscovery();
+      });
     } else
       _discoveringTimer?.cancel();
   }
@@ -96,7 +168,14 @@ class DevicesListState extends State<DevicesList> {
   }
 
   void addOrUpdateDevice(BluetoothDiscoveryResult result) {
-    print("Found device: " + result.device.address);
+    print("Found device: " +
+        (result.device.name ?? "null") +
+        "/" +
+        (result.device.address ?? "null") +
+        ", RSSI: " +
+        (result.rssi?.toString() ?? "null") +
+        ", " +
+        (result.device.bondState?.toString() ?? "null"));
 
     setState(() {
       Iterator i = devices.iterator;
@@ -111,86 +190,6 @@ class DevicesListState extends State<DevicesList> {
       devices.add(SlaveDevice(result.device, result.rssi));
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Devices'),
-      ),
-      body: Container(
-          child: ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: devices.length + 2,
-              itemBuilder: /*1*/ (BuildContext context, int index) {
-                if (index == 0) return btEnableWidget();
-                if (index == 1) return Divider();
-                return BluetoothDeviceListEntry(
-                  slaveDevice: devices[index - 2],
-                  onTap: () {
-                    onTapDevice(devices[index - 2]);
-                  },
-                );
-              })),
-    );
-  }
-
-  Widget btEnableWidget() {
-    return SwitchListTile(
-      title: const Text('Enable Bluetooth'),
-      value: _bluetoothState.isEnabled,
-      onChanged: (bool value) {
-        // Do the request and update with the true value then
-        future() async {
-          // async lambda seems to not working
-          if (value)
-            await FlutterBluetoothSerial.instance.requestEnable();
-          else
-            await FlutterBluetoothSerial.instance.requestDisable();
-        }
-
-        future().then((_) {
-          setState(() {});
-        });
-      },
-    );
-  }
-
-  Future onTapDevice(SlaveDevice slaveDevice) async {
-    try {
-      if (slaveDevice.device.isBonded) {
-        Navigator.of(context).pop(slaveDevice.device);
-        return;
-      }
-
-      bool bonded = await FlutterBluetoothSerial.instance
-          .bondDeviceAtAddress(slaveDevice.device.address);
-
-      if (bonded) {
-        Navigator.of(context).pop(slaveDevice.device);
-      }
-    } catch (ex) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error occured while bonding'),
-            content: Text("${ex.toString()}"),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  FlutterBluetoothSerial.instance
-                      .setPairingRequestHandler(null);
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
 }
 
 class BluetoothDeviceListEntry extends ListTile {
@@ -203,60 +202,10 @@ class BluetoothDeviceListEntry extends ListTile {
           onTap: onTap,
           onLongPress: onLongPress,
           enabled: enabled,
-          leading:
-              Icon(Icons.devices), // @TODO . !BluetoothClass! class aware icon
-          title: Text(slaveDevice.device.name ?? "Unknown device"),
+          leading: getRSSIIcon(slaveDevice.rssi),
+          title: Text(slaveDevice.device.name ?? "Unknown"),
           subtitle: Text(slaveDevice.device.address.toString()),
           trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            slaveDevice.rssi != null
-                ? Container(
-                    margin: new EdgeInsets.all(8.0),
-                    child: DefaultTextStyle(
-                        style: () {
-                          /**/ if (slaveDevice.rssi >= -35)
-                            return TextStyle(color: Colors.greenAccent[700]);
-                          else if (slaveDevice.rssi >= -45)
-                            return TextStyle(
-                                color: Color.lerp(
-                                    Colors.greenAccent[700],
-                                    Colors.lightGreen,
-                                    -(slaveDevice.rssi + 35) / 10));
-                          else if (slaveDevice.rssi >= -55)
-                            return TextStyle(
-                                color: Color.lerp(
-                                    Colors.lightGreen,
-                                    Colors.lime[600],
-                                    -(slaveDevice.rssi + 45) / 10));
-                          else if (slaveDevice.rssi >= -65)
-                            return TextStyle(
-                                color: Color.lerp(
-                                    Colors.lime[600],
-                                    Colors.amber,
-                                    -(slaveDevice.rssi + 55) / 10));
-                          else if (slaveDevice.rssi >= -75)
-                            return TextStyle(
-                                color: Color.lerp(
-                                    Colors.amber,
-                                    Colors.deepOrangeAccent,
-                                    -(slaveDevice.rssi + 65) / 10));
-                          else if (slaveDevice.rssi >= -85)
-                            return TextStyle(
-                                color: Color.lerp(
-                                    Colors.deepOrangeAccent,
-                                    Colors.redAccent,
-                                    -(slaveDevice.rssi + 75) / 10));
-                          else
-                            /*code symetry*/
-                            return TextStyle(color: Colors.redAccent);
-                        }(),
-                        child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(slaveDevice.rssi.toString()),
-                              Text('dBm'),
-                            ])),
-                  )
-                : Container(width: 0, height: 0),
             slaveDevice.device.isConnected
                 ? Icon(Icons.import_export)
                 : Container(width: 0, height: 0),
@@ -265,4 +214,38 @@ class BluetoothDeviceListEntry extends ListTile {
                 : Container(width: 0, height: 0),
           ]),
         );
+
+  static getRSSIIcon(int rssi) {
+    return Container(
+      margin: new EdgeInsets.all(0),
+      child: DefaultTextStyle(
+          style: new TextStyle(color: getRSSIColor(rssi)),
+          child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            Text(rssi?.toString() ?? "-"),
+            Text('dBm'),
+          ])),
+    );
+  }
+
+  static getRSSIColor(int rssi) {
+    if (rssi == null) return Colors.red;
+
+    if (rssi >= -35)
+      return Colors.greenAccent[700];
+    else if (rssi >= -45)
+      return Color.lerp(
+          Colors.greenAccent[700], Colors.lightGreen, -(rssi + 35) / 10);
+    else if (rssi >= -55)
+      return Color.lerp(Colors.lightGreen, Colors.lime[600], -(rssi + 45) / 10);
+    else if (rssi >= -65)
+      return Color.lerp(Colors.lime[600], Colors.amber, -(rssi + 55) / 10);
+    else if (rssi >= -75)
+      return Color.lerp(
+          Colors.amber, Colors.deepOrangeAccent, -(rssi + 65) / 10);
+    else if (rssi >= -85)
+      return Color.lerp(
+          Colors.deepOrangeAccent, Colors.redAccent, -(rssi + 75) / 10);
+    else
+      return Colors.redAccent;
+  }
 }

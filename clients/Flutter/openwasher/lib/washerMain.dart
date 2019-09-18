@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'dart:async';
 import 'devicesList.dart';
 
 class WasherMain extends StatefulWidget {
@@ -12,8 +11,15 @@ class WasherMainState extends State<WasherMain> {
   BluetoothDevice _selectedDevice;
 
   @override
-  Future initState() async {
+  void initState() {
     super.initState();
+
+    init();
+  }
+
+  init() async {
+    var enabled = await FlutterBluetoothSerial.instance.requestEnable();
+    if (!enabled) Navigator.of(context).pop();
 
     _selectedDevice =
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) {

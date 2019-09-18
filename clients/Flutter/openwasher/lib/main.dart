@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'devicesList.dart';
+import 'washerMain.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DevicesList(),
+      home: WasherMain(),
     );
   }
 }
