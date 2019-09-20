@@ -65,28 +65,43 @@ class DevicesListState extends State<DevicesList> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isConnecting)
-      return new Center(
-        child: new CircularProgressIndicator(),
-      );
-    else
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Devices'),
-        ),
-        body: Container(
-            child: ListView.builder(
-                padding: const EdgeInsets.all(16.0),
-                itemCount: devices.length,
-                itemBuilder: /*1*/ (BuildContext context, int index) {
-                  return BluetoothDeviceListEntry(
-                    slaveDevice: devices[index],
-                    onTap: () {
-                      onTapDevice(devices[index]);
-                    },
-                  );
-                })),
-      );
+    return new WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('Devices'),
+            ),
+            body: Stack(
+                children: _isConnecting
+                    ? <Widget>[
+                        Opacity(
+                            opacity: 0.4,
+                            child: ListView.builder(
+                                padding: const EdgeInsets.all(16.0),
+                                itemCount: devices.length,
+                                itemBuilder: /*1*/ (BuildContext context,
+                                    int index) {
+                                  return BluetoothDeviceListEntry(
+                                      slaveDevice: devices[index]);
+                                })),
+                        Center(
+                          child: new CircularProgressIndicator(),
+                        )
+                      ]
+                    : <Widget>[
+                        ListView.builder(
+                            padding: const EdgeInsets.all(16.0),
+                            itemCount: devices.length,
+                            itemBuilder: /*1*/ (BuildContext context,
+                                int index) {
+                              return BluetoothDeviceListEntry(
+                                slaveDevice: devices[index],
+                                onTap: () {
+                                  onTapDevice(devices[index]);
+                                },
+                              );
+                            })
+                      ])));
   }
 
   Future onTapDevice(SlaveDevice slaveDevice) async {
