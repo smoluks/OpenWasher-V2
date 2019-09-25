@@ -1,9 +1,6 @@
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class OpenWasherApi {
   BluetoothConnection connection;
@@ -19,9 +16,15 @@ class OpenWasherApi {
     });
   }
 
+  void dispose() {
+    connection.dispose();
+  }
+
   void _onDataReceived(Uint8List data) {}
 
-  void ping() {}
+  Future ping() async {
+    await sendCommand(new Uint8List(0));
+  }
 
   Future sendCommand(Uint8List command) async {
     Uint8List data = new Uint8List(command.length + 3);
@@ -49,6 +52,7 @@ class OpenWasherApi {
         currentByte >>= 1;
       }
     }
+
     return crc;
   }
 }
