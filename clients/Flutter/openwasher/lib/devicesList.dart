@@ -67,7 +67,7 @@ class DevicesListState extends State<DevicesList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Devices'),
+          title: Text('Select washer'),
         ),
         body: Stack(
             children: _isConnecting

@@ -44,6 +44,7 @@ class WasherMainState extends State<WasherMain> {
 
       try {
         _apiManager = new OpenWasherApi(_selectedDevice.address);
+        _apiManager.ping();
       } catch (ex) {
         _error = ex.toString();
       }
@@ -52,8 +53,10 @@ class WasherMainState extends State<WasherMain> {
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedDevice != null)
-      return getNormalView();
+    if (_apiManager == null)
+      return getNotSelectedWiev();
+    else if (!_apiManager.isConnected())
+      return connectingView();
     else
       return getNotSelectedWiev();
   }
@@ -66,17 +69,27 @@ class WasherMainState extends State<WasherMain> {
         //
         body: Column(
           children: <Widget>[
-            Expanded(
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Image.asset('images/washer_stopped.png'),
-              ),
-            ),
+            // Expanded(
+            //   child: FittedBox(
+            //     fit: BoxFit.contain,
+            //     child: Image.asset('images/washer_stopped.png'),
+            //   ),
+            // ),
             Text('Pragram:'),
             Text('Stage:'),
             Text('T:'),
+            Text('Error: ' + _error),
           ],
         ));
+  }
+
+  Widget connectingView() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Connecting..."),
+      ),
+      body: Center(),
+    );
   }
 
   Widget getNotSelectedWiev() {
