@@ -1,3 +1,0 @@
-PB6 - PA9
-PB7 - PA10
-BT_MODE pull down
