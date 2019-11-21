@@ -560,7 +560,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect failed.
+        ///   Looks up a localized string similar to Connection error: {0}.
         /// </summary>
         internal static string Status_ConnectFailed {
             get {
@@ -578,7 +578,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not found.
+        ///   Looks up a localized string similar to Washer not found.
         /// </summary>
         internal static string Status_NotFound {
             get {

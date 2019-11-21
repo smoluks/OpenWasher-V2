@@ -1,10 +1,12 @@
-﻿namespace OpenWasherHardwareLibrary.Commands
+﻿using OpenWasherHardwareLibrary.Enums;
+
+namespace OpenWasherHardwareLibrary.Commands
 {
-    public class GoToBootloader : IWasherCommand
+    internal class GoToBootloader : IWasherCommand
     {
         public byte[] GetRequest()
         {
-            return new byte[1] { 0x0A };
+            return new byte[1] { (byte)PacketType.EnterProgrammingMode };
         }
     }
 }

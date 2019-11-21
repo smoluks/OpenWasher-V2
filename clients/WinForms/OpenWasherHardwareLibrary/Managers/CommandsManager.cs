@@ -1,5 +1,6 @@
 ﻿using OpenWasherHardwareLibrary.Commands;
 using OpenWasherHardwareLibrary.Enums;
+using OpenWasherHardwareLibrary.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,23 +19,22 @@ namespace OpenWasherHardwareLibrary.Managers
         private readonly MessageReceivedDelegate messageDelegate;
         private readonly ErrorReceivedDelegate errorDelegate;
         private readonly EventReceivedDelegate eventDelegate;
-        private readonly ConnectionEventDelegate connectionEventDelegate;
 
         internal static IEnumerable<string> AvaliableComPorts => IOManager.GetAvaliableComPorts();
+
+        public bool IsConnected => _io != null;
 
         internal CommandsManager(
             MessageReceivedDelegate messageDelegate = null,
             ErrorReceivedDelegate errorDelegate = null,
-            EventReceivedDelegate eventDelegate = null,
-            ConnectionEventDelegate connectionEventDelegate = null)
+            EventReceivedDelegate eventDelegate = null)
         {
             this.messageDelegate = messageDelegate;
             this.errorDelegate = errorDelegate;
             this.eventDelegate = eventDelegate;
-            this.connectionEventDelegate = connectionEventDelegate;
         }
 
-        internal async Task ConnectAsync(string port = null)
+        internal async Task<(ConnectionEventType result, string port, string error)> ConnectAsync(CancellationToken token, string port = null)
         {
             if (_io != null)
                 _io.Dispose();
@@ -42,20 +42,21 @@ namespace OpenWasherHardwareLibrary.Managers
             if (!string.IsNullOrEmpty(port) && port != "AUTO")
             {
                 //connect to port
-                var result = await GetConnectionTask(port);
-                if (result.Success)
+                var (Success, Error, ioManager) = await GetConnectionTask(token, port);
+                token.ThrowIfCancellationRequested();
+
+                if (Success)
                 {
-                    _io = result.ioManager;
-                    connectionEventDelegate?.Invoke(ConnectionEventType.Connected, _io.Port);
+                    _io = ioManager;
+                    return (ConnectionEventType.Connected, _io.Port, null);
                 }
-                else
-                    connectionEventDelegate?.Invoke(ConnectionEventType.ConnectFailed, result.Error);
+                else return (ConnectionEventType.ConnectFailed, null, Error);
             }
             else
             {
                 //try connect to all ports
                 var ports = IOManager.GetAvaliableComPorts();
-                var tasks = ports.Select(x => GetConnectionTask(x)).ToList();
+                var tasks = ports.Select(x => GetConnectionTask(token, x)).ToList();
 
                 while (tasks.Count > 0)
                 {
@@ -65,40 +66,25 @@ namespace OpenWasherHardwareLibrary.Managers
                         if (_io == null)
                         {
                             _io = connectTask.Result.ioManager;
-                            connectionEventDelegate?.Invoke(ConnectionEventType.Connected, _io.Port);
+                            return (ConnectionEventType.Connected, _io.Port, null);
                         }
                         else _io.Dispose();
-                    }                  
+                    }
 
                     tasks.Remove(connectTask);
                 }
 
-                if(_io == null)
-                    connectionEventDelegate?.Invoke(ConnectionEventType.NotFound, null);
-            }
-        }
-
-        private async Task<(bool Success, string Error, IOManager ioManager)> GetConnectionTask(string port)
-        {
-            IOManager ioManager = null;
-            try
-            {
-                ioManager = new IOManager(port, messageDelegate, errorDelegate, eventDelegate);
-                Thread.Sleep(DELAY_AFTER_CONNECT);
-                await SendCommandAsync(ioManager, new Ping());
-                return (true, null, ioManager);
-            }
-            catch( Exception e)
-            {
-                ioManager.Dispose();
-                return (false, e.Message, null);
+                return (ConnectionEventType.NotFound, null, null);
             }
         }
 
         internal void Disconnect()
         {
             if (_io != null)
+            {
                 _io.Dispose();
+                _io = null;
+            }
         }
 
         public void Dispose()
@@ -107,26 +93,47 @@ namespace OpenWasherHardwareLibrary.Managers
                 _io.Dispose();
         }
 
-        internal async Task<TRESULT> SendCommandAsync<TRESULT>(IWasherCommand<TRESULT> command, int timeout)
+        private async Task<(bool Success, string Error, IOManager ioManager)> GetConnectionTask(CancellationToken token, string port)
         {
-            return await SendCommandAsync(_io, command, timeout);
+            IOManager ioManager = null;
+            try
+            {
+                ioManager = new IOManager(port, messageDelegate, errorDelegate, eventDelegate);
+
+                //wait washer bt start
+                if (token.WaitHandle.WaitOne(DELAY_AFTER_CONNECT))
+                    return (false, "CancellationToken", null);
+
+                await SendCommandAsync(token, ioManager, new Ping());
+                if (token.IsCancellationRequested)
+                    return (false, "CancellationToken", null);
+
+                return (true, null, ioManager);
+            }
+            catch (Exception e)
+            {
+                ioManager.Dispose();
+                return (false, e.Message, null);
+            }
         }
 
-        internal async Task SendCommandAsync(IWasherCommand command, int timeout)
+        internal async Task SendCommandAsync(CancellationToken token, IWasherCommand command, int timeout)
         {
-            await SendCommandAsync(_io, command, timeout);
+            await SendCommandAsync(token, _io, command, timeout);
         }
 
-        private async Task SendCommandAsync(IOManager iomanager, IWasherCommand command, int timeout = 10000, int tryCount = 3)
+        private async Task SendCommandAsync(CancellationToken token, IOManager iomanager, IWasherCommand command, int timeout = 10000, int tryCount = 3)
         {
             if (iomanager == null)
-                throw new ApplicationException("No connection");
+                throw new CommandException("No connection");
 
             do
             {
+                token.ThrowIfCancellationRequested();
+
                 try
                 {
-                    await iomanager.SendAsync(command.GetRequest(), timeout);
+                    await iomanager.SendAsync(token, command.GetRequest(), timeout);
                     return;
                 }
                 catch (TimeoutException e)
@@ -140,19 +147,24 @@ namespace OpenWasherHardwareLibrary.Managers
             throw new TimeoutException($"No answer at {timeout} ms");
         }
 
-        private async Task<TRESULT> SendCommandAsync<TRESULT>(IOManager iomanager, IWasherCommand<TRESULT> command, int timeout = 10000, int tryCount = 3)
+        internal async Task<TRESULT> SendCommandAsync<TRESULT>(CancellationToken token, IWasherCommand<TRESULT> command, int timeout)
+        {
+            return await SendCommandAsync(token, _io, command, timeout);
+        }
+        private async Task<TRESULT> SendCommandAsync<TRESULT>(CancellationToken token, IOManager iomanager, IWasherCommand<TRESULT> command, int timeout = 10000, int tryCount = 3)
         {
             if (iomanager == null)
-                throw new ApplicationException("No connection");
+                throw new CommandException("No connection");
 
             do
             {
+                token.ThrowIfCancellationRequested();
                 try
                 {
-                    var responce = await iomanager.SendAsync(command.GetRequest(), timeout);
+                    var responce = await iomanager.SendAsync(token, command.GetRequest(), timeout);
                     return command.ParceResponse(responce);
                 }
-                catch(TimeoutException e)
+                catch (TimeoutException e)
                 {
                     if (--tryCount <= 0)
                         throw e;

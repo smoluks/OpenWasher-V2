@@ -42,26 +42,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GetDefaultOptions.cs" />
+    <Compile Include="Commands\GetTime.cs" />
+    <Compile Include="Commands\SetConfig.cs" />
+    <Compile Include="Commands\GetConfig.cs" />
     <Compile Include="Commands\GetStatus.cs" />
     <Compile Include="Commands\GoToBootloader.cs" />
-    <Compile Include="Commands\IWasherCommand.cs" />
+    <Compile Include="Commands\I\IWasherCommand.cs" />
     <Compile Include="Commands\Ping.cs" />
+    <Compile Include="Commands\SetTime.cs" />
     <Compile Include="Commands\StartProgram.cs" />
     <Compile Include="Commands\StopProgram.cs" />
     <Compile Include="Entity\ProgramOptions.cs" />
     <Compile Include="Entity\Status.cs" />
-    <Compile Include="Enums\AnswerType.cs" />
+    <Compile Include="Enums\PacketType.cs" />
     <Compile Include="Enums\ConnectionEventType.cs" />
     <Compile Include="Enums\ErrorType.cs" />
     <Compile Include="Enums\EventType.cs" />
     <Compile Include="Enums\WashProgram.cs" />
     <Compile Include="Enums\Stage.cs" />
+    <Compile Include="Exceptions\PacketException.cs" />
     <Compile Include="Exceptions\CommandException.cs" />
     <Compile Include="Managers\CommandsManager.cs" />
     <Compile Include="HardwareLibrary.cs" />
-    <Compile Include="Managers\IOManager.cs" />
+    <Compile Include="Managers\IOBootloaderManager.cs" />
+    <Compile Include="Managers\IOPacketManager.cs" />
     <Compile Include="Managers\LogManager.cs" />
-    <Compile Include="Managers\ParamsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

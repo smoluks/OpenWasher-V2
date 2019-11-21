@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using static OpenWasherHardwareLibrary.HardwareLibrary;
 
@@ -15,8 +16,8 @@ namespace OpenWasherHardwareLibrary
     {
         const int baudrate = 115200;
         const Parity parity = Parity.Even;
-        const int timeout = 5000;
-        const int readTimeGap = 200;
+        const int IO_TIMEOUT = 500;
+        const int READ_GAP = 200;
 
         private readonly MessageReceivedDelegate messageDelegate;
         private readonly ErrorReceivedDelegate errorDelegate;
@@ -24,9 +25,9 @@ namespace OpenWasherHardwareLibrary
 
         internal string Port { get; private set; }
 
-        SerialPort _serialPort;
+        readonly SerialPort _serialPort;
         readonly Queue<byte> receiveQueue = new Queue<byte>();
-        private ConcurrentDictionary<AnswerType, byte[]> waitingAnswers = new ConcurrentDictionary<AnswerType, byte[]>();
+        private readonly ConcurrentDictionary<PacketType, byte[]> waitingAnswers = new ConcurrentDictionary<PacketType, byte[]>();
 
         internal IOManager(string portname,
             MessageReceivedDelegate messageDelegate = null,
@@ -43,8 +44,8 @@ namespace OpenWasherHardwareLibrary
                 PortName = portname,
                 BaudRate = baudrate,
                 Parity = parity,
-                ReadTimeout = timeout,
-                WriteTimeout = timeout
+                ReadTimeout = IO_TIMEOUT,
+                WriteTimeout = IO_TIMEOUT
             };
 
             try
@@ -83,7 +84,7 @@ namespace OpenWasherHardwareLibrary
             return SerialPort.GetPortNames();
         }
 
-        internal async Task<byte[]> SendAsync(byte[] buffer, int timeout)
+        internal async Task<byte[]> SendAsync(CancellationToken token, byte[] buffer, int timeout)
         {
             var array = new byte[buffer.Count() + 3];
             array[0] = 0xAB;
@@ -93,6 +94,7 @@ namespace OpenWasherHardwareLibrary
 
             LogManager.WriteData($"{_serialPort.PortName} Send: ", array);
 
+            //send packet
             try
             {
                 _serialPort.Write(array, 0, buffer.Count() + 3);
@@ -103,12 +105,17 @@ namespace OpenWasherHardwareLibrary
                 throw;
             }
 
+            //add waiter
             var type = GetMessageType(buffer);
             waitingAnswers.AddOrUpdate(type, (key) => null, (key, oldValue) => null);
 
-            timeout /= readTimeGap;
-            while (timeout-- != 0)
+            //check waiter
+            timeout = (int)Math.Ceiling((float)timeout / READ_GAP);
+            while (timeout-- > 0)
             {
+                if (token.WaitHandle.WaitOne(READ_GAP))
+                    throw new OperationCanceledException();
+
                 if (waitingAnswers.TryGetValue(type, out byte[] result) && result != null)
                 {
                     waitingAnswers.TryRemove(type, out byte[] t);
@@ -118,18 +125,16 @@ namespace OpenWasherHardwareLibrary
                         switch(result[0] & 0b11000000)
                         {
                             case 0x40:
-                                throw new CommandException("Bad command");
+                                throw new PacketException("Bad command");
                             case 0x80:
-                                throw new CommandException("Bad args");
+                                throw new PacketException("Bad args");
                             case 0xC0:
-                                throw new CommandException("Device busy");
+                                throw new PacketException("Device busy");
                         }
                     }
 
                     return result;
                 };
-
-                await Task.Delay(readTimeGap);
             }
 
             throw new TimeoutException($"No answer at {timeout} ms");
@@ -144,9 +149,11 @@ namespace OpenWasherHardwareLibrary
 
             LogManager.WriteData($"{_serialPort.PortName} Receive: ", data);
 
+            //push to queue
             for (int i = 0; i < readed; i++)
                 receiveQueue.Enqueue(data[i]);
 
+            //try to restore packet from queue
             ProcessQueue();
         }
 
@@ -155,7 +162,7 @@ namespace OpenWasherHardwareLibrary
             while (receiveQueue.Count > 2)
             {
                 //get marker
-                var marker = receiveQueue.Peek();
+                var marker = receiveQueue.ElementAt(0);
                 if (marker != 0xAB)
                 {
                     receiveQueue.Dequeue();
@@ -165,9 +172,9 @@ namespace OpenWasherHardwareLibrary
                 //get length
                 var length = receiveQueue.ElementAt(1);
                 if (receiveQueue.Count < length+3)
-                    return;
+                    return; //wait fully packet
 
-                //process
+                //process packet
                 receiveQueue.Dequeue();
                 receiveQueue.Dequeue();
                 byte crc = GetAdditiveCrc(length, 0x8F);
@@ -191,23 +198,23 @@ namespace OpenWasherHardwareLibrary
         {
             var messageType = GetMessageType(data);
 
-            if (messageType == AnswerType.Message)
+            if (messageType == PacketType.Message)
                 messageDelegate?.Invoke(System.Text.Encoding.ASCII.GetString(data, 1, data.Count() - 1));
-            else if (messageType == AnswerType.Error)
+            else if (messageType == PacketType.Error)
                 errorDelegate?.Invoke((ErrorType)data[1], null);
-            else if (messageType == AnswerType.Event)
+            else if (messageType == PacketType.Event)
                 eventDelegate?.Invoke((EventType)data[1], null);
             else {
                 waitingAnswers.TryUpdate(messageType, data, null);
             }
         }
 
-        private AnswerType GetMessageType(byte[] data)
+        private PacketType GetMessageType(byte[] data)
         {
             if (data.Length == 0)
-                return AnswerType.Ping;
+                return PacketType.Ping;
             else
-                return (AnswerType)(data[0]);
+                return (PacketType)(data[0]);
         }
 
         private static byte GetAdditiveCrc(byte data, byte oldcrc)

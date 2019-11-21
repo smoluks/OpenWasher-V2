@@ -397,11 +397,6 @@
             0,
             0,
             0});
-            this.nUDDuration.Minimum = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
             this.nUDDuration.Name = "nUDDuration";
             this.nUDDuration.Size = new System.Drawing.Size(63, 20);
             this.nUDDuration.TabIndex = 42;
@@ -420,16 +415,11 @@
             0,
             0,
             0});
-            this.nUDTemperature.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             this.nUDTemperature.Name = "nUDTemperature";
             this.nUDTemperature.Size = new System.Drawing.Size(63, 20);
             this.nUDTemperature.TabIndex = 43;
             this.nUDTemperature.Value = new decimal(new int[] {
-            10,
+            50,
             0,
             0,
             0});
@@ -538,7 +528,6 @@
             // 
             this.trackBarDuration.Location = new System.Drawing.Point(222, 116);
             this.trackBarDuration.Maximum = 180;
-            this.trackBarDuration.Minimum = 15;
             this.trackBarDuration.Name = "trackBarDuration";
             this.trackBarDuration.Size = new System.Drawing.Size(212, 45);
             this.trackBarDuration.TabIndex = 47;
@@ -551,12 +540,11 @@
             this.trackBarTemperature.LargeChange = 10;
             this.trackBarTemperature.Location = new System.Drawing.Point(222, 68);
             this.trackBarTemperature.Maximum = 80;
-            this.trackBarTemperature.Minimum = 10;
             this.trackBarTemperature.Name = "trackBarTemperature";
             this.trackBarTemperature.Size = new System.Drawing.Size(212, 45);
             this.trackBarTemperature.SmallChange = 5;
             this.trackBarTemperature.TabIndex = 48;
-            this.trackBarTemperature.Value = 10;
+            this.trackBarTemperature.Value = 50;
             this.trackBarTemperature.Scroll += new System.EventHandler(this.TrackBarTemperature_Scroll);
             // 
             // listBoxPrograms

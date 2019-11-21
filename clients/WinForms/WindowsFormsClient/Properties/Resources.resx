@@ -153,7 +153,7 @@
   </data>
   <data name="Program_2_Comment" xml:space="preserve">
     <value>Extremely soiled whites (sheets, tablecloths, etc.)</value>
-  </data>   
+  </data>
   <data name="Program_3" xml:space="preserve">
     <value>Сotton 60°</value>
   </data>
@@ -170,91 +170,91 @@
     <value>Сotton 30°</value>
   </data>
   <data name="Program_5_Comment" xml:space="preserve">
-    <value>Slightly soiled shedding colours</value>  
+    <value>Slightly soiled shedding colours</value>
   </data>
   <data name="Program_6" xml:space="preserve">
     <value>Synthetics 60°</value>
   </data>
   <data name="Program_6_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_7" xml:space="preserve">
     <value>Synthetics 50°</value>
   </data>
   <data name="Program_7_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_8" xml:space="preserve">
     <value>Synthetics 40°</value>
   </data>
   <data name="Program_8_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_9" xml:space="preserve">
     <value>Synthetics 30°</value>
   </data>
   <data name="Program_9_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_10" xml:space="preserve">
     <value>Wool</value>
   </data>
   <data name="Program_10_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_11" xml:space="preserve">
     <value>Silk</value>
   </data>
   <data name="Program_11_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_12" xml:space="preserve">
     <value>Rinse</value>
   </data>
   <data name="Program_12_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_13" xml:space="preserve">
     <value>Delicate rinse</value>
   </data>
   <data name="Program_13_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_14" xml:space="preserve">
     <value>Spin</value>
   </data>
   <data name="Program_14_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_15" xml:space="preserve">
     <value>Delicate spin</value>
   </data>
   <data name="Program_15_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_16" xml:space="preserve">
     <value>Drain</value>
   </data>
   <data name="Program_16_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_17" xml:space="preserve">
     <value>Drain pipes </value>
   </data>
   <data name="Program_17_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_18" xml:space="preserve">
     <value>Water heater</value>
   </data>
   <data name="Program_18_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Program_19" xml:space="preserve">
     <value>Grinding brushes</value>
   </data>
   <data name="Program_19_Comment" xml:space="preserve">
-    <value></value>  
+    <value />
   </data>
   <data name="Stage_0" xml:space="preserve">
     <value>Stop</value>
@@ -287,7 +287,7 @@
     <value>Self-testing</value>
   </data>
   <data name="Status_NotFound" xml:space="preserve">
-    <value>Not found</value>
+    <value>Washer not found</value>
   </data>
   <data name="Status_Connected" xml:space="preserve">
     <value>{0} Connected</value>
@@ -299,6 +299,6 @@
     <value>{0}: {1}</value>
   </data>
   <data name="Status_ConnectFailed" xml:space="preserve">
-    <value>Connect failed</value>
+    <value>Connection error: {0}</value>
   </data>
 </root>

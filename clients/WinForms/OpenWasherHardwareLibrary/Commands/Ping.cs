@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace OpenWasherHardwareLibrary.Commands
+﻿namespace OpenWasherHardwareLibrary.Commands
 {
-    public class Ping : IWasherCommand
+    internal class Ping : IWasherCommand
     {
         public byte[] GetRequest()
         {

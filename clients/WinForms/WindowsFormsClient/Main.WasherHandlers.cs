@@ -3,30 +3,8 @@ using System.Windows.Forms;
 
 namespace WindowsFormsClient
 {
-    public partial class Main : Form
+    public partial class Main
     {
-        private void ConnectionEventHandler(ConnectionEventType type, string text)
-        {
-            this.Invoke((MethodInvoker)(() =>
-            {
-                switch (type)
-                {
-                    case ConnectionEventType.Connected:
-                        SetStatusText(string.Format(localizator.GetString("Status_Connected", "{0} Connected"), text));
-                        btnRunProgram.Enabled = true;
-                        timerPoll.Enabled = true;
-                        timerPoll_Tick(null, null);
-                        break;
-                    case ConnectionEventType.ConnectFailed:
-                        SetStatusText(localizator.GetString("Status_ConnectFailed", text));
-                        break;
-                    case ConnectionEventType.NotFound:
-                        SetStatusText(localizator.GetString("Status_NotFound", "Not found"));
-                        break;
-                }
-            }));
-        }
-
         private void EventHandler(EventType type, byte[] data)
         {
             this.Invoke((MethodInvoker)(() =>
@@ -49,7 +27,7 @@ namespace WindowsFormsClient
                         isWashing = false;
                         break;
                     case EventType.GoToBootloader:
-                        this.Close();
+                        this.Disconnect();
                         isWashing = false;
                         break;
                 }

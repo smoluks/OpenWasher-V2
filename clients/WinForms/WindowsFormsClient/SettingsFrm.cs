@@ -26,7 +26,7 @@ namespace WindowsFormsClient
         private void SettingsFrm_Load(object sender, System.EventArgs e)
         {
             var ports = new List<string>() { "AUTO" };
-            ports.AddRange(HardwareLibrary.GetComPorts());
+            ports.AddRange(HardwareLibrary.GetComPorts);
             comboBoxPort.Items.AddRange(ports.ToArray());
             comboBoxPort.SelectedItem = ports.Where(x => x == newConfig.Port).FirstOrDefault();
 
