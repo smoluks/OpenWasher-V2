@@ -31,11 +31,15 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.connectButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.breakConnectButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.disconnectButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToBootloaderButton = new System.Windows.Forms.ToolStripMenuItem();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTemp = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnOptions = new System.Windows.Forms.ToolStripDropDownButton();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FirmwareUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,14 +98,61 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSplitButton1,
             this.lblStatus,
             this.lblTemp,
             this.btnOptions});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 376);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 378);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(647, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(647, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripSplitButton1
+            // 
+            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectButton,
+            this.breakConnectButton,
+            this.disconnectButton,
+            this.goToBootloaderButton});
+            this.toolStripSplitButton1.Image = global::OpenWasherClient.Properties.Resources.link;
+            this.toolStripSplitButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 20);
+            this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+            // 
+            // connectButton
+            // 
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(192, 22);
+            this.connectButton.Text = "Connect";
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            // 
+            // breakConnectButton
+            // 
+            this.breakConnectButton.Name = "breakConnectButton";
+            this.breakConnectButton.Size = new System.Drawing.Size(192, 22);
+            this.breakConnectButton.Text = "Break connect process";
+            this.breakConnectButton.Visible = false;
+            this.breakConnectButton.Click += new System.EventHandler(this.breakConnectToolStripMenuItem_Click);
+            // 
+            // disconnectButton
+            // 
+            this.disconnectButton.Enabled = false;
+            this.disconnectButton.Name = "disconnectButton";
+            this.disconnectButton.Size = new System.Drawing.Size(192, 22);
+            this.disconnectButton.Text = "Disconnect";
+            this.disconnectButton.Click += new System.EventHandler(this.disconnectButton_Click);
+            // 
+            // goToBootloaderButton
+            // 
+            this.goToBootloaderButton.Enabled = false;
+            this.goToBootloaderButton.Name = "goToBootloaderButton";
+            this.goToBootloaderButton.Size = new System.Drawing.Size(192, 22);
+            this.goToBootloaderButton.Text = "Reboot to bootloader";
+            this.goToBootloaderButton.Click += new System.EventHandler(this.goToBootloaderButton_Click);
             // 
             // lblStatus
             // 
@@ -109,7 +160,7 @@
             this.lblStatus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
             this.lblStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(530, 19);
+            this.lblStatus.Size = new System.Drawing.Size(500, 17);
             this.lblStatus.Text = "Test text";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -119,7 +170,7 @@
             this.lblTemp.Image = global::OpenWasherClient.Properties.Resources.thermometer;
             this.lblTemp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblTemp.Name = "lblTemp";
-            this.lblTemp.Size = new System.Drawing.Size(51, 19);
+            this.lblTemp.Size = new System.Drawing.Size(51, 17);
             this.lblTemp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnOptions
@@ -128,48 +179,41 @@
             this.btnOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOptions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.FirmwareUpdateToolStripMenuItem,
             this.logToolStripMenuItem,
             this.toolStripSeparator1,
             this.AboutToolStripMenuItem});
             this.btnOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnOptions.Image")));
             this.btnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(29, 22);
+            this.btnOptions.Size = new System.Drawing.Size(29, 20);
             this.btnOptions.Text = "toolStripDropDownButton1";
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // FirmwareUpdateToolStripMenuItem
-            // 
-            this.FirmwareUpdateToolStripMenuItem.Name = "FirmwareUpdateToolStripMenuItem";
-            this.FirmwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.FirmwareUpdateToolStripMenuItem.Text = "Firmware update";
-            this.FirmwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.FirmwareUpdateToolStripMenuItem_Click);
             // 
             // logToolStripMenuItem
             // 
             this.logToolStripMenuItem.Enabled = false;
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-            this.logToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.logToolStripMenuItem.Text = "Log";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.AboutToolStripMenuItem.Text = "About";
+            this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // timerPoll
             // 
@@ -600,7 +644,6 @@
         private System.Windows.Forms.ToolStripDropDownButton btnOptions;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.Timer timerPoll;
-        private System.Windows.Forms.ToolStripMenuItem FirmwareUpdateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblTemp;
         private System.Windows.Forms.NotifyIcon trayIcon;
@@ -640,6 +683,11 @@
         private System.Windows.Forms.Label labelWashingSpeed;
         private System.Windows.Forms.Label labelDuration;
         private System.Windows.Forms.Label labelTemperature;
+        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        private System.Windows.Forms.ToolStripMenuItem connectButton;
+        private System.Windows.Forms.ToolStripMenuItem disconnectButton;
+        private System.Windows.Forms.ToolStripMenuItem goToBootloaderButton;
+        private System.Windows.Forms.ToolStripMenuItem breakConnectButton;
     }
 }
 

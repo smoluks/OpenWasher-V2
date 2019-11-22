@@ -20,7 +20,7 @@ namespace WindowsFormsClient
         private LogFrm logFrm;
         private SettingsFrm settingsForm;
         private AboutFrm aboutForm;
-        private FirmwareFrm firmwareFrm;
+        //private FirmwareFrm firmwareFrm;
 
         readonly CancellationTokenSource cancelTokenSource;
         CancellationToken token;
@@ -63,6 +63,7 @@ namespace WindowsFormsClient
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
             timerPoll.Enabled = false;
+            connectCancelTokenSource?.Cancel();
             cancelTokenSource.Cancel();
 
             if (logFrm != null && !logFrm.IsDisposed)
@@ -71,8 +72,8 @@ namespace WindowsFormsClient
                 settingsForm.Close();
             if (aboutForm != null && !aboutForm.IsDisposed)
                 aboutForm.Close();
-            if (firmwareFrm != null && !firmwareFrm.IsDisposed)
-                firmwareFrm.Close();
+            //if (firmwareFrm != null && !firmwareFrm.IsDisposed)
+                //firmwareFrm.Close();
 
             hardwareLibrary.Dispose();
         }
@@ -218,20 +219,6 @@ namespace WindowsFormsClient
             }
             else
                 aboutForm.BringToFront();
-        }
-
-        private async void FirmwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await hardwareLibrary.SwitchToBootloaderAsync(token);
-
-            return;
-            if (firmwareFrm == null || firmwareFrm.IsDisposed)
-            {
-                firmwareFrm = new FirmwareFrm(hardwareLibrary);
-                firmwareFrm.Show();
-            }
-            else
-                firmwareFrm.BringToFront();
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -410,6 +397,20 @@ namespace WindowsFormsClient
                 nUDWaterLevel.Enabled = false;
                 nUDWaterLevel.Value = 0;
             }
+        }
+
+        private void connectButton_Click(object sender, EventArgs e)
+        {
+            Connect();
+        }
+
+        private void disconnectButton_Click(object sender, EventArgs e)
+        {
+            Disconnect();
+        }
+        private async void goToBootloaderButton_Click(object sender, EventArgs e)
+        {
+            await hardwareLibrary.SwitchToBootloaderAsync(token);
         }
     }
 }

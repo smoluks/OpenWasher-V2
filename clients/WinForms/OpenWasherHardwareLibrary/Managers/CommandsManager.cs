@@ -42,15 +42,22 @@ namespace OpenWasherHardwareLibrary.Managers
             if (!string.IsNullOrEmpty(port) && port != "AUTO")
             {
                 //connect to port
-                var (Success, Error, ioManager) = await GetConnectionTask(token, port);
-                token.ThrowIfCancellationRequested();
-
-                if (Success)
+                try
                 {
-                    _io = ioManager;
-                    return (ConnectionEventType.Connected, _io.Port, null);
+                    var (Success, Error, ioManager) = await GetConnectionTask(token, port);
+                    token.ThrowIfCancellationRequested();
+
+                    if (Success)
+                    {
+                        _io = ioManager;
+                        return (ConnectionEventType.Connected, _io.Port, null);
+                    }
+                    else return (ConnectionEventType.ConnectFailed, null, Error);
                 }
-                else return (ConnectionEventType.ConnectFailed, null, Error);
+                catch(Exception e)
+                {
+                    return (ConnectionEventType.ConnectFailed, null, e.Message);
+                }                
             }
             else
             {
@@ -61,7 +68,7 @@ namespace OpenWasherHardwareLibrary.Managers
                 while (tasks.Count > 0)
                 {
                     var connectTask = await Task.WhenAny(tasks).ConfigureAwait(false);
-                    if (connectTask.Result.Success)
+                    if (!connectTask.IsFaulted && connectTask.Result.Success)
                     {
                         if (_io == null)
                         {
@@ -102,11 +109,12 @@ namespace OpenWasherHardwareLibrary.Managers
 
                 //wait washer bt start
                 if (token.WaitHandle.WaitOne(DELAY_AFTER_CONNECT))
-                    return (false, "CancellationToken", null);
+                {
+                    throw new OperationCanceledException();
+                }
 
                 await SendCommandAsync(token, ioManager, new Ping());
-                if (token.IsCancellationRequested)
-                    return (false, "CancellationToken", null);
+                token.ThrowIfCancellationRequested();
 
                 return (true, null, ioManager);
             }

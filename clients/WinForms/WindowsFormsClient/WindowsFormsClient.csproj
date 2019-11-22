@@ -81,12 +81,6 @@
     <Compile Include="Entities\Config.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\WashingProgram.cs" />
-    <Compile Include="FirmwareFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FirmwareFrm.Designer.cs">
-      <DependentUpon>FirmwareFrm.cs</DependentUpon>
-    </Compile>
     <Compile Include="LogFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,9 +113,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutFrm.resx">
       <DependentUpon>AboutFrm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FirmwareFrm.resx">
-      <DependentUpon>FirmwareFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LogFrm.resx">
       <DependentUpon>LogFrm.cs</DependentUpon>
@@ -178,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\delete.png" />
+    <Content Include="Resources\link.png" />
     <Content Include="Resources\save.png" />
     <Content Include="Resources\start.png" />
     <Content Include="Resources\washing-machine.png" />

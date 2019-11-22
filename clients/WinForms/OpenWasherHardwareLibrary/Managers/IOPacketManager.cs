@@ -55,6 +55,7 @@ namespace OpenWasherHardwareLibrary
             }
             catch (Exception e)
             {
+                _serialPort.Close();
                 LogManager.WriteException($"{_serialPort.PortName} Open exception:", e);
                 throw;
             }
@@ -84,60 +85,63 @@ namespace OpenWasherHardwareLibrary
             return SerialPort.GetPortNames();
         }
 
-        internal async Task<byte[]> SendAsync(CancellationToken token, byte[] buffer, int timeout)
+        internal Task<byte[]> SendAsync(CancellationToken token, byte[] buffer, int timeout)
         {
-            var array = new byte[buffer.Count() + 3];
-            array[0] = 0xAB;
-            array[1] = (byte)buffer.Count();
-            buffer.CopyTo(array, 2);
-            array[buffer.Count() + 2] = GetCrc(array, 0, buffer.Count() + 2);
-
-            LogManager.WriteData($"{_serialPort.PortName} Send: ", array);
-
-            //send packet
-            try
+            return Task.Run(() =>
             {
-                _serialPort.Write(array, 0, buffer.Count() + 3);
-            }
-            catch(Exception e)
-            {
-                LogManager.WriteException($"{_serialPort.PortName} Send exception:", e);
-                throw;
-            }
+                var array = new byte[buffer.Count() + 3];
+                array[0] = 0xAB;
+                array[1] = (byte)buffer.Count();
+                buffer.CopyTo(array, 2);
+                array[buffer.Count() + 2] = GetCrc(array, 0, buffer.Count() + 2);
 
-            //add waiter
-            var type = GetMessageType(buffer);
-            waitingAnswers.AddOrUpdate(type, (key) => null, (key, oldValue) => null);
+                LogManager.WriteData($"{_serialPort.PortName} Send: ", array);
 
-            //check waiter
-            timeout = (int)Math.Ceiling((float)timeout / READ_GAP);
-            while (timeout-- > 0)
-            {
-                if (token.WaitHandle.WaitOne(READ_GAP))
-                    throw new OperationCanceledException();
-
-                if (waitingAnswers.TryGetValue(type, out byte[] result) && result != null)
+                //send packet
+                try
                 {
-                    waitingAnswers.TryRemove(type, out byte[] t);
+                    _serialPort.Write(array, 0, buffer.Count() + 3);
+                }
+                catch (Exception e)
+                {
+                    LogManager.WriteException($"{_serialPort.PortName} Send exception:", e);
+                    throw;
+                }
 
-                    if(result.Length > 0)
+                //add waiter
+                var type = GetMessageType(buffer);
+                waitingAnswers.AddOrUpdate(type, (key) => null, (key, oldValue) => null);
+
+                //check waiter
+                timeout = (int)Math.Ceiling((float)timeout / READ_GAP);
+                while (timeout-- > 0)
+                {
+                    if (token.WaitHandle.WaitOne(READ_GAP))
+                        throw new OperationCanceledException();
+
+                    if (waitingAnswers.TryGetValue(type, out byte[] result) && result != null)
                     {
-                        switch(result[0] & 0b11000000)
+                        waitingAnswers.TryRemove(type, out byte[] t);
+
+                        if (result.Length > 0)
                         {
-                            case 0x40:
-                                throw new PacketException("Bad command");
-                            case 0x80:
-                                throw new PacketException("Bad args");
-                            case 0xC0:
-                                throw new PacketException("Device busy");
+                            switch (result[0] & 0b11000000)
+                            {
+                                case 0x40:
+                                    throw new PacketException("Bad command");
+                                case 0x80:
+                                    throw new PacketException("Bad args");
+                                case 0xC0:
+                                    throw new PacketException("Device busy");
+                            }
                         }
-                    }
 
-                    return result;
-                };
-            }
+                        return result;
+                    };
+                }
 
-            throw new TimeoutException($"No answer at {timeout} ms");
+                throw new TimeoutException($"No answer at {timeout} ms");
+            });
         }
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
