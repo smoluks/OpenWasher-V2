@@ -1,7 +1,5 @@
 #include "stm32f10x.h"
 
-#pragma pack(push, 1)
-
 enum stage_e
 {
 	STATUS_STOP = 0,
@@ -16,17 +14,19 @@ enum stage_e
 	STATUS_SELFTESTING = 9,
 };
 
-struct status_s
+#pragma pack(push, 1)
+
+typedef struct
 {
 	uint8_t program;
 	uint8_t stage;
 	uint8_t temperature;
 	uint32_t timefull;
 	uint32_t timepassed;
-};
+} Status;
 
 #pragma pack(pop)
 
-uint8_t* get_status();
-void status_set_program(uint8_t program);
+uint8_t* buildCurrentStatus();
+void status_set_program(uint8_t program, uint32_t fullTimeLength);
 void status_set_stage(enum stage_e stage);

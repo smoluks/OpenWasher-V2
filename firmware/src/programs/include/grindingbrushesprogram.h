@@ -1,7 +1,7 @@
 #pragma once
 
-#include "options.h"
+#include "programs.h"
+#include "programOptions.h"
 #include <stdbool.h>
-#include <stdint.h>
 
-bool grindingbrushes_go(options args);
+bool processGrindingBrushes(program programNumber, programOptions programOptions);

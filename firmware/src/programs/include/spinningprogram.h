@@ -1,7 +1,6 @@
 #pragma once
 
-#include "system_stm32f10x.h"
-#include <stdbool.h>
+#include "programs.h"
+#include "programOptions.h"
 
-bool spinningprogram_go(options args);
-bool delicatespinningprogram_go(options args);
+bool processSpinningProgram(program programNumber, programOptions programOptions);

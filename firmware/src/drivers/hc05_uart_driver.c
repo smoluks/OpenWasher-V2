@@ -4,12 +4,12 @@
  *  Created on: Feb 4, 2019
  *      Author: Shironeko
  */
-
+#include <stdbool.h>
 #include "stm32f10x.h"
 #include "delay.h"
-#include "main.h"
+#include "watchdog.h"
 #include "systick.h"
-#include <stdbool.h>
+#include "hc05Hardware.h"
 
 void hc05_sendbyte(char b);
 char hc05_readbyte();
@@ -17,20 +17,17 @@ char hc05_readbyte();
 void hc05_enter_setting_mode()
 {
 	NVIC_DisableIRQ(USART1_IRQn);
-	GPIOB->BSRR = 0x02000000; //reset
-	delay_ms(100u);
-	GPIOB->BSRR = 0x00000300; //set command mode
-	delay_ms(5000u);
+
+	hc05ResetToCommandMode();
+
 	USART1->BRR = 1875;
 	USART1->CR1 = USART_CR1_UE | USART_CR1_TE | USART_CR1_RE;
 }
 
 void hc05_leave_setting_mode()
 {
-	GPIOB->BSRR = 0x02000000; //reset
-	delay_ms(100u);
-	GPIOB->BSRR = 0x03000200; //clear command mode
-	delay_ms(5000u);
+	hc05ResetToNormalMode();
+
 	USART1->BRR = 0x271;
 	USART1->CR1 = USART_CR1_UE | USART_CR1_TE | USART_CR1_RE | USART_CR1_PCE  | USART_CR1_M | USART_CR1_RXNEIE | USART_CR1_IDLEIE;
 	NVIC_EnableIRQ(USART1_IRQn);

@@ -31,44 +31,44 @@ void SystemInit(void) {
 	AFIO->MAPR = AFIO_MAPR_SWJ_CFG_1;
 	//porta
 	//A0 - NTC
-	//A1 - датчик переполнения (подтяжка вниз)
-	//A2 - датчик наполнения (аналог)
-	//A3 - фидбэк тена (подтяжка вверх)
-	//A4 - ZC (подтяжка вниз)
-	//A5 - напряжение питания
-	//A6 - power_en(+)
-	//A7 - симистор двигателя
-	//A8 - блокировка люка
+	//A1 - датчик наполнения (аналог)
+	//A2 - напряжение питания
+	//A3 - датчик переполнения (подтяжка вниз)
+	//A4 - фидбэк тена (подтяжка вверх)
+	//A5 - фидбэк двигателя (подтяжка вверх)
+	//A6 - тахометр (аналог)
+	//A7 - power_en(+)
+	//A8 - реле двигателя 1
 	//A9 - TX
 	//A10 - RX
-	//A11 - реле насоса
-	//A12 - реле двигателя 1
+	//A11 - BT MODE
+	//A12 - BT RESET
 	//A13 - SWDIO
 	//A14 - SWCLK
-	//A15 -
-	GPIOA->CRH = 0x088228B2;
-	GPIOA->CRL = 0x32088080;
-	GPIOA->ODR = 0x00000448;
+	//A15 - блокировка люка
+	GPIOA->CRH = 0x388738B3;
+	GPIOA->CRL = 0x20888000;
+	GPIOA->ODR = 0x00000430;
 	//portb
-	//B0 - фидбэк двигателя (подтяжка вверх)
-	//B1 - тахометр (аналог)
+	//B0 - симистор двигателя
+	//B1 - ZC (подтяжка вниз)
 	//B2 - Датчик наполнения N1 (подтяжка вниз)
-	//B3 -
-	//B4 - фидбэк тена через резистор
-	//B5 -
-	//B6 - реле двигателя 2
-	//B7 - реле тена
-	//B8 - BT MODE
-	//B9 - BT RESET
+	//B3 - SWO
+	//B4 - клапан1
+	//B5 - симистор насоса
+	//B6 - клапан2
+	//B7 -
+	//B8 -
+	//B9 -
 	//B10 - SCL
 	//B11 - SDA
 	//B12 - фидбэк насоса (подтяжка вверх)
-	//B13 - клапан2
-	//B14 - симистор насоса
-	//B15 - клапан1
-	GPIOB->CRH = 0x3338FF62;
-	GPIOB->CRL = 0x22020808;
-	GPIOB->ODR = 0x00001011;
+	//B13 - реле двигателя 2
+	//B14 - реле тена
+	//B15 - реле насоса
+	GPIOB->CRH = 0x3338FF00;
+	GPIOB->CRL = 0x0333B883;
+	GPIOB->ODR = 0x00001000;
 	//portc
 	//C13 - LED green
 	//C14 - LED orange
@@ -93,15 +93,15 @@ void SystemInit(void) {
 	ADC1->JSQR = (0 << ADC_JSQR_JSQ4_POS);
 	ADC1->CR2 |= ADC_CR2_ADON;
 	//-----ADC2-----
-	//JDR1 - 5 - voltage
-	//JDR2 - 9 - tacho
+	//JDR1 - 2 - voltage
+	//JDR2 - 6 - tacho
 	ADC2->SMPR2 = (7 << ADC_SMPR2_SMP9_POS) | (7 << ADC_SMPR2_SMP5_POS);
 	ADC2->CR2 = ADC_CR2_JEXTSEL;
 	ADC2->CR2 |= ADC_CR2_JEXTTRIG;
 	ADC2->CR2 |= ADC_CR2_CONT;
 	ADC2->CR1 |= ADC_CR1_JAUTO | ADC_CR1_SCAN | ADC_CR1_JEOCIE;
-	ADC2->JSQR = (1 << ADC_JSQR_JL_POS) | (5 << ADC_JSQR_JSQ3_POS)
-			| (9 << ADC_JSQR_JSQ4_POS);
+	ADC2->JSQR = (1 << ADC_JSQR_JL_POS) | (2 << ADC_JSQR_JSQ3_POS)
+			| (6 << ADC_JSQR_JSQ4_POS);
 	ADC2->CR2 |= ADC_CR2_ADON;
 	//прогрев АЦП
 	delay_us(1);
@@ -117,23 +117,23 @@ void SystemInit(void) {
 	NVIC_SetPriority(ADC1_2_IRQn, 2);
 	NVIC_EnableIRQ(ADC1_2_IRQn);
 	//EINT
-	//B0 - фидбэк двигателя
-	//A1 - OVF
-	//A3 - фидбэк тена
-	//A4 - cross-zero
+	//B1 - cross-zero
+	//A3 - OVF
+	//A4 - heater feedback
+	//A5 - engine feedback
 	//B12 - pump feedback
 	AFIO->EXTICR[3] = 0x0001;
 	AFIO->EXTICR[2] = 0x0000;
 	AFIO->EXTICR[1] = 0x0000;
-	AFIO->EXTICR[0] = 0x0001;
-	EXTI->IMR = 0x0000101B;
-	EXTI->RTSR = 0x0000101B;
-	EXTI->FTSR = 0x00000019;
+	AFIO->EXTICR[0] = 0x0010;
+	EXTI->IMR = 0x0000103A;
+	EXTI->RTSR = 0x0000103A;
+	EXTI->FTSR = 0x00000038;
 	EXTI->PR = 0xFFFF;
-	NVIC_EnableIRQ(EXTI0_IRQn);
-	//NVIC_EnableIRQ(EXTI1_IRQn);
+	NVIC_EnableIRQ(EXTI1_IRQn);
 	NVIC_EnableIRQ(EXTI3_IRQn);
 	NVIC_EnableIRQ(EXTI4_IRQn);
+	NVIC_EnableIRQ(EXTI9_5_IRQn);
 	NVIC_EnableIRQ(EXTI15_10_IRQn);
 	//----TIM2 - engine triak off-----
 	TIM2->PSC = 72 - 1;
@@ -165,9 +165,9 @@ void SystemInit(void) {
 	TIM4->DIER = TIM_DIER_UIE;
 	NVIC_SetPriority(TIM4_IRQn, 1);
 	NVIC_EnableIRQ(TIM4_IRQn);
-	//-----I2C-----
-	I2C2->CCR = 179;
-	I2C2->TRISE = 72;
+	//-----I2C 400KHz-----
+	I2C2->CCR = 45;
+	I2C2->TRISE = 18;
 	I2C2->CR2 |= 36;
 	I2C2->CR1 |= I2C_CR1_PE;
 	//systick

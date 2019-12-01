@@ -1,7 +1,8 @@
 #pragma once
 
-#include "system_stm32f10x.h"
+#include "programs.h"
+#include "programOptions.h"
 #include <stdbool.h>
 
-bool sink_go(options args);
-bool sink_open_valve_go(options args);
+bool processSinkingProgram(program programNumber, programOptions programOptions);
+bool processSinkingProgramWithOpenValve(program programNumber, programOptions programOptions);

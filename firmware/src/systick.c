@@ -49,5 +49,5 @@ bool check_time_passed(uint32_t timestamp)
 
 bool check_time_passed_with_ct(uint32_t timestamp)
 {
-	return ct || (timestamp - systime) > 0x80000000;
+	return ct || ((timestamp - systime) & 0x80000000);
 }

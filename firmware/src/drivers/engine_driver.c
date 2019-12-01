@@ -310,7 +310,7 @@ inline void process_tacho(uint16_t value)
 
 		if(TIM3->CR1 & TIM_CR1_CEN)
 		{
-			//calc rps
+			//calc rps*16
 			if(TIM3->CNT != 0)
 				engine_current_speed = 100000 / TIM3->CNT;
 		}
@@ -344,8 +344,7 @@ inline void engine_systick()
 
 void engine_emergencystop()
 {
-	engine_triakoff();
-	engine_setdirectionoff();
+	engine_emergencyoff();
 	pid_enable = false;
 	engine_regulvalue = 0;
 }

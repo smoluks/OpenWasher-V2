@@ -26,14 +26,41 @@ void ADC1_2_IRQHandler(void) {
 	}
 }
 
+//cross-zero
+void EXTI1_IRQHandler(void) {
+
+	EXTI->PR |= 0x0002;
+	crosszero_irq(GPIOB->IDR & 0x0002);
+}
+
+//переполнение
+void EXTI3_IRQHandler(void) {
+	EXTI->PR |= 0x0004;
+	EXTI->PR;
+
+	set_error(OVERFLOW);
+}
+
+//фидбэк тэна
+extern volatile bool thermfeedbackispresent;
+extern uint32_t thermfeedback_timestamp;
+void EXTI4_IRQHandler(void) {
+
+	EXTI->PR |= 0x0010;
+	EXTI->PR;
+
+	thermfeedbackispresent = true;
+	thermfeedback_timestamp = get_systime();
+}
+
 //фидбэк двигателя
 volatile uint32_t engine_feedback_timestamp = 0;
-void EXTI0_IRQHandler(void) {
-	EXTI->PR |= 0x0001;
+void EXTI9_5_IRQHandler(void) {
+	EXTI->PR |= 0x0020;
 	EXTI->PR;
 
 	//замеряем длительность положительного импульса
-	if (GPIOB->IDR & 0x0001) {
+	if (GPIOA->IDR & 0x0020) {
 		//фронт
 		engine_feedback_timestamp = get_systime();
 	} else {
@@ -46,34 +73,6 @@ void EXTI0_IRQHandler(void) {
 		else if (dt <= 13)
 			process_feedback(ef_half);
 	}
-}
-
-//переполнение
-void EXTI1_IRQHandler(void) {
-	EXTI->PR |= 0x0002;
-	EXTI->PR;
-
-	set_error(OVERFLOW);
-}
-
-//фидбэк тэна
-extern volatile bool thermfeedbackispresent;
-extern uint32_t thermfeedback_timestamp;
-
-void EXTI3_IRQHandler(void) {
-
-	EXTI->PR |= 0x0008;
-	EXTI->PR;
-
-	thermfeedbackispresent = true;
-	thermfeedback_timestamp = get_systime();
-}
-
-//cross-zero
-void EXTI4_IRQHandler(void) {
-
-	EXTI->PR |= 0x0010;
-	crosszero_irq(GPIOA->IDR & 0x0010);
 }
 
 //pump feedback

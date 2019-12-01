@@ -1,66 +1,31 @@
-/*
- * притирка щеток
- */
-
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdint.h>
-#include "options.h"
+#include "programs.h"
+#include "programOptions.h"
 #include "engine_driver.h"
 #include "delay.h"
 #include "grindingbrushesprogram.h"
 
-bool grindingbrushesint_go();
-
 extern volatile bool ct;
 
-bool grindingbrushes_go(__attribute__((unused)) options args)
+bool processGrindingBrushes(__attribute__((unused)) program programNumber, programOptions programOptions)
 {
-	bool result = grindingbrushesint_go();
+	if(programOptions.spinningSpeed > MAX_SPINNING_SPEED)
+	{
+		printf("Max spinning = %u\n", MAX_SPINNING_SPEED);
+		return false;
+	}
 
+	engine_settargetrps(programOptions.spinningSpeed, cw);
+	delay_ms_with_ct(programOptions.delay * 60 * 1000);
 	engine_settargetrps(0, off);
-
-	return result;
-}
-
-bool grindingbrushesint_go()
-{
-	engine_settargetrps(1, cw);
-	delay_ms_with_ct(1800000u);
 	if (ct)
 		return false;
 
+	engine_settargetrps(programOptions.spinningSpeed, ccw);
+	delay_ms_with_ct(programOptions.delay * 60 * 1000);
 	engine_settargetrps(0, off);
-	delay_ms_with_ct(5000u);
-	if (ct)
-		return false;
-
-	engine_settargetrps(1, ccw);
-	delay_ms_with_ct(1800000u);
-	if (ct)
-		return false;
-
-	engine_settargetrps(0, off);
-	delay_ms_with_ct(5000u);
-	if (ct)
-		return false;
-
-	engine_settargetrps(20, cw);
-	delay_ms_with_ct(300000u);
-	if (ct)
-		return false;
-
-	engine_settargetrps(0, off);
-	delay_ms_with_ct(5000u);
-	if (ct)
-		return false;
-
-	engine_settargetrps(20, ccw);
-	delay_ms_with_ct(300000u);
-	if (ct)
-		return false;
-
-	engine_settargetrps(0, off);
-	delay_ms_with_ct(5000u);
 	if (ct)
 		return false;
 

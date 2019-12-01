@@ -1,17 +1,20 @@
+#include "i2cHardware.h"
 #include "stm32f10x.h"
 #include "eeprom.h"
 #include "error.h"
 #include "delay.h"
-#include "i2c_hardware.h"
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
 
+#define EEPROM_ADDRESS 0b10101110
+
 void setdefaultconfig();
+uint8_t calculateCrc(uint8_t* buffer, uint8_t size);
 
 void readconfig()
 {
-	I2C_TryReadBuffer((uint8_t*)&eeprom_config, sizeof(eeprom_config));
+	I2CReadBuffer(EEPROM_ADDRESS, 0, (uint8_t*)&eeprom_config, sizeof(eeprom_config));
 	if (eeprom_config.writemarker != 0xAB)
 	{
 		set_warning(EEPROM_EMPTY);
@@ -20,22 +23,7 @@ void readconfig()
 		return;
 	}
 
-	uint8_t crc = 0;
-	uint8_t* config = (uint8_t*)&eeprom_config;
-	for (uint32_t i = 0; i < sizeof(eeprom_config); i++)
-	{
-		uint8_t data = config[i];
-		for (uint8_t p = 0; p < 8; p++)
-		{
-			if ((crc ^ data) & 0x01)
-				crc = ((crc >> 1) ^ 0x8C);
-			else
-				crc >>= 1;
-
-			data >>= 1;
-		}
-	}
-	if (crc)
+	if (calculateCrc((uint8_t*)&eeprom_config, sizeof(eeprom_config)))
 	{
 		set_warning(EEPROM_BADCRC);
 		setdefaultconfig();
@@ -54,12 +42,34 @@ void readconfig()
 void writeconfig()
 {
 	eeprom_config.writemarker = 0xAB;
+	eeprom_config.crc = calculateCrc((uint8_t*)&eeprom_config, sizeof(eeprom_config)-1);
 
-	uint8_t crc = 0;
-	uint8_t* config = (uint8_t*) &eeprom_config;
-	for (uint32_t i = 0; i < sizeof(eeprom_config)-1; i++)
+	if(!I2CWriteBuffer(EEPROM_ADDRESS, 0, (uint8_t*)&eeprom_config, sizeof(eeprom_config)))
 	{
-		uint8_t data = config[i];
+		set_error(EEPROM_WRITEERROR);
+		return;
+	}
+
+	struct eeprom_config_s readdata;
+
+	I2CReadBuffer(EEPROM_ADDRESS, 0, (uint8_t*)&readdata, sizeof(eeprom_config));
+
+	int cmpresult = memcmp((uint8_t*) &eeprom_config, &readdata, sizeof(eeprom_config));
+	if(cmpresult != 0)
+		set_error(EEPROM_LOCK);
+}
+
+void setdefaultconfig()
+{
+	eeprom_config.tachodetectlevel = 10;
+}
+
+uint8_t calculateCrc(uint8_t* buffer, uint8_t size)
+{
+	uint8_t crc = 0;
+	while (size--)
+	{
+		uint8_t data = *(buffer++);
 		for (uint8_t p = 0; p < 8; p++)
 		{
 			if ((crc ^ data) & 0x01)
@@ -70,24 +80,6 @@ void writeconfig()
 			data >>= 1;
 		}
 	}
-	eeprom_config.crc = crc;
-
-	if(!I2C_WriteBuffer((uint8_t*)&eeprom_config, sizeof(eeprom_config)))
-	{
-		set_error(EEPROM_WRITEERROR);
-		return;
-	}
-
-	uint8_t readdata[sizeof(eeprom_config)];
-
-	I2C_TryReadBuffer((uint8_t*)readdata, sizeof(eeprom_config));
-
-	int cmpresult = memcmp((uint8_t*) &eeprom_config, readdata, sizeof(eeprom_config));
-	if(cmpresult != 0)
-		set_error(EEPROM_LOCK);
+	return crc;
 }
 
-void setdefaultconfig()
-{
-	eeprom_config.tachodetectlevel = 10;
-}

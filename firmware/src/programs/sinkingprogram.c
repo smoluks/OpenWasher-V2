@@ -1,16 +1,13 @@
-/*
- * Слив
- */
-
 #include <stdbool.h>
 #include <stdio.h>
-#include "options.h"
+#include "programs.h"
+#include "programOptions.h"
 #include "door_stages.h"
 #include "pump_driver.h"
 #include "valve_driver.h"
 #include "valve_hardware.h"
 
-bool sink_go(__attribute__((unused)) options args)
+bool processSinkingProgram(__attribute__((unused)) program programNumber, __attribute__((unused)) programOptions programOptions)
 {
 	if(!stage_door_close())
 		return false;
@@ -24,7 +21,7 @@ bool sink_go(__attribute__((unused)) options args)
 	return true;
 }
 
-bool sink_open_valve_go(__attribute__((unused)) options args)
+bool processSinkingProgramWithOpenValve(__attribute__((unused)) program programNumber, __attribute__((unused)) programOptions programOptions)
 {
 	if(!stage_door_close())
 		return false;

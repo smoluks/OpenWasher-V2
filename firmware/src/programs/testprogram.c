@@ -8,24 +8,25 @@
 #include "therm_driver.h"
 #include "valve_driver.h"
 
-#include "options.h"
+#include "programs.h"
+#include "programOptions.h"
 #include "status.h"
 #include "eeprom.h"
 #include "delay.h"
 
 extern volatile bool ct;
 
-bool testprogram_go(__attribute__((unused)) options args)
+bool processTestProgram(__attribute__((unused)) program programNumber, __attribute__((unused)) programOptions programOptions)
 {
 	status_set_stage(STATUS_SELFTESTING);
 
 	sink_if_water(15000);
-
+/*
 	//door
 	if(!door_testlock())
 		return false;
 
-	delay_ms(5000u);
+	delay_ms(5000u);*/
 
 	//engine
 	if (!engine_test())
@@ -33,7 +34,7 @@ bool testprogram_go(__attribute__((unused)) options args)
 	if(ct)
 		return false;
 
-	delay_ms(5000u);
+	/*delay_ms(5000u);
 
 	//valve
 	if(!valve_test())
@@ -56,7 +57,7 @@ bool testprogram_go(__attribute__((unused)) options args)
 	if(!door_testunlock())
 		return false;
 
-	writeconfig();
+	writeconfig();*/
 
 	printf("All tests OK\n");
 

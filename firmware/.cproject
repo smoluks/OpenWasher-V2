@@ -67,6 +67,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/pt}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs.1061567459" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -75,6 +79,7 @@
 									<listOptionValue builtIn="false" value="STM32F10X_MD"/>
 									<listOptionValue builtIn="false" value="HSE_VALUE=8000000"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
+									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.971089177" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -93,6 +98,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/pt}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.832385065" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -101,6 +110,7 @@
 									<listOptionValue builtIn="false" value="STM32F10X_MD"/>
 									<listOptionValue builtIn="false" value="HSE_VALUE=8000000"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
+									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1962374539" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -119,6 +129,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/pt}&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions.1547550914" name="Do not use exceptions (-fno-exceptions)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti.1476867362" name="Do not use RTTI (-fno-rtti)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti" useByScannerDiscovery="true" value="true" valueType="boolean"/>
@@ -131,6 +145,7 @@
 									<listOptionValue builtIn="false" value="STM32F10X_MD"/>
 									<listOptionValue builtIn="false" value="HSE_VALUE=8000000"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
+									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.97709696" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>
@@ -259,6 +274,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/hardware/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/pt}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs.217912903" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NDEBUG"/>
@@ -267,6 +286,7 @@
 									<listOptionValue builtIn="false" value="HSE_VALUE=8000000"/>
 									<listOptionValue builtIn="false" value="STM32F103C8"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
+									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.1121103708" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -297,6 +317,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/hardware/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/pt}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.1823246138" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NDEBUG"/>
@@ -305,6 +329,7 @@
 									<listOptionValue builtIn="false" value="HSE_VALUE=8000000"/>
 									<listOptionValue builtIn="false" value="STM32F103C8"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
+									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1717384337" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -335,6 +360,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/hardware/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/hardware/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/commands/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/src/programs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/arcadia/pt}&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions.1107934375" name="Do not use exceptions (-fno-exceptions)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti.894121457" name="Do not use RTTI (-fno-rtti)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti" useByScannerDiscovery="true" value="true" valueType="boolean"/>
@@ -347,6 +376,7 @@
 									<listOptionValue builtIn="false" value="HSE_VALUE=8000000"/>
 									<listOptionValue builtIn="false" value="STM32F103C8"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
+									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.922010235" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>

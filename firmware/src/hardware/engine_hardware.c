@@ -5,36 +5,42 @@
 #include <stdbool.h>
 
 inline void engine_setdirectioncw() {
-	GPIOA->BSRR = 0x00001000;
-	GPIOB->BSRR = 0x00400000;
+	GPIOA->BSRR = 0x00000100;
+	GPIOB->BSRR = 0x20000000;
 	delay_ms(100);
 }
 
 inline void engine_setdirectionccw() {
-	GPIOA->BSRR = 0x10000000;
-	GPIOB->BSRR = 0x00000040;
+	GPIOA->BSRR = 0x01000000;
+	GPIOB->BSRR = 0x00002000;
 	delay_ms(100);
 }
 
 inline void engine_setdirectionoff() {
-	GPIOA->BSRR = 0x10000000;
-	GPIOB->BSRR = 0x00400000;
+	GPIOA->BSRR = 0x01000000;
+	GPIOB->BSRR = 0x20000000;
 	delay_ms(100);
 }
 
+engine_emergencyoff(){
+	GPIOB->BSRR = 0x00010000;
+	GPIOA->BSRR = 0x01000000;
+	delay_ms(10);
+	GPIOB->BSRR = 0x20000000;
+}
 
 inline enum direction_e get_direction() {
-	if ((GPIOA->ODR & 0x1000) && !(GPIOB->ODR & 0x0040))
+	if ((GPIOA->ODR & 0x100) && !(GPIOB->ODR & 0x2000))
 		return cw;
-	else if (!(GPIOA->ODR & 0x1000) && (GPIOB->ODR & 0x0040))
+	else if (!(GPIOA->ODR & 0x100) && (GPIOB->ODR & 0x2000))
 		return ccw;
 	else return off;
 }
 
 inline void engine_triakon() {
-	GPIOA->BSRR = 0x00000080;
+	GPIOB->BSRR = 0x00000001;
 }
 
 inline void engine_triakoff() {
-	GPIOA->BSRR = 0x00800000;
+	GPIOB->BSRR = 0x00010000;
 }

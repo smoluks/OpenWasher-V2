@@ -18,6 +18,14 @@ enum state orangeled_state = led_state_on;
 uint16_t orangeled_off_time;
 uint16_t orangeled_on_time;
 uint32_t orangetimestamp;
+bool led_driver_disable = false;
+
+inline void disableLedDriver()
+{
+	led_driver_disable = true;
+	led_orange_off();
+	led_green_off();
+}
 
 void set_orangeled_blink(uint16_t offtime, uint16_t ontime) {
 	if (!ontime) {
@@ -86,6 +94,9 @@ inline void process_green() {
 }
 
 inline void led_systick() {
+	if(led_driver_disable)
+		return;
+
 	process_orange();
 	process_green();
 }

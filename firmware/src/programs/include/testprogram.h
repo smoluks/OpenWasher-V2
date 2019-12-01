@@ -1,6 +1,7 @@
 #pragma once
 
-#include "system_stm32f10x.h"
+#include "programs.h"
+#include "programOptions.h"
 #include <stdbool.h>
 
-bool testprogram_go(options args);
+bool processTestProgram(program programNumber, programOptions programOptions);

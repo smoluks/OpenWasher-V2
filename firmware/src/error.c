@@ -8,7 +8,8 @@
 #include "error.h"
 
 extern volatile bool ct;
-extern enum errorcode error;
+
+enum errorcode error = NOERROR;
 
 void set_error(enum errorcode code)
 {
@@ -44,3 +45,9 @@ void UsageFault_Handler()
 {
 	set_error(UsageFault);
 }
+
+void NMI_Handler()
+{
+	while(true);
+}
+

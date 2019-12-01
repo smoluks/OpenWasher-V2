@@ -1,14 +1,14 @@
 #include "stm32f10x.h"
+#include "door_hardware.h"
 
 //TODO: не открывать в отрицательной полуволне - там диод
-void lock_door()
+inline void lock_door()
 {
-	GPIOA->BSRR = 0x00000100;
+	GPIOA->BSRR = 0x00008000;
 }
 
-
-void unlock_door()
+inline void unlock_door()
 {
-	GPIOA->BSRR = 0x01000000;
+	GPIOA->BSRR = 0x80000000;
 }
 

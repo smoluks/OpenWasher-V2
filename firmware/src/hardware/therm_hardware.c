@@ -4,11 +4,11 @@
 
 inline void heater_enable()
 {
-	GPIOB->BSRR = 0x00000080;
+	GPIOB->BSRR = 0x00004000;
 }
 
 inline void heater_disable()
 {
-	GPIOB->BSRR = 0x00800000;
+	GPIOB->BSRR = 0x40000000;
 }
 

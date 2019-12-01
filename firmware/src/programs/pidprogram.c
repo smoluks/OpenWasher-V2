@@ -5,11 +5,16 @@
  *      Author: Shironeko
  */
 
-#include "system_stm32f10x.h"
 #include <stdbool.h>
-#include "options.h"
+#include "system_stm32f10x.h"
+#include "pidprogram.h"
+#include "pump_driver.h"
+#include "door_stages.h"
+#include "engine_driver.h"
+#include "programs.h"
+#include "programOptions.h"
 
-bool pid_go(__attribute__((unused))  options args) {
+bool processPidProgram(__attribute__((unused)) program programNumber, __attribute__((unused)) programOptions programOptions) {
 	sink_if_water(15000);
 
 	if (!stage_door_close())

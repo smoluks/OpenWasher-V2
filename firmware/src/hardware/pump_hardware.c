@@ -3,27 +3,27 @@
 
 void pump_relayenable()
 {
-	GPIOA->BSRR = 0x00000800;
+	GPIOB->BSRR = 0x00008000;
 }
 
 void pump_relaydisable()
 {
-	GPIOA->BSRR = 0x08000000;
+	GPIOB->BSRR = 0x80000000;
 }
 
 bool pump_isrelayenable()
 {
-	return GPIOA->ODR & 0x0800;
+	return GPIOB->ODR & 0x8000;
 }
 
 void pump_triakenable()
 {
-	GPIOB->BSRR = 0x00004000;
+	GPIOB->BSRR = 0x00000020;
 }
 
 void pump_triakdisable()
 {
-	GPIOB->BSRR = 0x40000000;
+	GPIOB->BSRR = 0x00200000;
 }
 
 

@@ -16,6 +16,7 @@ enum engine_feedback_state_e
 
 
 bool engine_test();
+bool engine_calibratepid();
 uint8_t engine_getcurrentrps();
 bool engine_settargetrps(uint8_t rps, enum direction_e direction);
 void engine_emergencystop();

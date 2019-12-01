@@ -14,24 +14,24 @@ bool is_water()
 
 bool is_overflow()
 {
-	return GPIOA->IDR & 0x00000002;
+	return GPIOA->IDR & 0x00000008;
 }
 
 void valve_emergencyclose()
 {
-	GPIOB-> BSRR = 0xA0000000;
+	GPIOB->BSRR = 0x00500000;
 }
 
 void valve_crosszero(bool phase)
 {
 	if((valve_prewash_state == valve_opened) || ((valve_prewash_state == valve_retention) && phase))
-		GPIOB->BSRR = 0x00008000;
+		GPIOB->BSRR = 0x00000010;
 	else
-		GPIOB->BSRR = 0x80000000;
+		GPIOB->BSRR = 0x00100000;
 
 	if((valve_wash_state == valve_opened) || ((valve_wash_state == valve_retention) && phase))
-		GPIOB->BSRR = 0x00002000;
+		GPIOB->BSRR = 0x00000040;
 	else
-		GPIOB->BSRR = 0x20000000;
+		GPIOB->BSRR = 0x00400000;
 
 }

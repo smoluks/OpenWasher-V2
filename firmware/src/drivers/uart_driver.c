@@ -1,9 +1,6 @@
 #include "stm32f10x.h"
-#include <stdint-gcc.h>
-#include <uart_driver.h>
-
-uint8_t addcrc(uint8_t crc, uint8_t data);
-void send_empty();
+#include "commandsHandler.h"
+#include "uart_driver.h"
 
 volatile uint8_t txbuffer[TXBUFFERSIZE];
 volatile uint8_t* txreadhandler = (uint8_t*)txbuffer;
@@ -67,10 +64,7 @@ void USART1_IRQHandler()
 			case CRCTOKEN:
 				if(data == crc)
 				{
-					if(!rxlength)
-						send_empty();
-					else
-						processcommand((uint8_t*)rxbuffer, rxlength);
+					processCommand((uint8_t*)rxbuffer, rxlength);
 				}
 				rxstate = STARTTOKEN;
 				break;
@@ -106,48 +100,6 @@ void send16(uint16_t data)
 {
 	send(data >> 8);
 	send(data);
-}
-
-void send_empty()
-{
-	send(0xAB);
-	send(0x00);
-	send(0xCD);
-}
-
-void send_answer(uint8_t command, enum commanderr_e state)
-{
-	uint8_t crc;
-	//Start token
-	send(0xAB);
-	//Length
-	send(1);
-	//
-	crc = addcrc(0x93, command | state);
-	send(command | state);
-	//
-	send(crc);
-}
-
-void send_answer_with_data(uint8_t command, uint8_t* data, uint8_t length)
-{
-	uint8_t crc;
-	//Start token
-	send(0xAB);
-	//Length
-	crc = addcrc(0x8F, length+1);
-	send(length+1);
-	//
-	crc = addcrc(crc, command);
-	send(command);
-	//
-	for(int i = 0; i < length; i++)
-	{
-		crc = addcrc(crc, data[i]);
-		send(data[i]);
-	}
-	//
-	send(crc);
 }
 
 //перекрытие stdio

@@ -1,7 +1,7 @@
 #include <systick.h>
 #include <stdbool.h>
 #include "delay.h"
-#include "main.h"
+#include "watchdog.h"
 
 extern volatile bool ct;
 
