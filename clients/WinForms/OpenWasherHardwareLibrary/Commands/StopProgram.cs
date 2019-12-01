@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using OpenWasherHardwareLibrary.Enums;
 
 namespace OpenWasherHardwareLibrary.Commands
 {
-    public class StopProgram : IWasherCommand
+    internal class StopProgram : IWasherCommand
     {
         public byte[] GetRequest()
         {
-            return new byte[1] { 2 };
+            return new byte[1] { (byte)PacketType.CommandStop };
         }
     }
 }

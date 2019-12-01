@@ -11,13 +11,13 @@ namespace OpenWasherHardwareLibrary.Entity
         public byte temperature;
 
         /// <summary>
-        /// Полная длительность программы, сек.
+        /// Full current program time, sec
         /// </summary>
-        public int timefull;
+        public int? timefull;
 
         /// <summary>
-        /// Пройденное время программы, сек
+        /// Estimated current program time, sec
         /// </summary>
-        public int timepassed;
+        public int? timepassed;
     }
 }

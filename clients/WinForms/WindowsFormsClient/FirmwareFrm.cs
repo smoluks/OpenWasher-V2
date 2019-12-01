@@ -19,10 +19,10 @@ namespace WindowsFormsClient
             this.hardwareLibrary = hardwareLibrary;
         }
 
-        private void ButtonInstallFirmware_Click(object sender, System.EventArgs e)
+        private async void ButtonInstallFirmware_Click(object sender, System.EventArgs e)
         {
-            if(loaded)
-                hardwareLibrary.updateFirmware(firmware);
+            //if(loaded)
+                //await hardwareLibrary.SwitchToBootloaderAsync();
         }
 
         private void ButtonOpenFirmware_Click(object sender, System.EventArgs e)

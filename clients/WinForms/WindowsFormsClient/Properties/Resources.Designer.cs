@@ -73,6 +73,16 @@ namespace OpenWasherClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap link {
+            get {
+                object obj = ResourceManager.GetObject("link", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap options {
             get {
                 object obj = ResourceManager.GetObject("options", resourceCulture);
@@ -560,7 +570,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect failed.
+        ///   Looks up a localized string similar to Connection error: {0}.
         /// </summary>
         internal static string Status_ConnectFailed {
             get {
@@ -578,7 +588,7 @@ namespace OpenWasherClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not found.
+        ///   Looks up a localized string similar to Washer not found.
         /// </summary>
         internal static string Status_NotFound {
             get {

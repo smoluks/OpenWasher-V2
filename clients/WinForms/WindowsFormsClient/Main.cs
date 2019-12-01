@@ -1,9 +1,9 @@
 ﻿using OpenWasherClient.Entities;
 using OpenWasherHardwareLibrary;
-using OpenWasherHardwareLibrary.Commands;
 using OpenWasherHardwareLibrary.Entity;
 using OpenWasherHardwareLibrary.Enums;
 using System;
+using System.Threading;
 using System.Windows.Forms;
 using WindowsFormsClient.Entities;
 using WindowsFormsClient.Managers;
@@ -20,14 +20,21 @@ namespace WindowsFormsClient
         private LogFrm logFrm;
         private SettingsFrm settingsForm;
         private AboutFrm aboutForm;
-        private FirmwareFrm firmwareFrm;
+        //private FirmwareFrm firmwareFrm;
+
+        readonly CancellationTokenSource cancelTokenSource;
+        CancellationToken token;
 
         public Main()
         {
-            InitializeComponent();            
-            hardwareLibrary = new HardwareLibrary(configManager.CurrentConfig.Port, MessageManager.MessageHandler, ErrorHandler, EventHandler, ConnectionEventHandler, configManager.CurrentConfig.LogEnable);
+            InitializeComponent();
+
+            cancelTokenSource = new CancellationTokenSource();
+            token = cancelTokenSource.Token;
+
             localizator = new Localizator(configManager.CurrentConfig.Locale);
-            SetStatusText(localizator.GetString("Status_Connecting", "Connecting"));
+
+            hardwareLibrary = new HardwareLibrary(MessageManager.MessageHandler, ErrorHandler, EventHandler, configManager.CurrentConfig.LogEnable);
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -49,18 +56,24 @@ namespace WindowsFormsClient
             labelSpinningSpeed.Text = localizator.GetString("Label_SpinningSpeed", labelSpinningSpeed.Text);
             labelRinsingCycles.Text = localizator.GetString("Label_RinsingCycles", labelRinsingCycles.Text);
             labelWaterLevel.Text = localizator.GetString("Label_WaterLevel", labelWaterLevel.Text);
+
+            Connect();
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
+            timerPoll.Enabled = false;
+            connectCancelTokenSource?.Cancel();
+            cancelTokenSource.Cancel();
+
             if (logFrm != null && !logFrm.IsDisposed)
                 logFrm.Close();
             if (settingsForm != null && !settingsForm.IsDisposed)
                 settingsForm.Close();
             if (aboutForm != null && !aboutForm.IsDisposed)
                 aboutForm.Close();
-            if (firmwareFrm != null && !firmwareFrm.IsDisposed)
-                firmwareFrm.Close();
+            //if (firmwareFrm != null && !firmwareFrm.IsDisposed)
+                //firmwareFrm.Close();
 
             hardwareLibrary.Dispose();
         }
@@ -69,9 +82,10 @@ namespace WindowsFormsClient
         {
             try
             {
-                var status = await hardwareLibrary.SendCommandAsync(new GetStatus());
+                var status = await hardwareLibrary.GetStatusAsync(token);
 
                 lblTemp.Text = $"{status.temperature}°C";
+
                 if (status.program != WashProgram.Nothing)
                 {
                     SetStatusText(string.Format(
@@ -84,11 +98,10 @@ namespace WindowsFormsClient
                     groupBoxOptions.Enabled = false;
                     isWashing = true;
                 }
-                else 
+                else
                 {
-                    
                     listBoxPrograms.Enabled = true;
-                    groupBoxOptions.Enabled = true;                 
+                    groupBoxOptions.Enabled = true;
                     logToolStripMenuItem.Enabled = true;
                     if (isWashing)
                     {
@@ -97,11 +110,17 @@ namespace WindowsFormsClient
                     }
                 }
             }
-            catch
+            catch (OperationCanceledException) { }
+            catch (TimeoutException)
             {
-                btnRunProgram.Enabled = false;
-                groupBoxOptions.Enabled = false;
+                Disconnect();
                 SetStatusText(localizator.GetString("Status_ConnectionBreak", "Connection break"));
+            }
+            catch (Exception ex)
+            {
+                Disconnect();
+                SetStatusText(localizator.GetString("Status_ConnectionBreak", "Connection break"));
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -112,7 +131,7 @@ namespace WindowsFormsClient
                 DialogResult dialogResult = MessageBox.Show("Really stop?", "Stop program", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    await hardwareLibrary.SendCommandAsync(new StopProgram());
+                    await hardwareLibrary.StopProgramAsync(token);
                     groupBoxOptions.Enabled = true;
                 }
             }
@@ -121,7 +140,7 @@ namespace WindowsFormsClient
                 if (listBoxPrograms.SelectedIndex != -1)
                 {
                     var program = listBoxPrograms.SelectedItem as WashingProgram;
-                    await hardwareLibrary.SendCommandAsync(new StartProgram(program.Program, GetOptions()));
+                    await hardwareLibrary.StartProgramAsync(token, program.Program, GetOptions());
                     groupBoxOptions.Enabled = false;
                 }
             }
@@ -129,22 +148,44 @@ namespace WindowsFormsClient
 
         private ProgramOptions GetOptions()
         {
-            var options = new ProgramOptions();
+            return new ProgramOptions
+            {
+                temperature = nUDTemperature.Enabled ? (byte?)nUDTemperature.Value : null,
+                duration = nUDDuration.Enabled ? (byte?)nUDDuration.Value : null,
+                washingSpeed = nUDWashingSpeed.Enabled ? (byte?)nUDWashingSpeed.Value : null,
+                spinningSpeed = nUDSpinningSpeed.Enabled ? (byte?)nUDSpinningSpeed.Value : null,
+                rinsingCycles = nUDRinsingCycles.Enabled ? (byte?)nUDRinsingCycles.Value : null,
+                waterLevel = nUDWaterLevel.Enabled ? (byte?)nUDWaterLevel.Value : null
+            };
+        }
 
-            //if (cbTemperature.Checked)
-                options.temperature = (byte)nUDTemperature.Value;
-            //if (cbDuration.Checked)
-                options.duration = (byte)nUDDuration.Value;
-            //if (cbWashingSpeed.Checked)
-                options.washingspeed = (byte)nUDWashingSpeed.Value;
-            //if (cbSpinningSpeed.Checked)
-                options.spinningspeed = (byte)nUDSpinningSpeed.Value;
-            //if (cbRinsingCycles.Checked)
-                options.rinsingCycles = (byte)nUDRinsingCycles.Value;
-            //if (cbWaterLevel.Checked)
-                options.waterlevel = (byte)nUDWaterLevel.Value;
+        private void ConfigChangeHandler(Config newConfig)
+        {
+            this.Invoke((MethodInvoker)(() =>
+            {
+                var currectConfig = configManager.CurrentConfig;
+                if (currectConfig.Port != newConfig.Port)
+                {
+                    btnRunProgram.Enabled = false;
+                    groupBoxOptions.Enabled = false;
+                    SetStatusText(localizator.GetString("Status_Reconnecting", "Reconnecting"));
+                    hardwareLibrary.Dispose();
+                    hardwareLibrary = new HardwareLibrary(MessageManager.MessageHandler, ErrorHandler, EventHandler, newConfig.LogEnable);
 
-            return options;
+                    Connect();
+                }
+                else if (currectConfig.LogEnable != newConfig.LogEnable)
+                {
+                    hardwareLibrary.LogEnable = newConfig.LogEnable;
+                }
+
+                if (currectConfig.Locale != newConfig.Locale)
+                {
+                    Main_Load(null, null);
+                }
+            }));
+
+            configManager.UpdateConfig(newConfig);
         }
 
         private void LogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -162,38 +203,11 @@ namespace WindowsFormsClient
         {
             if (settingsForm == null || settingsForm.IsDisposed)
             {
-                settingsForm = new SettingsFrm(configManager.CurrentConfig, ConfigChangehandler);
+                settingsForm = new SettingsFrm(configManager.CurrentConfig, ConfigChangeHandler);
                 settingsForm.Show();
             }
             else
                 settingsForm.BringToFront();
-        }
-
-        private void ConfigChangehandler(Config newConfig)
-        {
-            this.Invoke((MethodInvoker)(() =>
-            {
-                var currectConfig = configManager.CurrentConfig;
-                if (currectConfig.Port != newConfig.Port)
-                {
-                    btnRunProgram.Enabled = false;
-                    groupBoxOptions.Enabled = false;
-                    SetStatusText(localizator.GetString("Status_Reconnecting", "Reconnecting"));
-                    hardwareLibrary.Dispose();
-                    hardwareLibrary = new HardwareLibrary(newConfig.Port, MessageManager.MessageHandler, ErrorHandler, EventHandler, ConnectionEventHandler, newConfig.LogEnable);
-                }
-                else if(currectConfig.LogEnable != newConfig.LogEnable)
-                {
-                    hardwareLibrary.LogEnable = newConfig.LogEnable;
-                }
-
-                if (currectConfig.Locale != newConfig.Locale)
-                {
-                    Main_Load(null, null);
-                }
-            }));
-
-            configManager.UpdateConfig(newConfig);
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -205,17 +219,6 @@ namespace WindowsFormsClient
             }
             else
                 aboutForm.BringToFront();
-        }
-
-        private void FirmwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (firmwareFrm == null || firmwareFrm.IsDisposed)
-            {
-                firmwareFrm = new FirmwareFrm(hardwareLibrary);
-                firmwareFrm.Show();
-            }
-            else
-                firmwareFrm.BringToFront();
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -294,7 +297,7 @@ namespace WindowsFormsClient
             trackBarWaterLevel.Value = (int)nUDWaterLevel.Value;
         }
 
-        private void ListBoxPrograms_SelectedIndexChanged(object sender, EventArgs e)
+        private async void ListBoxPrograms_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxPrograms.SelectedIndex == -1)
                 return;
@@ -303,55 +306,111 @@ namespace WindowsFormsClient
                 localizator.GetString($"Program_{listBoxPrograms.SelectedIndex}",
                 $"Program {(WashProgram)listBoxPrograms.SelectedIndex}"));
 
-            var defaultOptions = HardwareLibrary.GetDefaultOptions((WashProgram)listBoxPrograms.SelectedIndex);
-            if (defaultOptions == null)
+            var defaultOptions = await hardwareLibrary.GetDefaultOptionsAsync(token, (WashProgram)listBoxPrograms.SelectedIndex);
+
+            if (defaultOptions.temperature.HasValue)
             {
-                nUDTemperature.Enabled = false;
-                trackBarTemperature.Enabled = false;
-                nUDDuration.Enabled = false;
-                trackBarDuration.Enabled = false;
-                nUDWashingSpeed.Enabled = false;
-                trackBarWashingSpeed.Enabled = false;
-                nUDSpinningSpeed.Enabled = false;
-                trackBarSpinningSpeed.Enabled = false;
-                nUDRinsingCycles.Enabled = false;
-                trackBarRinsingCycles.Enabled = false;
-                nUDWaterLevel.Enabled = false;
-                trackBarWaterLevel.Enabled = false;
+                trackBarTemperature.Enabled = true;
+                trackBarTemperature.Value = defaultOptions.temperature.Value;
+                nUDTemperature.Enabled = true;
+                nUDTemperature.Value = defaultOptions.temperature.Value;
             }
             else
             {
-                nUDTemperature.Enabled = true;
-                trackBarTemperature.Enabled = true;
-                nUDDuration.Enabled = true;
-                trackBarDuration.Enabled = true;
-                nUDWashingSpeed.Enabled = true;
-                trackBarWashingSpeed.Enabled = true;
-                nUDSpinningSpeed.Enabled = true;
-                trackBarSpinningSpeed.Enabled = true;
-                nUDRinsingCycles.Enabled = true;
-                trackBarRinsingCycles.Enabled = true;
-                nUDWaterLevel.Enabled = true;
-                trackBarWaterLevel.Enabled = true;
-
-                nUDTemperature.Value = defaultOptions.temperature ?? 10;
-                trackBarTemperature.Value = defaultOptions.temperature ?? 10;
-
-                nUDDuration.Value = defaultOptions.duration ?? 15;
-                trackBarDuration.Value = defaultOptions.duration ?? 15;
-
-                nUDWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
-                trackBarWashingSpeed.Value = defaultOptions.washingspeed ?? 0;
-
-                nUDSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
-                trackBarSpinningSpeed.Value = defaultOptions.spinningspeed ?? 0;
-
-                nUDRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
-                trackBarRinsingCycles.Value = defaultOptions.rinsingCycles ?? 0;
-
-                nUDWaterLevel.Value = defaultOptions.waterlevel ?? 0;
-                trackBarWaterLevel.Value = defaultOptions.waterlevel ?? 0;
+                trackBarTemperature.Enabled = false;
+                trackBarTemperature.Value = 10;
+                nUDTemperature.Enabled = false;
+                nUDTemperature.Value = 10;
             }
+
+            if (defaultOptions.duration.HasValue)
+            {
+                trackBarDuration.Enabled = true;
+                trackBarDuration.Value = defaultOptions.duration.Value;
+                nUDDuration.Enabled = true;
+                nUDDuration.Value = defaultOptions.duration.Value;
+            }
+            else
+            {
+                trackBarDuration.Enabled = false;
+                trackBarDuration.Value = 0;
+                nUDDuration.Enabled = false;
+                nUDDuration.Value = 0;
+            }
+
+            if (defaultOptions.washingSpeed.HasValue)
+            {
+                trackBarWashingSpeed.Enabled = true;
+                trackBarWashingSpeed.Value = defaultOptions.washingSpeed.Value;
+                nUDWashingSpeed.Enabled = true;
+                nUDWashingSpeed.Value = defaultOptions.washingSpeed.Value;
+            }
+            else
+            {
+                trackBarWashingSpeed.Enabled = false;
+                trackBarWashingSpeed.Value = 0;
+                nUDWashingSpeed.Enabled = false;
+                nUDWashingSpeed.Value = 0;
+            }
+
+            if (defaultOptions.spinningSpeed.HasValue)
+            {
+                trackBarSpinningSpeed.Enabled = true;
+                trackBarSpinningSpeed.Value = defaultOptions.spinningSpeed.Value;
+                nUDSpinningSpeed.Enabled = true;
+                nUDSpinningSpeed.Value = defaultOptions.spinningSpeed.Value;
+            }
+            else
+            {
+                trackBarSpinningSpeed.Enabled = false;
+                trackBarSpinningSpeed.Value = 0;
+                nUDSpinningSpeed.Enabled = false;
+                nUDSpinningSpeed.Value = 0;
+            }
+
+            if (defaultOptions.rinsingCycles.HasValue)
+            {
+                trackBarRinsingCycles.Enabled = true;
+                trackBarRinsingCycles.Value = defaultOptions.rinsingCycles.Value;
+                nUDRinsingCycles.Enabled = true;
+                nUDRinsingCycles.Value = defaultOptions.rinsingCycles.Value;
+            }
+            else
+            {
+                trackBarRinsingCycles.Enabled = false;
+                trackBarRinsingCycles.Value = 0;
+                nUDRinsingCycles.Enabled = false;
+                nUDRinsingCycles.Value = 0;
+            }
+
+            if (defaultOptions.waterLevel.HasValue)
+            {
+                trackBarWaterLevel.Enabled = true;
+                trackBarWaterLevel.Value = defaultOptions.waterLevel.Value;
+                nUDWaterLevel.Enabled = true;
+                nUDWaterLevel.Value = defaultOptions.waterLevel.Value;
+            }
+            else
+            {
+                trackBarWaterLevel.Enabled = false;
+                trackBarWaterLevel.Value = 0;
+                nUDWaterLevel.Enabled = false;
+                nUDWaterLevel.Value = 0;
+            }
+        }
+
+        private void connectButton_Click(object sender, EventArgs e)
+        {
+            Connect();
+        }
+
+        private void disconnectButton_Click(object sender, EventArgs e)
+        {
+            Disconnect();
+        }
+        private async void goToBootloaderButton_Click(object sender, EventArgs e)
+        {
+            await hardwareLibrary.SwitchToBootloaderAsync(token);
         }
     }
 }
