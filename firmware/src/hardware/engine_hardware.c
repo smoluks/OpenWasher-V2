@@ -22,7 +22,7 @@ inline void engine_setdirectionoff() {
 	delay_ms(100);
 }
 
-engine_emergencyoff(){
+void engine_emergencyoff(){
 	GPIOB->BSRR = 0x00010000;
 	GPIOA->BSRR = 0x01000000;
 	delay_ms(10);

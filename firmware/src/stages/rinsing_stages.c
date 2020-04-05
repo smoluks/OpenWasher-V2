@@ -11,7 +11,7 @@
 
 extern volatile bool ct;
 
-bool stage_rinsing(uint8_t count, uint8_t waterlevel)
+bool stage_rinsing(uint8_t count, uint8_t speed, uint8_t waterlevel)
 {
 	if(!count)
 		return true;
@@ -20,7 +20,7 @@ bool stage_rinsing(uint8_t count, uint8_t waterlevel)
 
 	for(int i = 0; i<count; i++)
 	{
-		if(!engine_settargetrps(1, ccw))
+		if(!engine_settargetrps(speed, ccw))
 			return false;
 
 		if(!valve_drawwater(conditioner_valve, waterlevel + 10))

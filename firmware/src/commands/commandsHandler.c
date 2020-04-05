@@ -14,25 +14,25 @@ void processCommand(uint8_t* buffer, uint8_t count) {
 		send_empty_answer();
 	else switch (buffer[0]) {
 	case startProgramPacketType:
-		processStartProgramCommand(buffer, count);
+		processStartProgramCommand(buffer+1, count-1);
 		break;
 	case stopProgramPacketType:
-		processStopProgramCommand(buffer, count);
+		processStopProgramCommand(buffer+1, count-1);
 		break;
 	case getProgramDefaultsPacketType:
-		processDefaultOptionsCommand(buffer, count);
+		processDefaultOptionsCommand(buffer+1, count-1);
 		break;
 	case goToBootloaderModePacketType:
-		processGoToBootloaderModeCommand(buffer, count);
+		processGoToBootloaderModeCommand(buffer+1, count-1);
 		break;
 	case getStatusPacketType:
-		processStatusCommand(buffer, count);
+		processStatusCommand(buffer+1, count-1);
 		break;
 	case setSetConfigPacketType:
-		processConfigCommand(buffer, count);
+		processConfigCommand(buffer+1, count-1);
 		break;
 	case getSetTimePacketType:
-		processTimeCommand(buffer, count);
+		processTimeCommand(buffer+1, count-1);
 		break;
 	default:
 		send_answer(buffer[0], UNSUPPORTEDCOMMAND);

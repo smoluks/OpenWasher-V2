@@ -12,6 +12,7 @@ enum stage_e
 	STATUS_DRAWWATER = 7,
 	STATUS_SINK = 8,
 	STATUS_SELFTESTING = 9,
+	STATUS_GRINDINGBRUSHES = 10,
 };
 
 #pragma pack(push, 1)
@@ -21,8 +22,9 @@ typedef struct
 	uint8_t program;
 	uint8_t stage;
 	uint8_t temperature;
-	uint32_t timefull;
-	uint32_t timepassed;
+	uint8_t rotationSpeed;
+	uint32_t programDuration;
+	uint32_t programTimePassed;
 } Status;
 
 #pragma pack(pop)

@@ -13,7 +13,7 @@ extern const programOptions defaultProgramOptions[PROGRAM_COUNT];
 
 void processDefaultOptionsCommand(uint8_t* buffer, uint8_t count)
 {
-	if (count < 2) {
+	if (count < 1) {
 		send_answer(getProgramDefaultsPacketType, BADARGS);
 		return;
 	}

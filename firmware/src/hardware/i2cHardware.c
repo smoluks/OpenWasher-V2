@@ -54,21 +54,30 @@ uint8_t I2CReadRegister(uint8_t devAddress, uint8_t registerAddress)
 
 bool I2CReadBuffer(uint8_t devAddress, uint8_t startAddress, uint8_t* buffer, int size)
 {
-	I2C2->SR1 &= ~I2C_SR1_AF;
+	bool deviceReady = false;
 
-	//make start
-	I2C2->CR1 |= I2C_CR1_START;
-	while(!(I2C2->SR1 & I2C_SR1_SB)){ WDT_RESET; };
+	do {
+		I2C2->SR1 &= ~I2C_SR1_AF;
 
-	//send device address (write)
-	I2C2->DR = devAddress & 0xFE;
-	while(!(I2C2->SR1 & (I2C_SR1_ADDR | I2C_SR1_AF))){ WDT_RESET; };
-	if(I2C2->SR1 & I2C_SR1_AF)
-	{
-		I2C2->CR1 |= I2C_CR1_STOP;
-		return false;
-	}
-	I2C2->SR2;
+		//make start
+		I2C2->CR1 |= I2C_CR1_START;
+		while (!(I2C2->SR1 & I2C_SR1_SB)) {
+			WDT_RESET;
+		};
+
+		//send device address (write)
+		I2C2->DR = devAddress & 0xFE;
+		while (!(I2C2->SR1 & (I2C_SR1_ADDR | I2C_SR1_AF))) {
+			WDT_RESET;
+		};
+		if (I2C2->SR1 & I2C_SR1_AF) {
+			I2C2->CR1 |= I2C_CR1_STOP;
+		} else {
+			deviceReady = true;
+		}
+
+		I2C2->SR2;
+	} while (!deviceReady); //TODO: make count 100
 
 	//send register address
 	I2C2->DR = startAddress;
@@ -124,42 +133,6 @@ bool I2CReadBuffer(uint8_t devAddress, uint8_t startAddress, uint8_t* buffer, in
 	return true;
 }*/
 
-bool I2CWriteRegister(uint8_t devAddress, uint8_t registerAddress, uint8_t value)
-{
-	I2C2->SR1 &= ~I2C_SR1_AF;
-	//стартуем
-	I2C2->CR1 |= I2C_CR1_START;
-	while(!(I2C2->SR1 & (I2C_SR1_SB | I2C_SR1_AF))){ WDT_RESET; };
-	if(I2C2->SR1 & I2C_SR1_AF)
-	{
-		I2C2->CR1 |= I2C_CR1_STOP;
-		return false;
-	}
-	(void) I2C2->SR1;
-
-	//передаем адрес устройства
-	I2C2->DR = devAddress & 0xFE;
-	while(!(I2C2->SR1 & (I2C_SR1_ADDR | I2C_SR1_AF))){ WDT_RESET; };
-	if(I2C2->SR1 & I2C_SR1_AF)
-	{
-		I2C2->CR1 |= I2C_CR1_STOP;
-		return false;
-	}
-	(void) I2C2->SR1;
-	(void) I2C2->SR2;
-
-	//передаем адрес регистра
-	I2C2->DR = registerAddress;
-	while(!(I2C2->SR1 & I2C_SR1_TXE)){ WDT_RESET; };
-
-	I2C2->DR = value;
-	while (!(I2C2->SR1 & (I2C_SR1_BTF | I2C_SR1_AF))){ WDT_RESET; };
-	I2C2->CR1 |= I2C_CR1_STOP;
-
-	return !(I2C2->SR1 & I2C_SR1_AF);
-}
-
-
 bool I2CWritePage(uint8_t devAddress, uint8_t registerAddress, uint8_t* buffer, uint8_t count)
 {
 	I2C2->SR1 &= ~I2C_SR1_AF;
@@ -187,7 +160,7 @@ bool I2CWritePage(uint8_t devAddress, uint8_t registerAddress, uint8_t* buffer, 
 			(void) I2C2->SR2;
 			deviceReady = true;
 		}
-	} while (!deviceReady);
+	} while (!deviceReady); //TODO: make count 100
 
 	//send memory address
 	I2C2->DR = registerAddress;
@@ -229,5 +202,41 @@ bool I2CWriteBuffer(uint8_t devAddress, uint8_t startAddress, uint8_t* buffer, i
 		return I2CWritePage(devAddress, startAddress, buffer, size);
 
 	return true;
+}
+
+bool I2CWriteRegister(uint8_t devAddress, uint8_t registerAddress, uint8_t value)
+{
+	I2C2->SR1 &= ~I2C_SR1_AF;
+	//стартуем
+
+	I2C2->CR1 |= I2C_CR1_START;
+	while(!(I2C2->SR1 & (I2C_SR1_SB | I2C_SR1_AF))){ WDT_RESET; };
+	if(I2C2->SR1 & I2C_SR1_AF)
+	{
+		I2C2->CR1 |= I2C_CR1_STOP;
+		return false;
+	}
+	(void) I2C2->SR1;
+
+	//передаем адрес устройства
+	I2C2->DR = devAddress & 0xFE;
+	while(!(I2C2->SR1 & (I2C_SR1_ADDR | I2C_SR1_AF))){ WDT_RESET; };
+	if(I2C2->SR1 & I2C_SR1_AF)
+	{
+		I2C2->CR1 |= I2C_CR1_STOP;
+		return false;
+	}
+	(void) I2C2->SR1;
+	(void) I2C2->SR2;
+
+	//передаем адрес регистра
+	I2C2->DR = registerAddress;
+	while(!(I2C2->SR1 & I2C_SR1_TXE)){ WDT_RESET; };
+
+	I2C2->DR = value;
+	while (!(I2C2->SR1 & (I2C_SR1_BTF | I2C_SR1_AF))){ WDT_RESET; };
+	I2C2->CR1 |= I2C_CR1_STOP;
+
+	return !(I2C2->SR1 & I2C_SR1_AF);
 }
 

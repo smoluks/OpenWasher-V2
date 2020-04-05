@@ -120,7 +120,8 @@ namespace OpenWasherHardwareLibrary.Managers
             }
             catch (Exception e)
             {
-                ioManager.Dispose();
+                if(ioManager != null)
+                    ioManager.Dispose();
                 return (false, e.Message, null);
             }
         }
@@ -147,7 +148,7 @@ namespace OpenWasherHardwareLibrary.Managers
                 catch (TimeoutException e)
                 {
                     if (--tryCount <= 0)
-                        throw e;
+                        throw;
                 }
             }
             while (tryCount > 0);

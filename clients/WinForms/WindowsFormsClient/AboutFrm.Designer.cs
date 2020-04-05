@@ -38,9 +38,10 @@
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Control;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 378);
+            this.richTextBox1.Location = new System.Drawing.Point(24, 727);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(358, 19);
+            this.richTextBox1.Size = new System.Drawing.Size(716, 26);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "Icon made FreePik, Smashicons, Gregor Cresnar from www.flaticon.com";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -49,9 +50,10 @@
             // 
             this.richTextBox2.BackColor = System.Drawing.SystemColors.Control;
             this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.Location = new System.Drawing.Point(12, 12);
+            this.richTextBox2.Location = new System.Drawing.Point(24, 23);
+            this.richTextBox2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(467, 20);
+            this.richTextBox2.Size = new System.Drawing.Size(934, 38);
             this.richTextBox2.TabIndex = 1;
             this.richTextBox2.Text = "This is client for OpenWasher controller. See https://github.com/smoluks/OpenWash" +
     "er-V2";
@@ -60,20 +62,22 @@
             // 
             this.richTextBox3.BackColor = System.Drawing.SystemColors.Control;
             this.richTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox3.Location = new System.Drawing.Point(12, 38);
+            this.richTextBox3.Location = new System.Drawing.Point(24, 73);
+            this.richTextBox3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(467, 318);
+            this.richTextBox3.Size = new System.Drawing.Size(934, 612);
             this.richTextBox3.TabIndex = 2;
             this.richTextBox3.Text = resources.GetString("richTextBox3.Text");
             // 
             // AboutFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 402);
+            this.ClientSize = new System.Drawing.Size(924, 766);
             this.Controls.Add(this.richTextBox3);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.richTextBox1);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "AboutFrm";
             this.Text = "About";
             this.ResumeLayout(false);

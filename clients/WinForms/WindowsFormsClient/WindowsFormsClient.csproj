@@ -171,6 +171,7 @@
     <Content Include="Resources\delete.png" />
     <Content Include="Resources\link.png" />
     <Content Include="Resources\save.png" />
+    <None Include="Resources\spiral.png" />
     <Content Include="Resources\start.png" />
     <Content Include="Resources\washing-machine.png" />
     <Content Include="Resources\washing-machine.ico" />

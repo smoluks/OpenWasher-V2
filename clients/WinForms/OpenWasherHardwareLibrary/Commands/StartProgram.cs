@@ -23,15 +23,19 @@ namespace OpenWasherHardwareLibrary.Commands
         {
             var length = startDate.HasValue ? 15 : options != null ? 8 : 2;
             var data = new List<byte>(length) { (byte)PacketType.CommandStart, (byte)program };
+            for(int i = 2; i<length; i++)
+            {
+                data.Add(Byte.MaxValue);
+            }
 
             if (options != null)
             {
-                data[2] = options.temperature ?? 0xFF;
-                data[3] = options.duration ?? 0xFF;
-                data[4] = options.washingSpeed ?? 0xFF;
-                data[5] = options.duration ?? 0xFF;
-                data[6] = options.waterLevel ?? 0xFF;
-                data[7] = options.rinsingCycles ?? 0xFF;
+                data[2] = options.temperature ?? Byte.MaxValue;
+                data[3] = options.duration ?? Byte.MaxValue;
+                data[4] = options.washingSpeed ?? Byte.MaxValue;
+                data[5] = options.spinningSpeed ?? Byte.MaxValue;
+                data[6] = options.waterLevel ?? Byte.MaxValue;
+                data[7] = options.rinsingCycles ?? Byte.MaxValue;
             }
 
             if (startDate != null)

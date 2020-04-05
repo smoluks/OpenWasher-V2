@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "stm32f10x.h"
 #include "commandsHandler.h"
 #include "uart_driver.h"
@@ -10,6 +11,8 @@ volatile uint8_t rxbuffer[RXBUFFERSIZE];
 volatile uint8_t rxnum;
 volatile uint8_t rxlength;
 volatile uint8_t crc = 0;
+
+volatile bool logViewConnected = false;
 
 volatile enum e_rxstate
 {
@@ -40,6 +43,20 @@ void USART1_IRQHandler()
 	if (USART1->SR & USART_SR_RXNE)
 	{
 		uint8_t data = USART1->DR;
+#ifdef LOGVIEW_MODE
+		if(data == 83)
+		{
+			//start
+			printf("Start detected\r\n$N$;Data Logging\r\n$C$;Value 1;Value 2\r\n");
+			logViewConnected = true;
+
+		} else if(data == 69)
+		{
+			//end
+			printf("End detected\r\n");
+			logViewConnected = false;
+		}
+#else
 		switch(rxstate)
 		{
 			case STARTTOKEN:
@@ -69,6 +86,7 @@ void USART1_IRQHandler()
 				rxstate = STARTTOKEN;
 				break;
 		}
+#endif
 	}
 }
 
@@ -105,6 +123,12 @@ void send16(uint16_t data)
 //перекрытие stdio
 int _write(__attribute__((unused)) int file, char *ptr, int len)
 {
+#ifdef LOGVIEW_MODE
+	for(uint8_t i = 0; i < len; i++)
+	{
+		send(ptr[i]);
+	}
+#else
 	if(len>253)
 		len = 253;
 
@@ -124,10 +148,12 @@ int _write(__attribute__((unused)) int file, char *ptr, int len)
 	send(crc);
 	//
 	return len;
+#endif
 }
 
 void send_event(enum eventcode code)
 {
+#ifndef LOGVIEW_MODE
 	send(0xAB);
 	send(2);
 	send(0x5E);
@@ -135,10 +161,12 @@ void send_event(enum eventcode code)
 	uint8_t crc = addcrc(0x62, code);
 	send(code);
 	send(crc);
+#endif
 }
 
 void send_event1args(enum eventcode code, uint8_t arg)
 {
+#ifndef LOGVIEW_MODE
 	send(0xAB);
 	send(3);
 	send(0x5E);
@@ -148,11 +176,13 @@ void send_event1args(enum eventcode code, uint8_t arg)
 	crc = addcrc(crc, arg);
 	send(arg);
 	send(crc);
+#endif
 }
 
 
 void send_error(enum errorcode code)
 {
+#ifndef LOGVIEW_MODE
 	send(0xAB);
 	send(2);
 	send(0x5B);
@@ -160,6 +190,7 @@ void send_error(enum errorcode code)
 	uint8_t crc = addcrc(0x5D, code);
 	send(code);
 	send(crc);
+#endif
 }
 
 void waittransmissionend()

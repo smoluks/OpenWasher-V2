@@ -11,6 +11,11 @@ namespace OpenWasherHardwareLibrary.Entity
         public byte temperature;
 
         /// <summary>
+        /// Spinning speed in RPS
+        /// </summary>
+        public double spinningSpeed;
+
+        /// <summary>
         /// Full current program time, sec
         /// </summary>
         public int? timefull;

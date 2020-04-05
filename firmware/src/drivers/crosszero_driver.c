@@ -8,24 +8,29 @@
 void crosszero_failed();
 
 uint32_t crosszerotimestamp = 0;
-bool crosszeropresent = false;
+uint32_t crosszerotime = 0;
+volatile bool crosszeropresent = false;
 
 inline void crosszero_irq(bool phase) {
-	uint32_t crosszerotime = delta(crosszerotimestamp);
+	crosszerotime += delta(crosszerotimestamp);
 
 	if (crosszerotime > 8 && crosszerotime < 12) {
-		crosszeropresent = true;
 		engine_crosszero();
 		therm_crosszero();
 		valve_crosszero(phase);
-	} else
+
+		crosszeropresent = true;
+		crosszerotime = 0;
+	} else if(crosszerotime >= 12){
 		crosszero_failed();
+		crosszerotime = 0;
+	}
 
 	crosszerotimestamp = get_systime();
 }
 
 inline void crosszero_systick() {
-	if (!checkdelay(crosszerotimestamp, 11))
+	if (!checkdelay(crosszerotimestamp, 12))
 		crosszero_failed();
 }
 

@@ -21,12 +21,12 @@ bool processTestProgram(__attribute__((unused)) program programNumber, __attribu
 	status_set_stage(STATUS_SELFTESTING);
 
 	sink_if_water(15000);
-/*
+
 	//door
 	if(!door_testlock())
 		return false;
 
-	delay_ms(5000u);*/
+	delay_ms(5000u);
 
 	//engine
 	if (!engine_test())
@@ -34,7 +34,7 @@ bool processTestProgram(__attribute__((unused)) program programNumber, __attribu
 	if(ct)
 		return false;
 
-	/*delay_ms(5000u);
+	delay_ms(5000u);
 
 	//valve
 	if(!valve_test())
@@ -57,7 +57,8 @@ bool processTestProgram(__attribute__((unused)) program programNumber, __attribu
 	if(!door_testunlock())
 		return false;
 
-	writeconfig();*/
+	if(!writeconfig())
+		return false;
 
 	printf("All tests OK\n");
 

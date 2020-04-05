@@ -29,16 +29,22 @@ void ADC1_2_IRQHandler(void) {
 //cross-zero
 void EXTI1_IRQHandler(void) {
 
-	EXTI->PR |= 0x0002;
+	EXTI->PR |= EXTI_PR_PR1;
+
 	crosszero_irq(GPIOB->IDR & 0x0002);
+
+	while(EXTI->PR & EXTI_PR_PR1){
+		EXTI->PR |= EXTI_PR_PR1;
+	};
 }
 
 //переполнение
 void EXTI3_IRQHandler(void) {
-	EXTI->PR |= 0x0004;
-	EXTI->PR;
-
 	set_error(OVERFLOW);
+
+	while(EXTI->PR & EXTI_PR_PR3){
+			EXTI->PR |= EXTI_PR_PR3;
+		};
 }
 
 //фидбэк тэна

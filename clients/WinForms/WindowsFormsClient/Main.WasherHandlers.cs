@@ -36,7 +36,7 @@ namespace WindowsFormsClient
 
         private void ErrorHandler(ErrorType error, byte[] data)
         {
-            string text = $"Error: {error}";
+            string text = $"Error: 0x{error}";
             this.Invoke((MethodInvoker)(() =>
             {
                 SetStatusText(text);
@@ -49,5 +49,6 @@ namespace WindowsFormsClient
             lblStatus.Text = text;
             trayIcon.Text = text;
         }
+
     }
 }

@@ -21,7 +21,7 @@ bool processRinsingProgram(__attribute__((unused)) program programNumber, __attr
 	if(!stage_door_close())
 		return false;
 
-	if(!stage_rinsing(programOptions.rinsingCycles, programOptions.waterLevel))
+	if(!stage_rinsing(programOptions.rinsingCycles, programOptions.washingSpeed, programOptions.waterLevel))
 		return false;
 
 	if(!spinning_go(programOptions.spinningSpeed))

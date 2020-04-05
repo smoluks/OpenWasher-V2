@@ -38,7 +38,7 @@ bool engine_test()
 	printf("Half feedback OK\nCheck relay\n");
 	pid_enable = false;
 	engine_regulvalue = 0;
-	delay_ms(11u);
+	delay_ms(1000u);
 
 	engine_setdirectionccw();
 
@@ -65,21 +65,22 @@ bool engine_test()
 		engine_setdirectionoff();
 		return false;
 	}
-	eeprom_config.tachodetectlevel = maxtachovalue+10;
+	eeprom_config.tachodetectlevel = maxtachovalue;
 	printf("Tacho noise level %u\nWait start rotating...\n", maxtachovalue);
-
+	//redetect rps
+	engine_current_speed = 0;
 	//find start value
-	while (engine_current_speed == 0 && engine_regulvalue < VALUE_FULL && !ct)
+	while (engine_current_speed == 0 && engine_regulvalue < VALUE_GUARANTED_START && !ct)
 	{
 		engine_regulvalue++;
-		delay_ms(50u);
+		delay_ms(500u);
 	}
 	if (!ct)
 	{
 		if (engine_regulvalue < VALUE_FULL)
 		{
-			eeprom_config.enginestartvalue = engine_regulvalue < 400 ? 0 : engine_regulvalue - 400;
-			printf("Start at value %u\n", engine_regulvalue);
+			eeprom_config.enginestartvalue = engine_regulvalue;
+			printf("Start at value %u with RPS %u\n", engine_regulvalue, engine_current_speed);
 		}
 		else set_error(NO_TACHO);
 	}
@@ -183,8 +184,9 @@ bool engine_calibratepid()
 //relay control
 bool engine_setdirection(enum direction_e direction)
 {
-	engine_regulvalue = 0;
 	pid_enable = false;
+	engine_regulvalue = 0;
+	delay_ms(100);
 
 	enum direction_e dir = get_direction();
 	if(dir == direction)
@@ -230,6 +232,8 @@ uint8_t engine_getcurrentrps()
 	return engine_current_speed >> 4;
 }
 
+extern volatile int32_t istate;
+
 bool engine_settargetrps(uint8_t rps, enum direction_e direction)
 {
 	pid_enable = false;
@@ -238,7 +242,6 @@ bool engine_settargetrps(uint8_t rps, enum direction_e direction)
 	//if target 0 or direction not current direction, stop
 	if ((rps == 0 || direction != dir) && dir != off)
 	{
-		pid_enable = false;
 		engine_regulvalue = 0;
 		engine_target_speed = 0;
 		delay_ms(20u);
@@ -268,12 +271,31 @@ bool engine_settargetrps(uint8_t rps, enum direction_e direction)
 		}
 
 		engine_target_speed = rps << 4;
+		engine_regulvalue = eeprom_config.enginestartvalue;
+		while (engine_current_speed < engine_target_speed && engine_regulvalue < VALUE_GUARANTED_START)// && !ct)
+		{
+			engine_regulvalue++;
+			delay_ms(25u);
+		}
+		if(engine_regulvalue == VALUE_GUARANTED_START)
+		{
+			set_error(NO_TACHO);
+			return false;
+		}
+/*		if(ct)
+		{
+			engine_setdirection(off);
+			return false;
+		}*/
+
+		istate = engine_regulvalue << 8;
 		pid_enable = true;
 	}
 
 	return !ct;
 }
 
+extern bool logViewConnected;
 inline void engine_crosszero() {
 	engine_triakoff();
 
@@ -285,7 +307,7 @@ inline void engine_crosszero() {
 
 	//calculate PID
 	if (pid_enable)
-		engine_regulvalue = pid_process((int32_t)engine_current_speed, (int32_t)engine_target_speed);
+		engine_regulvalue = pid_process(engine_current_speed, engine_target_speed);
 
 	if (engine_regulvalue >= VALUE_FULL)
 	{
@@ -296,7 +318,11 @@ inline void engine_crosszero() {
 		TIM4->SR &= ~TIM_SR_UIF;
 		TIM4->ARR = phaseTable[engine_regulvalue];
 		TIM4->CR1 |= TIM_CR1_CEN;
-	}
+	} else engine_triakoff();
+
+#ifdef LOGVIEW_MODE
+	printf("$%u;%u\r\n", tacho_adcvalue, engine_regulvalue);
+#endif
 }
 
 volatile bool pulse = false;
@@ -304,7 +330,7 @@ inline void process_tacho(uint16_t value)
 {
 	tacho_adcvalue = value;
 	//front detector
-	if(!pulse && value >= eeprom_config.tachodetectlevel + 10)
+	if(!pulse && value >= eeprom_config.tachodetectlevel + 50)
 	{
 		pulse = true;
 
@@ -312,7 +338,7 @@ inline void process_tacho(uint16_t value)
 		{
 			//calc rps*16
 			if(TIM3->CNT != 0)
-				engine_current_speed = 100000 / TIM3->CNT;
+				engine_current_speed = 10000 / TIM3->CNT;
 		}
 		else
 			engine_current_speed = 0;
@@ -322,7 +348,7 @@ inline void process_tacho(uint16_t value)
 		TIM3->CNT = 0;
 		TIM3->CR1 |= TIM_CR1_CEN;
 	}
-	else if(pulse && value < eeprom_config.tachodetectlevel)
+	else if(pulse && value < eeprom_config.tachodetectlevel + 25)
 	{
 		pulse = false;
 	}

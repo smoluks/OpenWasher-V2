@@ -66,8 +66,11 @@ namespace OpenWasherHardwareLibrary
             if (_serialPort == null)
                 return;
 
-            if(_serialPort.IsOpen)
-                _serialPort.Close();
+            if (_serialPort.IsOpen)
+            {
+                //close may froze
+                Task.WhenAny(Task.Run(() => _serialPort.Close()), Task.Delay(3000)).Wait();                
+            }
 
             _serialPort.Dispose();
         }
@@ -87,7 +90,7 @@ namespace OpenWasherHardwareLibrary
 
         internal Task<byte[]> SendAsync(CancellationToken token, byte[] buffer, int timeout)
         {
-            return Task.Run(() =>
+             return Task.Run(() =>
             {
                 var array = new byte[buffer.Count() + 3];
                 array[0] = 0xAB;
@@ -217,8 +220,10 @@ namespace OpenWasherHardwareLibrary
         {
             if (data.Length == 0)
                 return PacketType.Ping;
-            else
+            else if((PacketType)data[0] == PacketType.Message || (PacketType)data[0] == PacketType.Error || (PacketType)data[0] == PacketType.Event)
                 return (PacketType)(data[0]);
+            else
+                return (PacketType)(data[0] & 0x3F);
         }
 
         private static byte GetAdditiveCrc(byte data, byte oldcrc)

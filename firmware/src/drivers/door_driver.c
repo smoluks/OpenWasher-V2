@@ -17,7 +17,7 @@ bool door_testlock()
 	unlock_door();
 
 	uint32_t timestamp = get_systime();
-	while (get_engine_feedback() != ef_full && checkdelay(timestamp, 1000));
+//	while (get_engine_feedback() != ef_full && checkdelay(timestamp, 1000));
 	if(get_engine_feedback() != ef_full)
 	{
 		set_error(NO_LOCKER);
@@ -33,6 +33,7 @@ bool door_testlock()
 	if (get_engine_feedback() != ef_half)
 	{
 		set_error(BAD_DOOR_TRIAK);
+		printf("Feedback %d\n", get_engine_feedback());
 		return false;
 	}
 	printf("Lock feedback present at %lu ms\nWait to close...\n", delta(timestamp));

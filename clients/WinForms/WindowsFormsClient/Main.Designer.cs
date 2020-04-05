@@ -38,6 +38,7 @@
             this.goToBootloaderButton = new System.Windows.Forms.ToolStripMenuItem();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTemp = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblRPS = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnOptions = new System.Windows.Forms.ToolStripDropDownButton();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,16 +102,17 @@
             this.toolStripSplitButton1,
             this.lblStatus,
             this.lblTemp,
+            this.lblRPS,
             this.btnOptions});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 378);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 376);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(647, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(647, 24);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripSplitButton1
             // 
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSplitButton1.AutoSize = false;
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectButton,
             this.breakConnectButton,
@@ -120,8 +122,7 @@
             this.toolStripSplitButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 20);
-            this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(48, 22);
             // 
             // connectButton
             // 
@@ -160,7 +161,7 @@
             this.lblStatus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
             this.lblStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(500, 17);
+            this.lblStatus.Size = new System.Drawing.Size(400, 19);
             this.lblStatus.Text = "Test text";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -170,12 +171,24 @@
             this.lblTemp.Image = global::OpenWasherClient.Properties.Resources.thermometer;
             this.lblTemp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblTemp.Name = "lblTemp";
-            this.lblTemp.Size = new System.Drawing.Size(51, 17);
+            this.lblTemp.Size = new System.Drawing.Size(70, 19);
+            this.lblTemp.Text = " ";
             this.lblTemp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblRPS
+            // 
+            this.lblRPS.AutoSize = false;
+            this.lblRPS.Image = global::OpenWasherClient.Properties.Resources.spiral;
+            this.lblRPS.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblRPS.Name = "lblRPS";
+            this.lblRPS.Size = new System.Drawing.Size(70, 19);
+            this.lblRPS.Text = " ";
+            this.lblRPS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnOptions
             // 
             this.btnOptions.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnOptions.AutoSize = false;
             this.btnOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnOptions.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
@@ -185,33 +198,32 @@
             this.btnOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnOptions.Image")));
             this.btnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(29, 20);
+            this.btnOptions.Size = new System.Drawing.Size(45, 22);
             this.btnOptions.Text = "toolStripDropDownButton1";
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // logToolStripMenuItem
             // 
-            this.logToolStripMenuItem.Enabled = false;
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-            this.logToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logToolStripMenuItem.Text = "Log";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.AboutToolStripMenuItem.Text = "About";
             this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -688,6 +700,7 @@
         private System.Windows.Forms.ToolStripMenuItem disconnectButton;
         private System.Windows.Forms.ToolStripMenuItem goToBootloaderButton;
         private System.Windows.Forms.ToolStripMenuItem breakConnectButton;
+        private System.Windows.Forms.ToolStripStatusLabel lblRPS;
     }
 }
 

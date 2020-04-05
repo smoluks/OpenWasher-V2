@@ -3,7 +3,7 @@
 #include "stm32f10x.h"
 
 void readconfig();
-void writeconfig();
+bool writeconfig();
 
 #pragma pack(push, 1)
 

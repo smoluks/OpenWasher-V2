@@ -90,7 +90,7 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 	if(!stage_wash(programOptions.temperature, programOptions.delay, programOptions.washingSpeed, both_washmode, programOptions.waterLevel))
 		return false;
 
-	if(!stage_rinsing(programOptions.rinsingCycles, programOptions.waterLevel))
+	if(!stage_rinsing(programOptions.rinsingCycles, programOptions.washingSpeed, programOptions.waterLevel))
 		return false;
 
 	if(!spinning_go(programOptions.spinningSpeed))

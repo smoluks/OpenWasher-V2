@@ -39,7 +39,7 @@ void readconfig()
 	}
 }
 
-void writeconfig()
+bool writeconfig()
 {
 	eeprom_config.writemarker = 0xAB;
 	eeprom_config.crc = calculateCrc((uint8_t*)&eeprom_config, sizeof(eeprom_config)-1);
@@ -47,7 +47,7 @@ void writeconfig()
 	if(!I2CWriteBuffer(EEPROM_ADDRESS, 0, (uint8_t*)&eeprom_config, sizeof(eeprom_config)))
 	{
 		set_error(EEPROM_WRITEERROR);
-		return;
+		return false;
 	}
 
 	struct eeprom_config_s readdata;
@@ -56,7 +56,12 @@ void writeconfig()
 
 	int cmpresult = memcmp((uint8_t*) &eeprom_config, &readdata, sizeof(eeprom_config));
 	if(cmpresult != 0)
+	{
 		set_error(EEPROM_LOCK);
+		return false;
+	}
+
+	return true;
 }
 
 void setdefaultconfig()

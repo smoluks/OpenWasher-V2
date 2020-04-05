@@ -22,19 +22,20 @@ extern const programOptions defaultProgramOptions[PROGRAM_COUNT];
 void processStartProgramCommand(uint8_t* buffer, uint8_t count)
 {
 	if(currentStatus.program != NoProgram){
-		printf("Another program started\n");
 		send_answer(startProgramPacketType, NOTREADY);
+		printf("Another program started\n");
 		return;
 	}
-	if(count < 2){
+	if(count < 1){
 		send_answer(startProgramPacketType, BADARGS);
+		printf("C %u\n", count);
 		return;
 	}
 
 	//copy params
 	programFromCommand = buffer[0];
 	optionsFromCommand = defaultProgramOptions[programFromCommand];
-	for(uint8_t i = 0; i < sizeof(programOptions);i++)
+	for(uint8_t i = 0; i < count - 1;i++)
 	{
 		if(buffer[i+1] != 0xFF)
 			((uint8_t* )&optionsFromCommand)[i] = buffer[i+1];
@@ -43,26 +44,31 @@ void processStartProgramCommand(uint8_t* buffer, uint8_t count)
 	//validation
 	if (programFromCommand >= PROGRAM_COUNT) {
 		send_answer(startProgramPacketType, BADARGS);
+		printf("select program %u, but program count%u\n", programFromCommand, PROGRAM_COUNT);
 		return;
 	}
 	if (optionsFromCommand.washingSpeed
 			!= 0xFF && optionsFromCommand.washingSpeed > MAX_WASHING_SPEED) {
 		send_answer(startProgramPacketType, BADARGS);
+		printf("select washing speed %u, but max %u\n", optionsFromCommand.washingSpeed, MAX_WASHING_SPEED);
 		return;
 	}
 	if (optionsFromCommand.spinningSpeed
 			!= 0xFF && optionsFromCommand.spinningSpeed > MAX_SPINNING_SPEED) {
 		send_answer(startProgramPacketType, BADARGS);
+		printf("select spinning speed %u, but max %u\n", optionsFromCommand.spinningSpeed, MAX_SPINNING_SPEED);
 		return;
 	}
 	if (optionsFromCommand.temperature
 			!= 0xFF && optionsFromCommand.temperature > MAX_TEMPERATURE) {
 		send_answer(startProgramPacketType, BADARGS);
+		printf("select temperature %u, but max %u\n", optionsFromCommand.temperature, MAX_TEMPERATURE);
 		return;
 	}
 	if (optionsFromCommand.waterLevel
 				!= 0xFF && optionsFromCommand.waterLevel > 100) {
 			send_answer(startProgramPacketType, BADARGS);
+			printf("select water level %u, but max 100\n", optionsFromCommand.waterLevel);
 			return;
 		}
 

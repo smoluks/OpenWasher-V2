@@ -85,6 +85,7 @@ namespace WindowsFormsClient
                 var status = await hardwareLibrary.GetStatusAsync(token);
 
                 lblTemp.Text = $"{status.temperature}°C";
+                lblRPS.Text = $"{status.spinningSpeed}";
 
                 if (status.program != WashProgram.Nothing)
                 {
@@ -131,8 +132,15 @@ namespace WindowsFormsClient
                 DialogResult dialogResult = MessageBox.Show("Really stop?", "Stop program", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    await hardwareLibrary.StopProgramAsync(token);
-                    groupBoxOptions.Enabled = true;
+                    try
+                    {
+                        await hardwareLibrary.StopProgramAsync(token);
+                        groupBoxOptions.Enabled = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Command error");
+                    }
                 }
             }
             else
@@ -140,8 +148,16 @@ namespace WindowsFormsClient
                 if (listBoxPrograms.SelectedIndex != -1)
                 {
                     var program = listBoxPrograms.SelectedItem as WashingProgram;
-                    await hardwareLibrary.StartProgramAsync(token, program.Program, GetOptions());
-                    groupBoxOptions.Enabled = false;
+                    try
+                    {
+                        await hardwareLibrary.StartProgramAsync(token, program.Program, GetOptions());
+
+                        groupBoxOptions.Enabled = false;
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Command error");
+                    }
                 }
             }
         }

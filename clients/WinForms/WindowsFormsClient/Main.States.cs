@@ -27,7 +27,9 @@ namespace WindowsFormsClient
                 {
                     var (result, port, error) = await hardwareLibrary.ConnectAsync(connectToken, configManager.CurrentConfig.Port.ToUpper() == "AUTO" ? null : configManager.CurrentConfig.Port);
 
-                    switch (result)
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        switch (result)
                     {
                         case ConnectionEventType.Connected:
                             SetStatusText(string.Format(localizator.GetString("Status_Connected", "{0} Connected"), port));
@@ -45,10 +47,15 @@ namespace WindowsFormsClient
                             SetStatusText(localizator.GetString("Status_NotFound", "Washer not found"));
                             break;
                     }
+
+                    }));
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
-                    SetStatusText(localizator.GetString("Status_NotFound", "Washer not found"));
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        SetStatusText(localizator.GetString("Status_NotFound", "Washer not found"));
+                    }));
                 }
                 finally
                 {

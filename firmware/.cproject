@@ -287,6 +287,7 @@
 									<listOptionValue builtIn="false" value="STM32F103C8"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
 									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
+									<listOptionValue builtIn="false" value="LOGVIEW_MODE"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.1121103708" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -330,6 +331,7 @@
 									<listOptionValue builtIn="false" value="STM32F103C8"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
 									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
+									<listOptionValue builtIn="false" value="LOGVIEW_MODE"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1717384337" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -377,6 +379,7 @@
 									<listOptionValue builtIn="false" value="STM32F103C8"/>
 									<listOptionValue builtIn="false" value="STM32F103xB"/>
 									<listOptionValue builtIn="false" value="LC_INCLUDE=lc-addrlabels.h"/>
+									<listOptionValue builtIn="false" value="LOGVIEW_MODE"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.922010235" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>

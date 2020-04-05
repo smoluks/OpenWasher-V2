@@ -6,9 +6,10 @@
 #include "engine_driver.h"
 #include "valve_hardware.h"
 #include "error.h"
+#include "action.h"
 
 extern volatile bool ct;
-
+extern volatile uint8_t action;
 enum errorcode error = NOERROR;
 
 void set_error(enum errorcode code)
@@ -19,6 +20,8 @@ void set_error(enum errorcode code)
 	//
 	error = code;
 	ct = true;
+	//
+	action |= ACTION_SENDERROR;
 }
 
 void set_warning(enum errorcode code)

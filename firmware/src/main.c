@@ -16,6 +16,7 @@
 #include "hc05.h"
 #include "programHandlers.h"
 #include "watchdog.h"
+#include "action.h"
 
 extern volatile enum errorcode initError;
 extern enum errorcode error;
@@ -24,9 +25,7 @@ extern programOptions optionsFromCommand;
 extern volatile bool ct;
 
 volatile uint8_t action = 0;
-
 void main(void)
-
 {
 	set_orangeled_blink(900, 100);
 
@@ -49,24 +48,19 @@ void main(void)
 
 	while (true) {
 		WDT_RESET;
-
-		if (error != NOERROR) {
-			send_error(error);
-			printf("Error %X\n", error);
-			while (1) {
-				if (action & GOTOBOOTLOADER) {
-					send_event(GOTOBOOTLOADER);
-					waittransmissionend();
-					JumpToBootloader();
-				}
-			}
-		}
-		if (action & GOTOBOOTLOADER) {
+		if (action & ACTION_GOTOBOOTLOADER) {
 			send_event(GOTOBOOTLOADER);
 			waittransmissionend();
 			JumpToBootloader();
 		}
-		if (action & START_PROGRAM) {
+		if (action & ACTION_SENDERROR) {
+			action &= ~ACTION_SENDERROR;
+			//
+			printf("Error %X\n", error);
+			send_error(error);
+		}
+		if ((action & ACTION_STARTPROGRAM) && (error == NOERROR)) {
+			action &= ~ACTION_STARTPROGRAM;
 
 			send_event1args(START_PROGRAM, programFromCommand);
 			status_set_program(programFromCommand, 1000000);
