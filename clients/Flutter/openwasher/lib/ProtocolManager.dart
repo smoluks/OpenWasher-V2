@@ -1,28 +1,33 @@
 import 'dart:async';
+import 'dart:typed_data';
+
+import 'PacketManager.dart';
 
 class ProtocolManager {
   Timer _pollingTimer;
-  String _btAddress;
+  PacketManager _packetManager = new PacketManager();
 
-  var stateStream = new StreamController<WasherState>();
+  //var stateStream = new StreamController<WasherState>();
 
-  ProtocolManager(this._btAddress) {
-    _pollingTimer = new Timer.periodic(
-        Duration(seconds: 10), (_) async => await updateState());
+  ProtocolManager(String btAddress) {
+    _packetManager.connect(btAddress, onReceived, onClose);
+    //_pollingTimer = new Timer.periodic(
+    //    Duration(seconds: 10), (_) async => await updateState());
   }
 
   void dispose() {
-    _pollingTimer?.cancel();
-    stateStream.close();
+    //_pollingTimer?.cancel();
+    //stateStream.close();
+    _packetManager.disconnect();
   }
 
-  updateState() {}
+  void onClose() {}
 
-  getStateStream() {
-    return stateStream.stream;
+  void onReceived(Uint8List data) {}
+
+  WasherState getState() {
+    //_packetManager.
   }
-
-  WasherState getState() {}
 }
 
 class WasherState {
