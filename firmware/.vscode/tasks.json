@@ -1,0 +1,19 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "arm-none-eabi-gcc build active file",
+            "command": "C:\\Program Files (x86)\\GNU Tools Arm Embedded\\7 2018-q2-update\\bin\\arm-none-eabi-gcc",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "C:\\Program Files (x86)\\GNU Tools Arm Embedded\\7 2018-q2-update\\bin"
+            }
+        }
+    ],
+    "version": "2.0.0"
+}

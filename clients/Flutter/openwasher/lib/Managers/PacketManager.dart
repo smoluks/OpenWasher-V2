@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:openwasher/Helpers/Helpers.dart';
 
 typedef void CloseCallback();
 typedef void PacketReceivedCallback(Uint8List data);
@@ -14,9 +15,10 @@ class PacketManager {
   CloseCallback _closeCallback;
   PacketReceivedCallback _receivedCallback;
 
-  State _state = State.WaitStart;
-
-  Future<void> connect(String btAddress, PacketReceivedCallback receivedCallback, CloseCallback closeCallback) async {
+  Future<void> connect(
+      String btAddress,
+      PacketReceivedCallback receivedCallback,
+      CloseCallback closeCallback) async {
     _receivedCallback = receivedCallback;
     _closeCallback = closeCallback;
 
@@ -31,31 +33,37 @@ class PacketManager {
   }
 
   void disconnect() {
-    _connection.close();
-    _connection.dispose();
+    _connection?.dispose();
+
+    print('Disconnected');
   }
 
   void send(Uint8List data) {
     Uint8List packet = new Uint8List(data.length + 3);
-    ByteData.view(packet.buffer)
-      ..setUint8(0, 0xAB)
-      ..setUint8(1, data.length);
+    ByteData.view(packet.buffer)..setUint8(0, 0xAB)..setUint8(1, data.length);
+
+    packet.setRange(2, data.length + 2, data);
 
     int crc = getCrc(packet, data.length + 2);
-    ByteData.view(packet.buffer)
-      ..setUint8(data.length + 2, crc);
+    ByteData.view(packet.buffer)..setUint8(data.length + 2, crc);
 
-    try {
-      _connection.output.add(packet);
-    } catch (ex) {
-      //onError(ex, null);
-    }
+    print('SEND: ' + Helpers.dumpHexToString(packet));
+
+    //try {
+    _connection.output.add(packet);
+    //} catch (ex) {
+    //  onError(ex, null);
+    //}
   }
 
   int _length;
+  int _count;
   Uint8List _packet;
+  State _state = State.WaitStart;
 
   void _onData(Uint8List data) {
+    print('RECEIVE: ' + Helpers.dumpHexToString(data));
+
     data.forEach((value) {
       addCrc(value);
 
@@ -67,16 +75,20 @@ class PacketManager {
           _length = value;
           _packet = new Uint8List(_length);
           _state = State.CollectData;
+          _count = 0;
           break;
         case State.CollectData:
-          if (_packet.length != _length) {
-            _packet.add(value);
+          if (_count != _length) {
+            _packet[_count] = value;
+            _count++;
           } else {
             if (_crc == 0) {
               _receivedCallback(_packet);
-            }
+            } else
+              print('Crc error');
 
             _crc = 0;
+            _state = State.WaitStart;
           }
           break;
       }

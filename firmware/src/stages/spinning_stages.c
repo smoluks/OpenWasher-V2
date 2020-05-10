@@ -16,7 +16,7 @@ bool linen_breakdown(uint8_t maxrpm);
 
 extern volatile bool ct;
 
-uint32_t calc_spinning_time(uint8_t maxrpm)
+uint32_t stage_spinning_get_duration(uint8_t maxrpm)
 {
 	if(!maxrpm)
 		return 180;
@@ -24,7 +24,7 @@ uint32_t calc_spinning_time(uint8_t maxrpm)
 		return 19.1 * maxrpm + 120;
 }
 
-bool spinning_go(uint8_t maxrpm) {
+bool stage_spinning(uint8_t maxrpm) {
 	status_set_stage(STATUS_SPINNING);
 
 	if (!pump_enable())

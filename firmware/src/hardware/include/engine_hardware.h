@@ -12,6 +12,7 @@ enum direction_e
 void engine_setdirectioncw();
 void engine_setdirectionccw();
 void engine_setdirectionoff();
+void engine_emergencyoff();
 
 enum direction_e get_direction();
 

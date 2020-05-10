@@ -14,6 +14,7 @@
 
 bool processWashProgram(program programNumber, programOptions programOptions)
 {
+	//validation
 	if(programNumber < 1 || programNumber > 11)
 	{
 		printf("Wash number 1 - 11\n");
@@ -64,9 +65,21 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 		programOptions.waterLevel = 100;
 	}
 
-	//prewash
-	bool prewash = programNumber == Wash1Program;
+	//calculate duration
+	uint32_t duration = 0;
 
+	bool prewash = programNumber == Wash1Program;
+	if(prewash)
+	{
+		duration += stage_wash_get_duration(20);
+	}
+	duration += stage_wash_get_duration(programOptions.delay);
+	duration += stage_rinsing_get_duration(programOptions.rinsingCycles);
+	duration += stage_spinning_get_duration(0);
+
+	status_set_program(programNumber, duration);
+
+	//prewash
 	printf("Start washing at t: %u, time: %u, washing speed: %u, spinning speed: %u, water level: %u, rinsing cycles: %u, prewash: %s\n",
 			programOptions.temperature,
 			programOptions.delay,
@@ -93,7 +106,7 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 	if(!stage_rinsing(programOptions.rinsingCycles, programOptions.washingSpeed, programOptions.waterLevel))
 		return false;
 
-	if(!spinning_go(programOptions.spinningSpeed))
+	if(!stage_spinning(0))
 		return false;
 
 	if(!stage_door_open())

@@ -21,7 +21,7 @@ bool processSpinningProgram(__attribute__((unused)) program programNumber, progr
 	if(!stage_door_close())
 		return false;
 
-	if(!spinning_go(programOptions.spinningSpeed))
+	if(!stage_spinning(programOptions.spinningSpeed))
 		return false;
 
 	if(!stage_door_open())

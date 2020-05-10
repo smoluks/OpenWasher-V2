@@ -295,7 +295,6 @@ bool engine_settargetrps(uint8_t rps, enum direction_e direction)
 	return !ct;
 }
 
-extern bool logViewConnected;
 inline void engine_crosszero() {
 	engine_triakoff();
 

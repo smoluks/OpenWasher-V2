@@ -21,6 +21,10 @@ uint32_t endtime;
 
 bool washing_cycle(uint8_t rps, enum valve_e valve, uint8_t waterlevel);
 
+uint32_t stage_wash_get_duration(uint8_t duration){
+	return duration*60*1000;
+}
+
 //
 //wash cycle
 //temp - temperature in celsius

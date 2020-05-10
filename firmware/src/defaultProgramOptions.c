@@ -1,7 +1,7 @@
 /*
  * d.c
  *
- *  Created on: 26 нояб. 2019 г.
+ *  Created on: 26 пїЅпїЅпїЅпїЅ. 2019 пїЅ.
  *      Author: Shironeko
  */
 

@@ -17,6 +17,7 @@
 #include "programHandlers.h"
 #include "watchdog.h"
 #include "action.h"
+#include "clock.h"
 
 extern volatile enum errorcode initError;
 extern enum errorcode error;
@@ -63,7 +64,9 @@ void main(void)
 			action &= ~ACTION_STARTPROGRAM;
 
 			send_event1args(START_PROGRAM, programFromCommand);
+
 			status_set_program(programFromCommand, 1000000);
+
 			ct = false;
 			bool result = programs[programFromCommand](programFromCommand, optionsFromCommand);
 

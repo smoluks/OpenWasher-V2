@@ -7,4 +7,5 @@
 
 #pragma once
 
-bool spinning_go(uint8_t maxrpm);
+uint32_t stage_spinning_get_duration(uint8_t maxrpm);
+bool stage_spinning(uint8_t maxrpm);

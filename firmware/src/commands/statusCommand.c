@@ -5,8 +5,9 @@
  *      Author: Shironeko
  */
 #include "stm32f10x.h"
-#include "programOptions.h"
-#include "limits.h"
+//#include "programOptions.h"
+//#include "limits.h"
+#include "programs.h"
 #include "status.h"
 #include "commandsRoutine.h"
 

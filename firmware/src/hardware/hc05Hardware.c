@@ -7,6 +7,7 @@
 
 #include <stdbool.h>
 #include "stm32f10x.h"
+#include "delay.h"
 
 void hc05ResetToCommandMode()
 {

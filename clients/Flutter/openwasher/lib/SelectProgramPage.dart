@@ -1,8 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 import 'Dto/OpenWasherDevice.dart';
-import 'ProtocolManager.dart';
+import 'Dto/Program.dart';
+import 'Dto/WasherState.dart';
+import 'Helpers/Dialogs.dart';
+import 'Managers/ProtocolManager.dart';
+import 'ParametersPage.dart';
+import 'StatusPage.dart';
 
 class SelectProgramPage extends StatefulWidget {
   final OpenWasherDevice device;
@@ -14,34 +20,59 @@ class SelectProgramPage extends StatefulWidget {
 }
 
 class _SelectProgramPage extends State<SelectProgramPage> {
-  ProtocolManager _protocolManager;
-  bool _firstLoading = true;
+  bool _loading = true;
+  StreamSubscription<WasherState> _stateSubscription;
 
   @override
   void initState() {
+    print('SelectProgramPage creating...');
+
     super.initState();
 
+    connect();
+  }
+
+  Future<void> connect() async {
     try {
-      _protocolManager = new ProtocolManager(widget.device.address);
-      var state = _protocolManager.getState();
-      if(state == )
+      //connect
+      await ProtocolManager.instance.connect(widget.device.address);
+      //subscribe to state change
+      _stateSubscription =
+          ProtocolManager.instance.onStateChange().listen(onStateChange);
     } catch (ex) {
-      Navigator.of(context).pop(-1);
+      print('Connection error: $ex');
+
+      await Dialogs.showErrorBox(context, 'Connection error: ${ex.message}',
+          () {
+        Navigator.of(context).pop(false);
+      });
     }
+  }
+
+  Future<void> onStateChange(WasherState state) async {
+    if (state.isRunning) {
+      await _stateSubscription?.cancel();
+
+      await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return StatusPage(state);
+      }));
+
+      _stateSubscription =
+          ProtocolManager.instance.onStateChange().listen(onStateChange);
+    }
+
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   void dispose() {
-    _protocolManager.dispose();
+    print('SelectProgramPage destroying...');
 
+    _stateSubscription?.cancel();
+    ProtocolManager.instance.disconnect();
     super.dispose();
-  }
-
-  Future<void> updateState(WasherState state) async {
-    setState(() {
-      _state = state;
-      _firstLoading = false;
-    });
   }
 
   @override
@@ -50,7 +81,7 @@ class _SelectProgramPage extends State<SelectProgramPage> {
       appBar: AppBar(
         title: Text(widget.device.name ?? '-'),
         actions: <Widget>[
-          _firstLoading
+          _loading
               ? FittedBox(
                   child: Container(
                     margin: new EdgeInsets.all(16.0),
@@ -61,100 +92,48 @@ class _SelectProgramPage extends State<SelectProgramPage> {
                     ),
                   ),
                 )
-              : Icon(Icons.play_arrow)
+              : Icon(Icons.bluetooth_connected)
         ],
       ),
       body: Container(
-        child: new ListView(children: [
-          ListTile(
-            title: Text(
-              getCurrentTemperature(),
-              style: TextStyle(fontSize: 50),
-            ),
-            subtitle: const Text("Current temperature"),
-          ),
-          ListTile(
-            title: new GestureDetector(
-              onTap: () {
-                setTargetTemperature();
-              },
-              child: Text(
-                getTargetTemperature(),
-                style: TextStyle(fontSize: 50),
-              ),
-            ),
-            subtitle: const Text("Target temperature"),
-          ),
-          ListTile(
-              title: DropdownButton<Mode>(
-                itemHeight: 60,
-                value: _currentMode,
-                //icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(fontSize: 50, color: Colors.black),
-                underline: Container(
-                  height: 2,
-                  color: Color(0),
-                ),
-                onChanged: (Mode newValue) {
-                  setMode(newValue);
-                },
-                items: <Mode>[
-                  Mode.Off,
-                  Mode.First,
-                  Mode.Second,
-                  Mode.Both,
-                  Mode.Fan,
-                ].map<DropdownMenuItem<Mode>>((Mode value) {
-                  return DropdownMenuItem<Mode>(
-                    value: value,
-                    child: Text(getModeText(value)),
-                  );
-                }).toList(),
-              ),
-              subtitle: const Text("Mode")),
-          new Divider(
-            height: 15.0,
-            color: Colors.grey,
-          ),
-          getEventTile(0),
-          Divider(),
-          getEventTile(1),
-          Divider(),
-          getEventTile(2),
-          Divider(),
-          getEventTile(3),
-          Divider(),
-          getEventTile(4),
-          Divider(),
-          getEventTile(5),
-          Divider(),
-          getEventTile(6),
-          Divider(),
-          getEventTile(7),
-        ]),
+        child: new ListView(
+            children: ListTile.divideTiles(
+                    context: context, tiles: getProgramTiles(context))
+                .toList()),
       ),
     );
   }
 
-  ListTile getEventTile(int number) {
-    if (_events == null || _events[number] == null)
-      return new ListTile(title: Text('$number: -'));
+  List<Widget> getProgramTiles(BuildContext context) {
+    var tiles = new List<Widget>();
 
-    return new ListTile(
-        leading: _events[number].enabled
-            ? new Image(
-                image: AssetImage("assets/icons/timer.png"),
-                width: 24,
-                height: 24)
-            : new Image(
-                image: AssetImage("assets/icons/timer_disable.png"),
-                width: 24,
-                height: 24),
-        title: Text(getEventText(_events[number])),
-        onTap: () {
-          editEvent(_events[number]);
-        });
+    for (Program value in Program.values) {
+      tiles.add(ListTile(
+        title: Text(
+          FlutterI18n.translate(context, "program.${value.index}.name"),
+          style: TextStyle(fontSize: 30),
+        ),
+        //subtitle: Text(
+        //    FlutterI18n.translate(context, "program.${value.index}.comment")),
+        enabled: !_loading,
+        onTap: () async {
+          await _stateSubscription?.cancel();
+
+          await Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) {
+            return ParametersPage(value);
+          }));
+
+          _stateSubscription =
+              ProtocolManager.instance.onStateChange().listen(onStateChange);
+
+          setState(() {
+            _loading = false;
+          });
+        },
+      ));
+    }
+
+    return tiles;
   }
 }

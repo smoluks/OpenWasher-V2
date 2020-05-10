@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "vscode_stm32_c_cpp_properties",
+            "compilerPath": "C:\\Program Files (x86)\\GNU Tools Arm Embedded\\7 2018-q2-update\\bin\\arm-none-eabi-gcc",
+            "includePath": [
+                "${workspaceRoot}/include/",
+                "${workspaceRoot}/src/",
+                "${workspaceRoot}/src/commands",
+                "${workspaceRoot}/src/drivers",
+                "${workspaceRoot}/src/hardware",
+                "${workspaceRoot}/src/programs",
+                "${workspaceRoot}/src/stages"
+            ],
+            "defines": [
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

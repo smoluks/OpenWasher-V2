@@ -11,6 +11,19 @@
 
 extern volatile bool ct;
 
+uint32_t stage_rinsing_get_duration(uint8_t count)
+{
+	uint32_t duration = 0;
+
+	for(int i = 0; i<count; i++)
+	{
+		duration += (i * 5 + 1 )* 60000u;
+	}
+
+	return duration;
+}
+
+
 bool stage_rinsing(uint8_t count, uint8_t speed, uint8_t waterlevel)
 {
 	if(!count)
