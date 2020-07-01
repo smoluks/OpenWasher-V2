@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'BluetoothDiscoveryPage.dart';
 import 'Dto/OpenWasherDevice.dart';
@@ -47,11 +48,16 @@ class _MainPage extends State<MainPage> {
     await FlutterBluetoothSerial.instance.requestEnable();
 
     state = await FlutterBluetoothSerial.instance.state;
-    if (state.isEnabled) connectToLastDevice();
+    if (state.isEnabled)
+      connectToLastDevice();
+    else
+      Dialogs.showErrorBox(
+          context, "Can't enable bluetooth. Enable it manually", () {
+        Navigator.of(context).pop();
+      });
 
-    Dialogs.showErrorBox(context, "Can't enable bluetooth. Enable it manually",
-        () {
-      Navigator.of(context).pop();
+    setState(() {
+      _loading = false;
     });
   }
 
@@ -69,6 +75,7 @@ class _MainPage extends State<MainPage> {
           .push(MaterialPageRoute(builder: (context) {
         return BluetoothDiscoveryPage();
       }));
+
       if (device == null) return;
 
       prefs.setString("address", device.address);
@@ -83,8 +90,6 @@ class _MainPage extends State<MainPage> {
     if (success != true) {
       prefs.setString("address", null);
     }
-
-    _loading = false;
   }
 
   @override
@@ -99,30 +104,57 @@ class _MainPage extends State<MainPage> {
                 child: new CupertinoActivityIndicator(
                 radius: 50,
               ))
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                    RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.blue)),
-                      color: Colors.blue,
-                      textColor: Colors.white,
-                      padding: EdgeInsets.all(8.0),
-                      onPressed: () {
-                        connectToLastDevice();
-                      },
-                      child: Text(
-                        "Connect".toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
+            : Padding(
+                padding: EdgeInsets.all(30.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                      GestureDetector(
+                        onTap: _launchURL,
+                        child: new Text(
+                            "https://github.com/smoluks/OpenWasher-V2",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue)),
                       ),
-                    )
-                  ]),
+                      SizedBox(height: 30),
+                      RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.blue)),
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        padding: EdgeInsets.all(8.0),
+                        onPressed: () {
+                          connectToLastDevice();
+                        },
+                        child: Text(
+                          "Connect".toUpperCase(),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      )
+                    ])),
       ),
     );
+  }
+
+  _launchURL() async {
+    const url = 'https://github.com/smoluks/OpenWasher-V2';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void _requestIOSPermissions() {

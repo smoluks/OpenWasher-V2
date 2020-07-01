@@ -10,6 +10,7 @@
 #include "stm32f10x.h"
 #include "delay.h"
 #include "status.h"
+#include "watchdog.h"
 
 bool spinning_cycle(uint8_t maxrpm);
 bool linen_breakdown(uint8_t maxrpm);
@@ -33,53 +34,115 @@ bool stage_spinning(uint8_t maxrpm) {
 	if(!maxrpm)
 	{
 		delay_ms(180000u);
+		return true;
 	}
-	else
-	{
-		if (!linen_breakdown(maxrpm)) {
-			pump_disable();
-			return false;
-		}
 
-		if (!spinning_cycle(maxrpm)) {
-			pump_disable();
-			return false;
-		}
+	if (!linen_breakdown(maxrpm)) {
+		pump_disable();
+		return false;
 	}
+
+	/*if (!spinning_cycle(maxrpm)) {
+		pump_disable();
+		return false;
+	}*/
 
 	return pump_disable();
 }
 
-//delay: maxrpm * 16s
+extern volatile uint16_t engine_current_speed;
+
+//раскладка белья
 bool linen_breakdown(uint8_t maxrpm) {
-	for (uint8_t i = 1; i <= maxrpm; i++) {
+	enum direction_e direction = cw;
+	uint32_t timestamp;
+	uint16_t minspeed;
+	uint16_t maxspeed;
 
-		//cw
-		engine_settargetrps(i, cw);
-		delay_ms_with_ct(5000u);
+	for (uint8_t i = 1; i <= 10; i++) {
+
+		/*engine_settargetrps(1, direction);
+		delay_ms_with_ct(10000u);
+		if (ct) {
+			engine_settargetrps(0, off);
+			break;
+		}*/
+
+		engine_settargetrps(2, direction);
+		delay_ms_with_ct(15000u);
 		if (ct) {
 			engine_settargetrps(0, off);
 			break;
 		}
 
-		engine_settargetrps(0, off);
-		delay_ms_with_ct(3000u);
-		if (ct)
-			break;
-
-		//ccw
-		engine_settargetrps(i, ccw);
+		engine_settargetrps(3, direction);
 		delay_ms_with_ct(5000u);
+
+		minspeed = 9999;
+		maxspeed = 0;
+		getsystime(&timestamp);
+		while (checkdelay(timestamp, 10000) && !ct)
+		{
+			if(engine_current_speed < minspeed)
+				minspeed = engine_current_speed;
+			if(engine_current_speed > maxspeed)
+				maxspeed = engine_current_speed;
+
+			WDT_RESET;
+		}
 		if (ct) {
 			engine_settargetrps(0, off);
 			break;
 		}
+		printf("Speed 3, min %u, max %u\n", minspeed, maxspeed);
+
+		engine_settargetrps(4, direction);
+		delay_ms_with_ct(5000u);
+
+		minspeed = 9999;
+		maxspeed = 0;
+		getsystime(&timestamp);
+		while (checkdelay(timestamp, 10000) && !ct)
+		{
+			if(engine_current_speed < minspeed)
+				minspeed = engine_current_speed;
+			if(engine_current_speed > maxspeed)
+				maxspeed = engine_current_speed;
+
+			WDT_RESET;
+		}
+		if (ct) {
+			engine_settargetrps(0, off);
+			break;
+		}
+		printf("Speed 4, min %u, max %u\n", minspeed, maxspeed);
+
+		/*engine_settargetrps(5, direction);
+		delay_ms_with_ct(5000u);
+
+		minspeed = 9999;
+		maxspeed = 0;
+		getsystime(&timestamp);
+		while (checkdelay(timestamp, 10000) && !ct) {
+			if (engine_current_speed < minspeed)
+				minspeed = engine_current_speed;
+			if (engine_current_speed > maxspeed)
+				maxspeed = engine_current_speed;
+
+			WDT_RESET;
+		}
+		if (ct) {
+			engine_settargetrps(0, off);
+			break;
+		}
+		printf("Speed 5, min %u, max %u\n", minspeed, maxspeed);*/
 
 		engine_settargetrps(0, off);
-		delay_ms_with_ct(3000u);
-		if (ct)
-			break;
+		delay_ms_with_ct(10000u);
+
+		direction = direction == cw ? ccw : cw;
 	}
+
 	return !ct;
 }
 

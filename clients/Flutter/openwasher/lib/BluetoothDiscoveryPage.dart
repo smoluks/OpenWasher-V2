@@ -102,12 +102,12 @@ class _BluetoothDiscoveryPage extends State<BluetoothDiscoveryPage> {
       return;
     }
 
-    showGlobalSpinner("Bonding...");
+    //showGlobalSpinner("Bonding...");
     _isBonding = true;
 
     FlutterBluetoothSerial.instance.bondDeviceAtAddress(f.device.address).then(
         (bonded) {
-      hideGlobalSpinner();
+      //hideGlobalSpinner();
       _isBonding = false;
 
       if (bonded) {
@@ -115,7 +115,7 @@ class _BluetoothDiscoveryPage extends State<BluetoothDiscoveryPage> {
             .pop(new OpenWasherDevice(f.device.address, f.device.name));
       }
     }, onError: (error) {
-      hideGlobalSpinner();
+      //hideGlobalSpinner();
       _isBonding = false;
 
       print("Error occured while bonding : ${error.toString()}");

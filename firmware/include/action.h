@@ -6,5 +6,3 @@ enum {
 	ACTION_GOTOBOOTLOADER = 4,
 	ACTION_SENDERROR = 8,
 };
-
-void processAction();

@@ -14,12 +14,13 @@
 
 bool processWashProgram(program programNumber, programOptions programOptions)
 {
-	//validation
+	//---validation---
 	if(programNumber < 1 || programNumber > 11)
 	{
 		printf("Wash number 1 - 11\n");
 		return false;
 	}
+
 	if (programOptions.delay == 0xFF) {
 		printf("Please set delay");
 		return false;
@@ -28,26 +29,19 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 		printf("Please set rinsingCycles");
 		return false;
 	}
-	if (programOptions.spinningSpeed == 0xFF) {
-		printf("Please set spinningSpeed");
-		return false;
-	}
+
 	if (programOptions.temperature == 0xFF) {
 		printf("Please set temperature");
 		return false;
 	}
-	if (programOptions.washingSpeed == 0xFF) {
-		printf("Please set washingSpeed");
-		return false;
-	}
-	if (programOptions.waterLevel == 0xFF) {
-		printf("Please set waterLevel");
-		return false;
-	}
-
 	if(programOptions.temperature > MAX_TEMPERATURE)
 	{
 		printf("Tmax = %u\n", MAX_TEMPERATURE);
+		return false;
+	}
+
+	if (programOptions.washingSpeed == 0xFF) {
+		printf("Please set washingSpeed");
 		return false;
 	}
 	if(programOptions.washingSpeed > MAX_WASHING_SPEED)
@@ -55,9 +49,19 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 		printf("Max washing = %u\n", MAX_WASHING_SPEED);
 		return false;
 	}
+
+	if (programOptions.spinningSpeed == 0xFF) {
+		printf("Please set spinningSpeed");
+		return false;
+	}
 	if(programOptions.spinningSpeed > MAX_SPINNING_SPEED)
 	{
 		printf("Max spinning = %u\n", MAX_SPINNING_SPEED);
+		return false;
+	}
+
+	if (programOptions.waterLevel == 0xFF) {
+		printf("Please set waterLevel");
 		return false;
 	}
 	if(programOptions.waterLevel > 100)
@@ -66,7 +70,7 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 	}
 
 	//calculate duration
-	uint32_t duration = 0;
+	uint32_t duration = 600 * 1000;
 
 	bool prewash = programNumber == Wash1Program;
 	if(prewash)
@@ -75,7 +79,7 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 	}
 	duration += stage_wash_get_duration(programOptions.delay);
 	duration += stage_rinsing_get_duration(programOptions.rinsingCycles);
-	duration += stage_spinning_get_duration(0);
+	duration += stage_spinning_get_duration(programOptions.spinningSpeed);
 
 	status_set_program(programNumber, duration);
 
@@ -100,13 +104,13 @@ bool processWashProgram(program programNumber, programOptions programOptions)
 	}
 
 	status_set_stage(STATUS_WASHING);
-	if(!stage_wash(programOptions.temperature, programOptions.delay, programOptions.washingSpeed, both_washmode, programOptions.waterLevel))
+	if(!stage_wash(programOptions.temperature, programOptions.delay, programOptions.washingSpeed, conditioner_valve, programOptions.waterLevel))
 		return false;
 
 	if(!stage_rinsing(programOptions.rinsingCycles, programOptions.washingSpeed, programOptions.waterLevel))
 		return false;
 
-	if(!stage_spinning(0))
+	if(!stage_spinning(programOptions.spinningSpeed))
 		return false;
 
 	if(!stage_door_open())

@@ -12,3 +12,8 @@ environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.492095
 environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.492095882/STM32F103XB/value=
 environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.492095882/append=true
 environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.492095882/appendContributed=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1918820628/PATH/delimiter=;
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1918820628/PATH/operation=replace
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1918820628/PATH/value=D\:\\proj\\stm32\\gcc\\bin;D\:\\proj\\stm32\\GnuWin32\\bin
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1918820628/append=true
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1918820628/appendContributed=true

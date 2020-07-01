@@ -36,7 +36,7 @@ bool stage_rinsing(uint8_t count, uint8_t speed, uint8_t waterlevel)
 		if(!engine_settargetrps(speed, ccw))
 			return false;
 
-		if(!valve_drawwater(conditioner_valve, waterlevel + 10))
+		if(!valve_drawwater(conditioner_valve, waterlevel))
 		{
 			engine_settargetrps(0, off);
 			return false;
@@ -46,7 +46,7 @@ bool stage_rinsing(uint8_t count, uint8_t speed, uint8_t waterlevel)
 		while(!check_time_passed(endtime))
 		{
 			if (!is_water()) {
-					if (!valve_drawwater(conditioner_valve, waterlevel + 10))
+					if (!valve_drawwater(conditioner_valve, waterlevel))
 						return false;
 				}
 		}

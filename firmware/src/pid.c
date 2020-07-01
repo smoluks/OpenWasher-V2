@@ -18,6 +18,12 @@ void pid_clearstate()
 	dstate = 0;
 }
 
+void pid_setstate(uint16_t i)
+{
+	istate = i << 8;
+	dstate = 0;
+}
+
 uint16_t pid_process(int32_t currentSpeed, int32_t targetSpeed)
 {
 	int32_t delta = targetSpeed - currentSpeed;
@@ -25,18 +31,15 @@ uint16_t pid_process(int32_t currentSpeed, int32_t targetSpeed)
 	//p
 	int32_t out = delta * P;
 
+	//i
+	if(delta > 0)
+		istate += delta * I_ACCS;
+	else
+		istate += delta * I_BRAK;
+
 	//d
 	istate -= (currentSpeed - dstate) * D;
 	dstate = currentSpeed;
-
-	//i
-	istate += delta * I;
-
-	//
-	if(istate > IMAX)
-		istate = IMAX;
-	else if(istate < IMIN)
-		istate = IMIN;
 
 	out += istate;
 

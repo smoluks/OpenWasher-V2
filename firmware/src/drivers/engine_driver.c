@@ -232,7 +232,7 @@ uint8_t engine_getcurrentrps()
 	return engine_current_speed >> 4;
 }
 
-extern volatile int32_t istate;
+volatile uint16_t minvalue = 0;
 
 bool engine_settargetrps(uint8_t rps, enum direction_e direction)
 {
@@ -255,41 +255,43 @@ bool engine_settargetrps(uint8_t rps, enum direction_e direction)
 		}
 
 		//relay off
-		return engine_setdirection(off);
+		delay_ms(1000u);
+		engine_setdirection(off);
 	}
 
 	//set new value
 	if(direction != off && rps > 0)
 	{
-		if(dir == off)
+		//need start?
+		if(dir == off || direction != dir)
 		{
-			//---start if needed---
-			pid_clearstate();
+			//manual start
+			pid_enable = false;
 
 			if(!engine_setdirection(direction))
 				return false;
+
+			engine_regulvalue = eeprom_config.enginestartvalue;
+			while (engine_current_speed == 0 && engine_regulvalue < VALUE_GUARANTED_START)// && !ct)
+			{
+				engine_regulvalue++;
+				delay_ms(10u);
+			}
+			if(engine_regulvalue == VALUE_GUARANTED_START)
+			{
+				engine_setdirection(off);
+				set_error(NO_TACHO);
+				return false;
+			}
+
+			printf("Start at %u\n", engine_regulvalue);
+			minvalue = engine_regulvalue < 75 ? 0 : engine_regulvalue - 75;
+
+			pid_setstate(engine_regulvalue);
+			pid_enable = true;
 		}
 
 		engine_target_speed = rps << 4;
-		engine_regulvalue = eeprom_config.enginestartvalue;
-		while (engine_current_speed < engine_target_speed && engine_regulvalue < VALUE_GUARANTED_START)// && !ct)
-		{
-			engine_regulvalue++;
-			delay_ms(25u);
-		}
-		if(engine_regulvalue == VALUE_GUARANTED_START)
-		{
-			set_error(NO_TACHO);
-			return false;
-		}
-/*		if(ct)
-		{
-			engine_setdirection(off);
-			return false;
-		}*/
-
-		istate = engine_regulvalue << 8;
-		pid_enable = true;
 	}
 
 	return !ct;
@@ -306,7 +308,7 @@ inline void engine_crosszero() {
 
 	//calculate PID
 	if (pid_enable)
-		engine_regulvalue = pid_process(engine_current_speed, engine_target_speed);
+		engine_regulvalue = minvalue + pid_process(engine_current_speed, engine_target_speed);
 
 	if (engine_regulvalue >= VALUE_FULL)
 	{
@@ -318,10 +320,6 @@ inline void engine_crosszero() {
 		TIM4->ARR = phaseTable[engine_regulvalue];
 		TIM4->CR1 |= TIM_CR1_CEN;
 	} else engine_triakoff();
-
-#ifdef LOGVIEW_MODE
-	printf("$%u;%u\r\n", tacho_adcvalue, engine_regulvalue);
-#endif
 }
 
 volatile bool pulse = false;

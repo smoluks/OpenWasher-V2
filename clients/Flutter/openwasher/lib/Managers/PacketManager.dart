@@ -15,8 +15,9 @@ class PacketManager {
   CloseCallback _closeCallback;
   PacketReceivedCallback _receivedCallback;
 
+  //Connect to device
   Future<void> connect(
-      String btAddress,
+      String btAddress, //MAC
       PacketReceivedCallback receivedCallback,
       CloseCallback closeCallback) async {
     _receivedCallback = receivedCallback;
@@ -32,9 +33,9 @@ class PacketManager {
     });
   }
 
+  //Disconnect
   void disconnect() {
     _connection?.dispose();
-
     print('Disconnected');
   }
 

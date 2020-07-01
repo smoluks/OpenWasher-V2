@@ -23,6 +23,7 @@ typedef struct
 	uint8_t stage;
 	uint8_t temperature;
 	uint8_t rotationSpeed;
+	uint8_t error;
 	uint32_t programDuration;
 	uint32_t programTimePassed;
 } Status;

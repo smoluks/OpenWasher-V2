@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
+import 'Dto/Events.dart';
 import 'Dto/OpenWasherDevice.dart';
 import 'Dto/Program.dart';
 import 'Dto/WasherState.dart';
@@ -25,8 +26,6 @@ class _SelectProgramPage extends State<SelectProgramPage> {
 
   @override
   void initState() {
-    print('SelectProgramPage creating...');
-
     super.initState();
 
     connect();
@@ -35,7 +34,9 @@ class _SelectProgramPage extends State<SelectProgramPage> {
   Future<void> connect() async {
     try {
       //connect
-      await ProtocolManager.instance.connect(widget.device.address);
+      await ProtocolManager.instance
+          .connect(widget.device.address, onClose, onError, onEvent);
+
       //subscribe to state change
       _stateSubscription =
           ProtocolManager.instance.onStateChange().listen(onStateChange);
@@ -49,7 +50,36 @@ class _SelectProgramPage extends State<SelectProgramPage> {
     }
   }
 
+  onClose() {
+    Navigator.of(context).pop(false);
+  }
+
+  onError(int error) {
+    Dialogs.showErrorBox(
+        context,
+        FlutterI18n.translate(context, "common.errorTextBox") +
+            error.toRadixString(16), () {
+      Navigator.of(context).pop(false);
+    });
+  }
+
+  onEvent(int event) {
+    switch (event) {
+      case Events.GOTOBOOTLOADER:
+        Dialogs.showErrorBox(
+            context, FlutterI18n.translate(context, "common.bootloaderTextBox"),
+            () {
+          Navigator.of(context).pop(false);
+        });
+        break;
+    }
+  }
+
   Future<void> onStateChange(WasherState state) async {
+    if (state.error != 0) {
+      onError(state.error);
+    }
+
     if (state.isRunning) {
       await _stateSubscription?.cancel();
 

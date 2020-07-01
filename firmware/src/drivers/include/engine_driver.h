@@ -4,7 +4,7 @@
 #include "engine_hardware.h"
 #include "stm32f10x.h"
 
-#define VALUE_FULL 1020
+#define VALUE_FULL 1000
 #define VALUE_GUARANTED_START 250
 
 enum engine_feedback_state_e

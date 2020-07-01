@@ -1,5 +1,6 @@
 #include "stm32f10x.h"
 #include "core_cm3.h"
+#include "bootloader.h"
 #include <stdio.h>
 #include <stdbool.h>
 

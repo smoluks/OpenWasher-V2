@@ -15,14 +15,11 @@
 #include "delay.h"
 
 extern volatile bool ct;
-extern volatile uint32_t systime;
 
-uint32_t endtime;
-
-bool washing_cycle(uint8_t rps, enum valve_e valve, uint8_t waterlevel);
+bool washing_cycle(uint32_t endtime, uint8_t rps, enum valve_e valve, uint8_t waterlevel);
 
 uint32_t stage_wash_get_duration(uint8_t duration){
-	return duration*60*1000;
+	return duration * 60 * 1000;
 }
 
 //
@@ -32,7 +29,7 @@ uint32_t stage_wash_get_duration(uint8_t duration){
 //
 bool stage_wash(uint8_t temp, uint8_t duration, uint8_t rps, enum valve_e valve, uint8_t waterlevel)
 {
-	endtime = systime + duration*60*1000;
+	int32_t fulltime = duration * 60 * 1000 - 15000 - (temp - 20) * 4000;
 
 	if(!valve_drawwater(valve, waterlevel))
 		return false;
@@ -42,13 +39,17 @@ bool stage_wash(uint8_t temp, uint8_t duration, uint8_t rps, enum valve_e valve,
 
 	bool error = false;
 
-	while(!ct && endtime - systime > 5000u && endtime - systime < 2147483647u)
+	while(fulltime > 0)
 	{
-		if(!washing_cycle(rps, valve, waterlevel))
+		uint32_t cycletime = fulltime > 90000 ? 60000 : fulltime;
+
+		if(!washing_cycle(cycletime, rps, valve, waterlevel))
 		{
 			error = true;
 			break;
 		}
+
+		fulltime -= cycletime;
 	}
 
 	if(!set_temperature(0))
@@ -67,26 +68,36 @@ bool stage_wash(uint8_t temp, uint8_t duration, uint8_t rps, enum valve_e valve,
 }
 
 enum direction_e direction = cw;
-bool washing_cycle(uint8_t rps, enum valve_e valve, uint8_t waterlevel)
+bool washing_cycle(uint32_t cycletime, uint8_t rps, enum valve_e valve, uint8_t waterlevel)
 {
-	if (!is_water()) {
-		if (!valve_drawwater(valve, waterlevel + 10))
-			return false;
-	}
-
+	//set speed
 	if (!engine_settargetrps(rps, direction))
 		return false;
 
-	delay_ms_with_ct(endtime - systime > 55000u ? 55000u : endtime - systime);
-	if (ct || endtime < systime)
+	//check water
+	if (!is_water()) {
+		if (!valve_drawwater(valve, waterlevel))
+		{
+			engine_settargetrps(0, off);
+			return false;
+		}
+	}
+
+	delay_ms_with_ct(cycletime > 10000u ? cycletime - 10000u : cycletime);
+	//interrupt
+	if (ct){
+		engine_settargetrps(0, off);
+		return false;
+	}
+
+	//stop
+	if (!engine_settargetrps(0, off) || ct)
 		return false;
 
-	if (!engine_settargetrps(0, off))
-		return false;
-	if (ct)
-		return false;
+	if(cycletime == 0)
+		return true;
 
-	delay_ms_with_ct(endtime - systime > 5000u ? 5000u : endtime - systime);
+	delay_ms_with_ct(10000u);
 	direction = direction == cw ? ccw : cw;
 
 	return true;

@@ -13,7 +13,7 @@ namespace OpenWasherHardwareLibrary.Commands
 
         public Status ParceResponse(byte[] data)
         {
-            if (data.Length != 5 && data.Length != 13)
+            if (data.Length != 6 && data.Length != 14)
                 throw new CommandException($"Bad status answer length: {data.Length} instead of 5/13");
 
             var status = new Status();
@@ -21,11 +21,12 @@ namespace OpenWasherHardwareLibrary.Commands
             status.stage = (Stage)data[2];
             status.temperature = data[3];
             status.spinningSpeed= (double)data[4] / 16;
+            status.error = data[5];
 
-            if (data.Length == 13)
+            if (data.Length == 14)
             {
-                status.timefull = data[8] << 24 + data[7] << 16 + data[6] << 8 + data[5];
-                status.timepassed = data[12] << 24 + data[11] << 16 + data[10] << 8 + data[9];
+                status.timefull = data[9] << 24 + data[8] << 16 + data[7] << 8 + data[6];
+                status.timepassed = data[13] << 24 + data[12] << 16 + data[11] << 8 + data[10];
             }
 
             return status;

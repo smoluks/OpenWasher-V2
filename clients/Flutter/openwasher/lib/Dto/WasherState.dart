@@ -7,6 +7,7 @@ class WasherState {
   Stage stage;
   int temperature;
   int speed;
+  int error;
   int programFullTime;
   int programPastTime;
 }

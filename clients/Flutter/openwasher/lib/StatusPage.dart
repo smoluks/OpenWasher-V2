@@ -36,6 +36,10 @@ class _StatusPage extends State<StatusPage> {
   }
 
   Future<void> onStateChange(WasherState state) async {
+    if (state.error != 0) {
+      onError(state.error);
+    }
+
     if (!state.isRunning) {
       await _stateSubscription?.cancel();
 
@@ -43,7 +47,7 @@ class _StatusPage extends State<StatusPage> {
           'Program ${FlutterI18n.translate(context, "program.${_currentState.program.index}.name")} complete',
           'Program complete');
 
-      Navigator.of(context).pop(null);
+      Navigator.of(context).pop(true);
     } else
       setState(() {
         _currentState = state;
@@ -52,11 +56,18 @@ class _StatusPage extends State<StatusPage> {
 
   @override
   void dispose() {
-    print('StatusPage destroying...');
-
     _stateSubscription?.cancel();
 
     super.dispose();
+  }
+
+  onError(int error) {
+    Dialogs.showErrorBox(
+        context,
+        FlutterI18n.translate(context, "common.errorTextBox") +
+            error.toRadixString(16), () {
+      Navigator.of(context).pop(false);
+    });
   }
 
   String getStartTime() {

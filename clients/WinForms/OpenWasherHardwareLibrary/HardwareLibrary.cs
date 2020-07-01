@@ -132,7 +132,14 @@ namespace OpenWasherHardwareLibrary
         /// </summary>
         public async Task SwitchToBootloaderAsync(CancellationToken token)
         {
-            await _commandsManager.SendCommandAsync(token, new GoToBootloader(), DEFAULT_TIMEOUT);
+            try
+            {
+                await _commandsManager.SendCommandAsync(token, new GoToBootloader(), DEFAULT_TIMEOUT);
+            }
+            catch(OperationCanceledException)
+            {
+
+            }
         }
 
         /// <summary>

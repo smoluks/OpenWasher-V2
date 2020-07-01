@@ -8,19 +8,19 @@ import 'package:openwasher/Dto/WasherState.dart';
 
 import 'PacketManager.dart';
 
+typedef void ErrorCallback(int error);
+typedef void EventCallback(int event);
+
 class ProtocolManager {
   static final ProtocolManager _instance = ProtocolManager._protocolManager();
 
   static ProtocolManager get instance => _instance;
 
-  //
   Timer _pollingTimer;
   PacketManager _packetManager = new PacketManager();
 
   Completer<WasherState> _stateCompleter;
-
   Completer<void> _startProgramCompleter;
-
   Completer<void> _pingCompleter;
   Completer<void> _commandStartCompleter;
   Completer<void> _commandStopCompleter;
@@ -32,15 +32,21 @@ class ProtocolManager {
   ProtocolManager._protocolManager() {
     stateStreamController = new StreamController<WasherState>();
     stateStream = stateStreamController.stream.asBroadcastStream();
-
-    print('ProtocolManager created');
   }
 
+  ErrorCallback _onError;
+  EventCallback _onEvent;
+
+  //state shange stream
   Stream<WasherState> onStateChange() {
     return stateStream;
   }
 
-  Future<void> connect(String btAddress) async {
+  Future<void> connect(String btAddress, CloseCallback onClose,
+      ErrorCallback onError, EventCallback onEvent) async {
+    _onError = onError;
+    _onEvent = onEvent;
+
     await _packetManager.connect(btAddress, onReceived, onClose);
 
     updateState();
@@ -55,8 +61,6 @@ class ProtocolManager {
     _packetManager.disconnect();
   }
 
-  void onClose() {}
-
   void onReceived(Uint8List data) {
     if (data.length == 0) {
       if (_pingCompleter?.isCompleted == false) {
@@ -64,7 +68,9 @@ class ProtocolManager {
       }
     } else {
       if (data[0] == PacketType.Error) {
+        _onError(data[1]);
       } else if (data[0] == PacketType.Event) {
+        _onEvent(data[1]);
       } else if (data[0] == PacketType.Message) {
       } else {
         Error error = Error.values[(data[0] & 0xC0) >> 6];
@@ -170,7 +176,7 @@ class ProtocolManager {
   }
 
   WasherState parceState(Uint8List data) {
-    if (data.length != 5 && data.length != 13) {
+    if (data.length != 6 && data.length != 14) {
       throw Exception('incorrect state packet length: $data.length');
     }
 
@@ -186,10 +192,11 @@ class ProtocolManager {
     state.stage = Stage.values[view.getUint8(2)];
     state.temperature = view.getInt8(3);
     state.speed = view.getUint8(4);
+    state.error = view.getUint8(5);
 
-    if (data.length == 13) {
-      state.programFullTime = view.getUint32(5, Endian.little);
-      state.programPastTime = view.getUint32(9, Endian.little);
+    if (data.length == 14) {
+      state.programFullTime = view.getUint32(6, Endian.little);
+      state.programPastTime = view.getUint32(10, Endian.little);
     }
 
     return state;

@@ -148,7 +148,6 @@ class _ParametersPage extends State<ParametersPage> {
       enabled: _params.temperature != null,
       subtitle: Text("Temperature ${_params.temperature}°"),
       title: Container(
-        height: 128,
         alignment: Alignment.bottomCenter,
         child: Slider(
             value: _params.temperature == null
@@ -181,7 +180,6 @@ class _ParametersPage extends State<ParametersPage> {
       enabled: _params.duration != null,
       subtitle: Text("Duration  ${_params.duration} min."),
       title: Container(
-        height: 128,
         alignment: Alignment.bottomCenter,
         child: Slider(
             value: _params.duration == null ? 15 : _params.duration.toDouble(),
@@ -211,7 +209,6 @@ class _ParametersPage extends State<ParametersPage> {
       enabled: _params.washingSpeed != null,
       subtitle: Text("Washing speed  ${_params.washingSpeed} rps."),
       title: Container(
-        height: 128,
         alignment: Alignment.bottomCenter,
         child: Slider(
             value: _params.washingSpeed == null
@@ -244,7 +241,6 @@ class _ParametersPage extends State<ParametersPage> {
       enabled: _params.spinningSpeed != null,
       subtitle: Text("Spinning speed  ${_params.spinningSpeed} rps."),
       title: Container(
-        height: 128,
         alignment: Alignment.bottomCenter,
         child: Slider(
             value: _params.spinningSpeed == null
@@ -277,7 +273,6 @@ class _ParametersPage extends State<ParametersPage> {
       enabled: _params.rinsingCycles != null,
       subtitle: Text("Rinsing cycles ${_params.rinsingCycles}."),
       title: Container(
-        height: 128,
         alignment: Alignment.bottomCenter,
         child: Slider(
             value: _params.rinsingCycles == null
@@ -310,28 +305,34 @@ class _ParametersPage extends State<ParametersPage> {
       enabled: _params.waterLevel != null,
       subtitle: Text("Water level ${_params.waterLevel} %."),
       title: Container(
-        height: 128,
         alignment: Alignment.bottomCenter,
-        child: Slider(
-            value:
-                _params.waterLevel == null ? 3 : _params.waterLevel.toDouble(),
-            min: 0.0,
-            max: 100.0,
-            divisions: 100,
-            activeColor: _params.waterLevel != null ? Colors.blue : Colors.grey,
-            inactiveColor:
-                _params.waterLevel != null ? Colors.black : Colors.grey,
-            label: _params.waterLevel.toString(),
-            onChanged: (double newValue) {
-              if (_params.waterLevel != null) {
-                setState(() {
-                  _params.waterLevel = newValue.round();
-                });
-              }
-            },
-            semanticFormatterCallback: (double newValue) {
-              return '${newValue.round()} dollars';
-            }),
+        child: new Container(
+            //margin: const EdgeInsets.all(15.0),
+            //padding: const EdgeInsets.all(3.0),
+            decoration: new BoxDecoration(
+                border: new Border.all(color: Colors.blueAccent)),
+            child: Slider(
+                value: _params.waterLevel == null
+                    ? 3
+                    : _params.waterLevel.toDouble(),
+                min: 0.0,
+                max: 100.0,
+                divisions: 100,
+                activeColor:
+                    _params.waterLevel != null ? Colors.blue : Colors.grey,
+                inactiveColor:
+                    _params.waterLevel != null ? Colors.black : Colors.grey,
+                label: _params.waterLevel.toString(),
+                onChanged: (double newValue) {
+                  if (_params.waterLevel != null) {
+                    setState(() {
+                      _params.waterLevel = newValue.round();
+                    });
+                  }
+                },
+                semanticFormatterCallback: (double newValue) {
+                  return '${newValue.round()} dollars';
+                })),
       ),
     );
   }
@@ -340,7 +341,7 @@ class _ParametersPage extends State<ParametersPage> {
     return ListTile(
         title: Text(
       "No configurable parameters",
-      style: TextStyle(fontSize: 30),
+      style: TextStyle(fontSize: 16),
     ));
   }
 

@@ -10,6 +10,8 @@ namespace OpenWasherHardwareLibrary.Entity
 
         public byte temperature;
 
+        public byte error;
+
         /// <summary>
         /// Spinning speed in RPS
         /// </summary>
